@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 10
+jwt:
+  secretKey: ${SECRET_KEY}
+  accessTokenExp: ${ACCESS_EXP}
+  refreshTokenExp: ${REFRESH_EXP}
