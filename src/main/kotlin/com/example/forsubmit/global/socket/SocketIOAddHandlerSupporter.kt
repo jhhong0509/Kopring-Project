@@ -2,7 +2,6 @@ package com.example.forsubmit.global.socket
 
 import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.SocketIOServer
-import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
 import com.example.forsubmit.global.socket.annotation.SocketController
 import com.example.forsubmit.global.socket.annotation.SocketMapping
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
@@ -30,21 +29,27 @@ class SocketIOAddHandlerSupporter(
         }
     }
 
-    private fun addSocketServerEventListener(controller: KClass<*>, functions: List<KFunction<*>>, socketIOServer: SocketIOServer) {
+    private fun addSocketServerEventListener(
+        controller: KClass<*>,
+        functions: List<KFunction<*>>,
+        socketIOServer: SocketIOServer
+    ) {
         for (function in functions) {
-            val socketMapping = function.findAnnotation<SocketMapping>() ?: throw UserNotFoundException.EXCEPTION
-            val endpoint: String = socketMapping.endPoint
-            val dtoClass: KClass<*> = socketMapping.requestClass
-            socketIOServer.addEventListener(endpoint, dtoClass::class.java) { client: SocketIOClient, data, _ ->
-                val args = mutableListOf<Any>()
-                for (params in function.parameters) {                        // Controller 메소드의 파라미터들
-                    when (params) {
-                        is SocketIOServer -> args.add(socketIOServer)        // SocketIOServer 면 주입
-                        is SocketIOClient -> args.add(client)
-                        else -> args.add(data)
+            val socketMapping = function.findAnnotation<SocketMapping>()
+            socketMapping?.let {
+                val endpoint: String = socketMapping.endPoint
+                val dtoClass: KClass<*> = socketMapping.requestClass
+                socketIOServer.addEventListener(endpoint, dtoClass::class.java) { client: SocketIOClient, data, _ ->
+                    val args = mutableListOf<Any>()
+                    for (params in function.parameters) {                        // Controller 메소드의 파라미터들
+                        when (params) {
+                            is SocketIOServer -> args.add(socketIOServer)        // SocketIOServer 면 주입
+                            is SocketIOClient -> args.add(client)
+                            else -> args.add(data)
+                        }
                     }
+                    function.call(beanFactory.getBean(controller), args.toTypedArray())
                 }
-                function.call(beanFactory.getBean(controller), args.toTypedArray())
             }
         }
     }
