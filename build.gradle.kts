@@ -113,7 +113,7 @@ allOpen {
 
 jacoco {
     toolVersion = "0.8.7"
-    reportsDirectory.set(file("$buildDir/customJacocoReportDir"))
+//    reportsDirectory.set(file("$buildDir/customJacocoReportDir"))
 }
 
 tasks.jacocoTestReport {
