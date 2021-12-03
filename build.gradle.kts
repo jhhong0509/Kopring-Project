@@ -76,6 +76,8 @@ dependencies {
     // groovy plugin
     testRuntimeOnly("org.codehaus.groovy:groovy:3.0.8")
 
+    testImplementation("it.ozimov:embedded-redis:0.7.3")
+
 }
 
 tasks.withType<KotlinCompile> {
@@ -124,6 +126,7 @@ tasks.jacocoTestReport {
     }
     finalizedBy("jacocoTestCoverageVerification")
 }
+
 tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
