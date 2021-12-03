@@ -164,9 +164,9 @@ tasks.jacocoTestCoverageVerification {
 //            }
 
             // 커버리지 체크를 제외할 클래스들
-//            excludes = listOf(
-//                    "*.test.*",
-//            )
+            excludes = listOf(
+                    "com.example.forsubmit.ForSubmitApplication.kt",
+            )
         }
     }
 }
