@@ -46,7 +46,6 @@ class EmbeddedRedisConfig(
     /**
      * 해당 port를 사용중인 프로세스 확인하는 sh 실행
      */
-    @Throws(IOException::class)
     private fun executeGrepProcessCommand(port: Int): Process {
         val command = String.format("netstat -nat | grep LISTEN|grep %d", port)
         val shell = arrayOf("/bin/sh", "-c", command)
