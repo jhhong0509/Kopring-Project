@@ -1,4 +1,4 @@
-package com.example.forsubmit.domain.user.`interface`
+package com.example.forsubmit.domain.user.facade
 
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.entity.UserRepository
