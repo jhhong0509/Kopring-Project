@@ -130,7 +130,7 @@ tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                counter = "INTRODUCTION"
+                counter = "INSTRUCTION"
                 value = "COVEREDRATIO"
                 maximum = "0.800".toBigDecimal()
             }

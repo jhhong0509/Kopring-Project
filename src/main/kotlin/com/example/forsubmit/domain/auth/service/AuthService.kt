@@ -7,7 +7,7 @@ import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundExceptio
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
-import com.example.forsubmit.domain.user.`interface`.UserFacade
+import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -40,7 +40,7 @@ class AuthService(
     }
 
     fun tokenRefresh(refreshToken: String): AccessTokenResponse {
-        val token = refreshTokenRepository.findByIdOrNull(refreshToken) ?: throw RefreshTokenNotFoundException.EXCEPTION
+        val token = refreshTokenRepository.findByToken(refreshToken) ?: throw RefreshTokenNotFoundException.EXCEPTION
         val isRefreshToken = jwtTokenProvider.isRefreshToken(token.token)
 
         if (isRefreshToken == false) {
