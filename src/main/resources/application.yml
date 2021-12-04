@@ -1,4 +1,6 @@
 spring:
+  socketio:
+    port: ${SOCKET_PORT}
   jpa:
     hibernate:
       ddl-auto: update
