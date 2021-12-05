@@ -1,5 +1,6 @@
 package com.example.forsubmit.global.redis
 
+import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.stereotype.Component
 import redis.embedded.RedisServer
 import java.io.BufferedReader
@@ -8,7 +9,7 @@ import java.io.InputStreamReader
 import javax.annotation.PreDestroy
 
 
-@Component
+@TestConfiguration
 class EmbeddedRedisConfig(
     private val redisProperty: RedisProperty,
 ) {
