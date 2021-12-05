@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.jpa") version "1.6.0"
     jacoco
     groovy
+    id("org.sonarqube") version "3.3"
 }
 
 group = "com.example"
@@ -139,5 +140,16 @@ tasks.jacocoTestCoverageVerification {
                     "com.example.forsubmit.ForSubmitApplication.kt",
             )
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.organization", "jhhong0509")
+        property("sonar.projectKey", "jhhong0509_Kopring-Best-Practice")
+        property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/test/jacocoTestReport.xml")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java")
+        property("sonar.test.inclusions", "**/*.groovy, **/test/**/*.kt")
     }
 }
