@@ -64,8 +64,8 @@ class AuthControllerTest extends Specification {
                 .response.contentAsString
         def tokens = objectMapper.readValue(response, TokenResponse)
 
-        !jwtTokenProvider.isRefreshToken(tokens.accessToken.replace("Bearer ", ""))
-        jwtTokenProvider.isRefreshToken(tokens.refreshToken.replace("Bearer ", ""))
+        tokens.refreshToken != null
+        tokens.accessToken != null
 
         where:
         email             | requestPassword | password
