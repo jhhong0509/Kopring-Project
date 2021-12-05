@@ -3,6 +3,7 @@ package com.example.forsubmit.domain.auth.controller
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.auth.service.AuthService
+import com.example.forsubmit.domain.chat.entity.chat.Chat
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.entity.UserRepository
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
@@ -49,7 +50,7 @@ class AuthControllerTest extends Specification {
         def request = new AuthRequest(email, requestPassword)
         def requestString = objectMapper.writeValueAsString(request)
 
-        def user = new User(1, email, "name", passwordEncoder.encode(password))
+        def user = new User(1, email, "name", passwordEncoder.encode(password), new ArrayList(), new ArrayList(), new ArrayList())
         userRepository.save(user)
 
         when:
