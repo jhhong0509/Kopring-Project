@@ -1,14 +1,15 @@
-package com.example.forsubmit.config
+package com.example.forsubmit.global.redis
 
-import com.example.forsubmit.global.redis.RedisProperty
-import org.springframework.stereotype.Component
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import redis.embedded.RedisServer
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.annotation.PreDestroy
 
 
-@Component
+@Profile("local", "test")
+@Configuration
 class EmbeddedRedisConfig(
     private val redisProperty: RedisProperty,
 ) {
