@@ -29,7 +29,7 @@ class Chat(
     @NotNull
     var readerCount: Int = 0,
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chatReaderId.chat")
     val chatReader: MutableList<ChatReader> = mutableListOf(),
 
     @ManyToOne(fetch = FetchType.LAZY)
