@@ -1,6 +1,5 @@
 package com.example.forsubmit.domain.chat.entity.chat
 
-import com.example.forsubmit.domain.chat.entity.chatreader.ChatReader
 import com.example.forsubmit.domain.chatroom.entity.ChatRoom
 import com.example.forsubmit.domain.user.entity.User
 import org.jetbrains.annotations.NotNull
