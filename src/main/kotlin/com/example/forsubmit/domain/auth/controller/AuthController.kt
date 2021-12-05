@@ -4,6 +4,7 @@ import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.auth.service.AuthService
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
@@ -13,6 +14,7 @@ class AuthController(
     private val authService: AuthService
 ) {
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     fun signIn(@RequestBody @Valid authRequest: AuthRequest) : TokenResponse {
         return authService.signIn(authRequest)
     }
