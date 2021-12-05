@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.regex.Pattern.compile
 
 plugins {
     id("org.springframework.boot") version "2.6.0"
@@ -79,7 +78,7 @@ dependencies {
     // groovy plugin
     testRuntimeOnly("org.codehaus.groovy:groovy:3.0.8")
 
-    testImplementation("it.ozimov:embedded-redis:0.7.2")
+    implementation("it.ozimov:embedded-redis:0.7.2")
 
     testImplementation("com.h2database:h2")
 
@@ -141,7 +140,7 @@ tasks.jacocoTestCoverageVerification {
             }
 
             excludes = listOf(
-                    "com.example.forsubmit.ForSubmitApplication.kt",
+                "com.example.forsubmit.ForSubmitApplication.kt",
             )
         }
     }

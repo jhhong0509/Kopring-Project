@@ -1,15 +1,14 @@
-package com.example.forsubmit.global.redis
+package com.example.forsubmit.config
 
-import org.springframework.boot.test.context.TestConfiguration
+import com.example.forsubmit.global.redis.RedisProperty
 import org.springframework.stereotype.Component
 import redis.embedded.RedisServer
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
 import javax.annotation.PreDestroy
 
 
-@TestConfiguration
+@Component
 class EmbeddedRedisConfig(
     private val redisProperty: RedisProperty,
 ) {
@@ -24,6 +23,7 @@ class EmbeddedRedisConfig(
     fun stopRedis() {
         redisServer?.stop() //Redis 종료
     }
+
     /**
      * Embedded Redis가 현재 실행중인지 확인
      */
