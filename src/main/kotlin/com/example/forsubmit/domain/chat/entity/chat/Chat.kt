@@ -14,14 +14,23 @@ import javax.persistence.*
 class Chat(
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0,
 
     @NotNull
-    val message: String,
+    val content: String,
 
     @CreatedDate
     @NotNull
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime? = null,
+
+    @NotNull
+    val type: ChatType,
+
+    @NotNull
+    var readerCount: Int = 0,
+
+    @OneToMany(mappedBy = "chat")
+    val chatReader: MutableList<ChatReader> = mutableListOf(),
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatroom_id")
@@ -29,9 +38,10 @@ class Chat(
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
-    val user: User,
+    val user: User
 
-    @OneToMany(mappedBy = "user")
-    val chatReader: MutableList<ChatReader> = mutableListOf()
-
-)
+) {
+    fun addReaderCount() {
+        readerCount++
+    }
+}
