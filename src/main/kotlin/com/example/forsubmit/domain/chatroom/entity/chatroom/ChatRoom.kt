@@ -1,4 +1,4 @@
-package com.example.forsubmit.domain.chatroom.entity
+package com.example.forsubmit.domain.chatroom.entity.chatroom
 
 import com.example.forsubmit.domain.chat.entity.chat.Chat
 import com.example.forsubmit.domain.user.entity.User
@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull
 import javax.persistence.*
 
 @Entity
+@Table(name = "chatroom")
 class ChatRoom(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
@@ -18,6 +19,6 @@ class ChatRoom(
     val admin: User,
 
     @OneToMany(mappedBy = "chatRoom", cascade = [CascadeType.REMOVE], orphanRemoval = true)
-    val chatList: MutableList<Chat>
+    val chat: MutableList<Chat> = mutableListOf()
 
 )
