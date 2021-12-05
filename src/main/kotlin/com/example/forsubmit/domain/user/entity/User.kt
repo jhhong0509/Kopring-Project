@@ -5,6 +5,7 @@ import com.example.forsubmit.domain.chat.entity.chatreader.ChatReader
 import com.example.forsubmit.domain.chatroom.entity.member.ChatRoomMember
 import org.hibernate.annotations.NaturalId
 import javax.persistence.*
+import javax.validation.constraints.NotNull
 
 @Entity
 data class User(
@@ -15,10 +16,10 @@ data class User(
     @NaturalId
     val email: String,
 
-    @Column(nullable = false)
+    @NotNull
     val name: String,
 
-    @Column(nullable = false)
+    @NotNull
     val password: String,
 
     @OneToMany(mappedBy = "user")
