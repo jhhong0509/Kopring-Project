@@ -16,6 +16,7 @@ group = "com.example"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
@@ -77,7 +78,9 @@ dependencies {
     // groovy plugin
     testRuntimeOnly("org.codehaus.groovy:groovy:3.0.8")
 
-    testImplementation("it.ozimov:embedded-redis:0.7.3")
+    implementation("it.ozimov:embedded-redis:0.7.2")
+
+    testImplementation("com.h2database:h2")
 
 }
 
@@ -137,7 +140,7 @@ tasks.jacocoTestCoverageVerification {
             }
 
             excludes = listOf(
-                    "com.example.forsubmit.ForSubmitApplication.kt",
+                "com.example.forsubmit.ForSubmitApplication.kt",
             )
         }
     }

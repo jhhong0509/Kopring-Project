@@ -11,16 +11,18 @@ import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
 import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
+import com.example.forsubmit.global.security.property.JwtProperties
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Specification
 
 class AuthServiceTest extends Specification {
 
-    def userFacade = Mock(UserFacade)
-    def passwordEncoder = Mock(PasswordEncoder)
-    def jwtTokenProvider = Mock(JwtTokenProvider)
-    def refreshTokenRepository = Mock(RefreshTokenRepository)
-    def authService = new AuthService(refreshTokenRepository, jwtTokenProvider, userFacade, passwordEncoder)
+    private def userFacade = GroovyMock(UserFacade)
+    private def passwordEncoder = GroovyMock(PasswordEncoder)
+    private def jwtTokenProvider = GroovyMock(JwtTokenProvider)
+    private def refreshTokenRepository = GroovyMock(RefreshTokenRepository)
+    private def jwtProperties = GroovyMock(JwtProperties)
+    private def authService = new AuthService(refreshTokenRepository, jwtTokenProvider, userFacade, passwordEncoder, jwtProperties)
 
     def "Sign in Success test"() {
         given:
@@ -31,6 +33,7 @@ class AuthServiceTest extends Specification {
         def response = authService.signIn(request)
 
         then:
+        jwtProperties.refreshTokenExp >> 10000
         1 * userFacade.findUserByEmail(request.email) >> { user }
         1 * passwordEncoder.matches(request.password, user.password) >> true
         1 * jwtTokenProvider.getToken(user.id) >> { new TokenResponse(accessToken, refreshToken) }
@@ -84,7 +87,7 @@ class AuthServiceTest extends Specification {
         def accessToken = authService.tokenRefresh(refreshToken)
 
         then:
-        refreshTokenRepository.findByToken(refreshToken) >> new RefreshToken(1, refreshToken)
+        refreshTokenRepository.findByToken(refreshToken) >> new RefreshToken(1, refreshToken, 100000)
         jwtTokenProvider.getAccessToken(user.id) >> new AccessTokenResponse(expectedAccessToken)
 
         accessToken.getAccessToken() === expectedAccessToken

@@ -1,0 +1,27 @@
+spring:
+  socketio:
+    port: 8081
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: h2
+  datasource:
+    username: asdf
+    password: asdf
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+  redis:
+    host: localhost
+    port: 6379
+
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 10
+  profiles:
+    active: test
+jwt:
+  secretKey: sdaf
+  accessTokenExp: 1000
+  refreshTokenExp: 10000
