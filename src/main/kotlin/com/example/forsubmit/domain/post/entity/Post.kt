@@ -22,7 +22,7 @@ class Post(
 
     @CreatedDate
     @NotNull
-    val createdDate: LocalDateTime? = null,
+    var createdDate: LocalDateTime? = null,
 
     @ManyToOne
     @JoinColumn(name = "user_id")
