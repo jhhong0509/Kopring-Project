@@ -9,7 +9,7 @@ import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
-import org.springframework.data.repository.findByIdOrNull
+import com.example.forsubmit.global.security.property.JwtProperties
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -18,9 +18,16 @@ class AuthService(
     private val refreshTokenRepository: RefreshTokenRepository,
     private val jwtTokenProvider: JwtTokenProvider,
     private val userFacade: UserFacade,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    jwtProperties: JwtProperties
 ) {
-    fun signIn(request: AuthRequest) : TokenResponse {
+    private val refreshExp: Long
+
+    init {
+        refreshExp = jwtProperties.refreshTokenExp
+    }
+
+    fun signIn(request: AuthRequest): TokenResponse {
         val user = userFacade.findUserByEmail(request.email)
 
         if (!passwordEncoder.matches(request.password, user.password)) {
@@ -31,7 +38,8 @@ class AuthService(
 
         val refreshToken = RefreshToken(
             id = user.id,
-            token = tokenResponse.refreshToken
+            token = tokenResponse.refreshToken,
+            ttl = refreshExp
         )
 
         refreshTokenRepository.save(refreshToken)
@@ -41,12 +49,8 @@ class AuthService(
 
     fun tokenRefresh(refreshToken: String): AccessTokenResponse {
         val token = refreshTokenRepository.findByToken(refreshToken) ?: throw RefreshTokenNotFoundException.EXCEPTION
-        val isRefreshToken = jwtTokenProvider.isRefreshToken(token.token)
-
-        if (isRefreshToken == false) {
-            throw RefreshTokenNotFoundException.EXCEPTION
-        }
-
+        token.ttl = refreshExp
+        refreshTokenRepository.save(token)
         return jwtTokenProvider.getAccessToken(token.id)
     }
 
