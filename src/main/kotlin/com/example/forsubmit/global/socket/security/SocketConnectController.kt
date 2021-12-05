@@ -1,6 +1,7 @@
 package com.example.forsubmit.global.socket.security
 
 import com.corundumstudio.socketio.SocketIOClient
+import com.corundumstudio.socketio.annotation.OnConnect
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
@@ -10,6 +11,7 @@ class SocketConnectController(
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
+    @OnConnect
     fun onConnect(client: SocketIOClient) {
         val bearerToken: String? = client.handshakeData.getSingleUrlParam("Authorization")
         bearerToken?.let {
