@@ -13,4 +13,8 @@ class ChatRepositoryManager(
     fun findById(id: Long): Chat {
         return chatRepository.findByIdOrNull(id) ?: throw ChatNotFoundException.EXCEPTION
     }
+
+    fun save(chat: Chat): Chat {
+        return chatRepository.save(chat)
+    }
 }

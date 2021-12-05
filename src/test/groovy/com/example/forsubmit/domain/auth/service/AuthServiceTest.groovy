@@ -7,6 +7,9 @@ import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundExceptio
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
+import com.example.forsubmit.domain.chat.entity.chat.Chat
+import com.example.forsubmit.domain.chat.entity.chatreader.ChatReader
+import com.example.forsubmit.domain.chatroom.entity.member.ChatRoomMember
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
 import com.example.forsubmit.domain.user.facade.UserFacade
@@ -27,7 +30,7 @@ class AuthServiceTest extends Specification {
     def "Sign in Success test"() {
         given:
         def request = new AuthRequest("email@dsm.hs.kr", "password")
-        def user = new User(1, request.email, "name", request.password)
+        def user = new User(1, request.email, "name", request.password, new ArrayList(), new ArrayList(), new ArrayList())
 
         when:
         def response = authService.signIn(request)
@@ -49,7 +52,7 @@ class AuthServiceTest extends Specification {
     def "Sign In Password Not Match Exception Test"() {
         given:
         def request = new AuthRequest("email@dsm.hs.kr", "password")
-        def user = new User(1, request.email, "name", request.password)
+        def user = new User(1, request.email, "name", request.password, new ArrayList(), new ArrayList(), new ArrayList())
 
         when:
         authService.signIn(request)
@@ -81,7 +84,7 @@ class AuthServiceTest extends Specification {
 
     def "Token Refresh Success Test"() {
         given:
-        def user = new User(1, "email", "name", "password")
+        def user = new User(1, "email", "name", "password", new ArrayList(), new ArrayList(), new ArrayList())
 
         when:
         def accessToken = authService.tokenRefresh(refreshToken)
