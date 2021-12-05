@@ -150,6 +150,7 @@ sonarqube {
     properties {
         property("sonar.organization", "jhhong0509")
         property("sonar.projectKey", "jhhong0509_Kopring-Best-Practice")
+        property("sonar.sources", ".")
         property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/test/jacocoTestReport.xml")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java")
