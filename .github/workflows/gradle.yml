@@ -26,6 +26,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew clean build jacocoTestReport
-    - name: Upload SonarCloud
-      run: ./gradlew sonarqube -Dsonar.login=${{ secrets.SONAR_SECRET }}
-
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
