@@ -7,9 +7,6 @@ import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundExceptio
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
-import com.example.forsubmit.domain.chat.entity.chat.Chat
-import com.example.forsubmit.domain.chat.entity.chatreader.ChatReader
-import com.example.forsubmit.domain.chatroom.entity.member.ChatRoomMember
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
 import com.example.forsubmit.domain.user.facade.UserFacade
