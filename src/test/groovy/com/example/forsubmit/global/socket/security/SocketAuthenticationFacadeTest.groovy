@@ -1,0 +1,23 @@
+package com.example.forsubmit.global.socket.security
+
+import com.corundumstudio.socketio.SocketIOClient
+import com.example.forsubmit.domain.user.entity.User
+import spock.lang.Specification
+
+class SocketAuthenticationFacadeTest extends Specification {
+
+    def socketIOClient = GroovyMock(SocketIOClient)
+    def socketAuthenticationFacade = new SocketAuthenticationFacadeImpl()
+
+    def "SocketAuthenticationFacade Test"() {
+        given:
+        def user = new User(1, "email", "name", "password", new ArrayList(), new ArrayList(), new ArrayList())
+
+        when:
+        def userFromSocket = socketAuthenticationFacade.getUser(socketIOClient)
+
+        then:
+        1 * socketIOClient.get(SecurityProperties.USER_KEY) >> user
+        user == userFromSocket
+    }
+}
