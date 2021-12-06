@@ -19,7 +19,7 @@ class AuthController(
         return authService.signIn(authRequest)
     }
 
-    @PatchMapping
+    @PutMapping
     fun refreshToken(@RequestHeader("Refresh-Token") refreshToken: String) : AccessTokenResponse {
         return authService.tokenRefresh(refreshToken)
     }

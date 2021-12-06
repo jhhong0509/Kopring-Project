@@ -1,9 +1,11 @@
 package com.example.forsubmit.domain.auth.controller
 
+import com.example.forsubmit.domain.auth.entity.RefreshToken
+import com.example.forsubmit.domain.auth.entity.RefreshTokenRepository
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
+import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.auth.service.AuthService
-import com.example.forsubmit.domain.chat.entity.chat.Chat
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.entity.UserRepository
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
@@ -18,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -39,10 +42,14 @@ class AuthControllerTest extends Specification {
     private PasswordEncoder passwordEncoder
 
     @Autowired
+    private RefreshTokenRepository refreshTokenRepository
+
+    @Autowired
     private AuthService authService
 
     def cleanup() {
         userRepository.deleteAll()
+        refreshTokenRepository.deleteAll()
     }
 
     def "Sign In Success"() {
@@ -93,6 +100,42 @@ class AuthControllerTest extends Specification {
         "email@dsm.hs.kr" | "password"
     }
 
-//    def "RefreshToken"() {
-//    }
+    def "Token Refresh Success"() {
+        given:
+        refreshTokenRepository.save(new RefreshToken(userId, refreshToken, 100000))
+
+        when:
+        def result = mockMvc.perform(put("/auth")
+                .header("Refresh-Token", refreshToken))
+
+        then:
+        result.andExpect(MockMvcResultMatchers.status().isOk())
+
+        def response = result.andReturn()
+                .response.contentAsString
+
+        def accessToken = objectMapper.readValue(response, AccessTokenResponse)
+
+        accessToken.accessToken != null
+
+        where:
+        refreshToken | userId
+        "asdf"       | 1
+        "asdfasdf"   | 2
+    }
+
+    def "Token Refresh Not Found"() {
+        when:
+        def result = mockMvc.perform(put("/auth")
+                .header("Refresh-Token", refreshToken))
+
+        then:
+        result.andExpect(MockMvcResultMatchers.status().isNotFound())
+
+        where:
+        refreshToken | _
+        "asdf"       | _
+        "asdfasdf"   | _
+    }
+
 }
