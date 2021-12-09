@@ -1,14 +1,10 @@
 package com.example.forsubmit
 
-import com.example.forsubmit.global.naturalid.CustomNaturalIdRepositoryImpl
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.context.annotation.ComponentScan
 
-@EnableJpaAuditing
-@EnableJpaRepositories(repositoryBaseClass = CustomNaturalIdRepositoryImpl::class)
 @ConfigurationPropertiesScan
 @SpringBootApplication
 class ForSubmitApplication
