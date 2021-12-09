@@ -21,8 +21,8 @@ class UserFacadeImpl(
 
     override fun findCurrentUser(): User {
         val authentication = SecurityContextHolder.getContext().authentication ?: throw UserNotFoundException.EXCEPTION
-        val id = authentication.name.toLong()
-        return findUserById(id)
+        val email = authentication.name
+        return findUserByEmail(email)
     }
 
 }
