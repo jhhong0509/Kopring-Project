@@ -5,8 +5,10 @@ import com.example.forsubmit.domain.post.entity.PostRepository
 import com.example.forsubmit.domain.post.exceptions.PostNotFoundException
 import com.example.forsubmit.domain.user.entity.User
 import org.springframework.data.domain.PageRequest
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
+@ActiveProfiles("test")
 class PostRepositoryManagerTest extends Specification {
 
     def postRepository = GroovyMock(PostRepository)
