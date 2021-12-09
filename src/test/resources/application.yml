@@ -5,6 +5,7 @@ spring:
     hibernate:
       ddl-auto: create
     database: h2
+    show-sql: true
   datasource:
     username: asdf
     password: asdf
@@ -19,8 +20,9 @@ spring:
       pageable:
         default-page-size: 10
         max-page-size: 10
-  profiles:
-    active: test
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 jwt:
   secretKey: sdaf
   accessTokenExp: 1000

@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.chat.service
 
-import com.corundumstudio.socketio.BroadcastOperations
+
 import com.corundumstudio.socketio.SingleRoomBroadcastOperations
 import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.SocketIOServer
@@ -11,8 +11,10 @@ import com.example.forsubmit.domain.chatroom.entity.chatroom.manager.ChatRoomExp
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.entity.UserRepository
 import com.example.forsubmit.global.socket.security.SocketAuthenticationFacade
+import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
+@ActiveProfiles("test")
 class ChatServiceTest extends Specification {
 
     private def userRepository = GroovyMock(UserRepository)

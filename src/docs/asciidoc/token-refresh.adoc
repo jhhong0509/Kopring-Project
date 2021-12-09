@@ -1,0 +1,35 @@
+= Post
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectnums:
+:sectlinks:
+:sectanchors:
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Token Refresh
+
+=== 토큰 재발급 성공
+
+==== Request Headers
+include::{snippets}/Token_Refresh/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Token_Refresh/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Token_Refresh/http-response.adoc[]
+
+=== 토큰 재발급 - Refresh Token을 찾을 수 없음
+
+==== Request Headers
+include::{snippets}/Token_Refresh_404/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Token_Refresh_404/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Token_Refresh_404/http-response.adoc[]

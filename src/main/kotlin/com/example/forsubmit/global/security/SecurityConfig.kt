@@ -23,6 +23,8 @@ class SecurityConfig(
             .authorizeRequests()
 //            .antMatchers("/post").permitAll()
             .antMatchers("/auth").permitAll()
+            .antMatchers("/docs/**").permitAll()
+            .antMatchers("/docs").permitAll()
 //            .antMatchers("/post/**").permitAll()
             .anyRequest().authenticated()
             .and()

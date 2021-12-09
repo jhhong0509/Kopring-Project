@@ -34,10 +34,10 @@ class AuthService(
             throw PasswordNotMatchException.EXCEPTION
         }
 
-        val tokenResponse = jwtTokenProvider.getToken(user.id)
+        val tokenResponse = jwtTokenProvider.getToken(user.email)
 
         val refreshToken = RefreshToken(
-            id = user.id,
+            email = user.email,
             token = tokenResponse.refreshToken,
             ttl = refreshExp
         )
@@ -51,7 +51,7 @@ class AuthService(
         val token = refreshTokenRepository.findByToken(refreshToken) ?: throw RefreshTokenNotFoundException.EXCEPTION
         token.ttl = refreshExp
         refreshTokenRepository.save(token)
-        return jwtTokenProvider.getAccessToken(token.id)
+        return jwtTokenProvider.getAccessToken(token.email)
     }
 
 }

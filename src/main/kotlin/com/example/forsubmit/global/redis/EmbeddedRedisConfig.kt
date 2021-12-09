@@ -21,7 +21,7 @@ class EmbeddedRedisConfig {
     init {
         redisPort = findAvailablePort()
         redisServer = RedisServer(redisPort)
-        redisServer?.start()
+        redisServer!!.start()
     }
 
     @Bean
@@ -31,7 +31,7 @@ class EmbeddedRedisConfig {
 
     @PreDestroy
     fun stopRedis() {
-        redisServer?.stop() //Redis 종료
+        redisServer!!.stop() //Redis 종료
     }
 
     /**

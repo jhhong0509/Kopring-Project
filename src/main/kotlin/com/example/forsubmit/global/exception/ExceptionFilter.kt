@@ -21,12 +21,16 @@ class ExceptionFilter : OncePerRequestFilter() {
         try {
             filterChain.doFilter(request, response)
         } catch (exception: Exception) {
-            when (val causeException = exception.cause) {
-                is GlobalException -> writeErrorCode(causeException, response)
-                is MethodArgumentTypeMismatchException,
-                is MethodArgumentNotValidException -> writeErrorCode(InvalidMethodArgumentException.EXCEPTION, response)
-                is NoHandlerFoundException -> writeErrorCode(RequestNotFoundException.EXCEPTION, response)
-                else -> writeErrorCode(InternalServerError.EXCEPTION, response)
+            if (exception is GlobalException) {
+                writeErrorCode(exception, response)
+            } else {
+                when (val causeException = exception.cause) {
+                    is GlobalException -> writeErrorCode(causeException, response)
+                    is MethodArgumentTypeMismatchException,
+                    is MethodArgumentNotValidException -> writeErrorCode(InvalidMethodArgumentException.EXCEPTION, response)
+                    is NoHandlerFoundException -> writeErrorCode(RequestNotFoundException.EXCEPTION, response)
+                    else -> writeErrorCode(InternalServerError.EXCEPTION, response)
+                }
             }
         }
     }

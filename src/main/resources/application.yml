@@ -19,6 +19,8 @@ spring:
       pageable:
         default-page-size: 10
         max-page-size: 10
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 jwt:
   secretKey: ${SECRET_KEY}
   accessTokenExp: ${ACCESS_EXP}
