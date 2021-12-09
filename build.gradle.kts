@@ -3,13 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.6.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.asciidoctor.convert") version "1.5.8"
     kotlin("jvm") version "1.6.0"
     kotlin("plugin.spring") version "1.6.0"
     kotlin("plugin.jpa") version "1.6.0"
     jacoco
     groovy
     id("org.sonarqube") version "3.3"
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
 
 group = "com.example"
@@ -27,7 +27,7 @@ repositories {
     mavenCentral()
 }
 
-extra["snippetsDir"] = file("build/generated-snippets")
+extra["snippetsDir"] = file("$buildDir/generated-snippets")
 
 dependencies {
 
@@ -95,16 +95,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.test {
-    project.property("snippetsDir")?.let { outputs.dir(it) }
-    finalizedBy("jacocoTestReport")
-}
-
-tasks.asciidoctor {
-    project.property("snippetsDir")?.let { inputs.dir(it) }
-    dependsOn(tasks.test)
-}
-
 noArg {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.MappedSuperclass")
@@ -115,6 +105,24 @@ allOpen {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.MappedSuperclass")
     annotation("javax.persistence.Embeddable")
+}
+
+tasks.test {
+    val property = project.property("snippetsDir")!!
+    outputs.dir(property)
+    finalizedBy("jacocoTestReport")
+}
+
+tasks.asciidoctor {
+    finalizedBy("bootJar")
+}
+
+tasks.bootJar {
+    copy {
+        val asciidoctor by tasks.getting(org.asciidoctor.gradle.jvm.AsciidoctorTask::class)
+        from(asciidoctor.outputDir)
+        into("src/main/resources/static/docs")
+    }
 }
 
 jacoco {
@@ -144,6 +152,7 @@ tasks.jacocoTestCoverageVerification {
             )
         }
     }
+    finalizedBy("asciidoctor")
 }
 
 sonarqube {
