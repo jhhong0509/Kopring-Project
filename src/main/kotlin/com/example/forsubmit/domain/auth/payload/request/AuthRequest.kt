@@ -4,10 +4,10 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 
 class AuthRequest(
-    @NotBlank
-    @Email
+    @field:NotBlank
+    @field:Email
     val email: String,
 
-    @NotBlank
+    @field:NotBlank
     val password: String
 )
