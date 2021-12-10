@@ -149,6 +149,8 @@ tasks.jacocoTestCoverageVerification {
 
             excludes = listOf(
                 "com.example.forsubmit.ForSubmitApplication.kt",
+                "*.html",
+                "*.adoc",
             )
         }
     }
@@ -162,7 +164,7 @@ sonarqube {
         property("sonar.sources", ".")
         property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/test/jacocoTestReport.xml")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.coverage.exclusions", "**/*Test*.*, **/Q*.java")
+        property("sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*.html, **/*.adoc")
         property("sonar.test.inclusions", "**/*.groovy, **/test/**/*.kt")
     }
 }
