@@ -149,6 +149,8 @@ tasks.jacocoTestCoverageVerification {
 
             excludes = listOf(
                 "com.example.forsubmit.ForSubmitApplication.kt",
+                "*.html",
+                "*.adoc",
             )
         }
     }
