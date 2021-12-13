@@ -6,10 +6,18 @@ plugins {
     kotlin("jvm") version "1.6.0"
     kotlin("plugin.spring") version "1.6.0"
     kotlin("plugin.jpa") version "1.6.0"
+    kotlin("kapt") version "1.4.10"
     jacoco
     groovy
     id("org.sonarqube") version "3.3"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id("org.jetbrains.dokka") version "1.6.0"
+}
+
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.0")
+    }
 }
 
 group = "com.example"
@@ -82,6 +90,10 @@ dependencies {
 
     testImplementation("com.h2database:h2")
 
+    // queryDsl
+    kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
+    implementation("com.querydsl:querydsl-jpa")
+
 }
 
 tasks.withType<KotlinCompile> {
@@ -95,6 +107,7 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+// jpa Setting
 noArg {
     annotation("javax.persistence.Entity")
     annotation("javax.persistence.MappedSuperclass")
@@ -110,11 +123,12 @@ allOpen {
 tasks.test {
     val property = project.property("snippetsDir")!!
     outputs.dir(property)
-    finalizedBy("jacocoTestReport")
 }
 
+
+// asciiDoc Setting
 tasks.asciidoctor {
-    finalizedBy("bootJar")
+    dependsOn(tasks.jacocoTestCoverageVerification)
 }
 
 tasks.bootJar {
@@ -123,8 +137,10 @@ tasks.bootJar {
         from(asciidoctor.outputDir)
         into("src/main/resources/static/docs")
     }
+    dependsOn(tasks.asciidoctor)
 }
 
+// jacoco Setting
 jacoco {
     toolVersion = "0.8.7"
 }
@@ -135,7 +151,7 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         csv.required.set(false)
     }
-    finalizedBy("jacocoTestCoverageVerification")
+    dependsOn(tasks.test)
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -154,9 +170,10 @@ tasks.jacocoTestCoverageVerification {
             )
         }
     }
-    finalizedBy("asciidoctor")
+    dependsOn(tasks.jacocoTestReport)
 }
 
+// sonarqube Setting
 sonarqube {
     properties {
         property("sonar.organization", "jhhong0509")
@@ -167,4 +184,8 @@ sonarqube {
         property("sonar.exclusions", "**/*Test*.*, **/Q*.java, **/*.html, **/*.adoc")
         property("sonar.test.inclusions", "**/*.groovy, **/test/**/*.kt")
     }
+}
+
+kotlin.sourceSets.main {
+    kotlin.srcDir("$buildDir/generated/source/kapt/main")
 }
