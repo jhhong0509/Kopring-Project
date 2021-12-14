@@ -13,6 +13,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
     steps:
       - uses: actions/checkout@v2
         with:

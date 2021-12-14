@@ -1,4 +1,4 @@
-package com.example.forsubmit.domain.post.entity
+package com.example.forsubmit.domain.room.entity
 
 import com.example.forsubmit.domain.user.entity.User
 import org.jetbrains.annotations.NotNull
@@ -9,7 +9,7 @@ import javax.persistence.*
 
 @Entity
 @EntityListeners(AuditingEntityListener::class)
-class Post(
+class Room(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,

@@ -1,8 +1,8 @@
-package com.example.forsubmit.domain.post.controller
+package com.example.forsubmit.domain.room.controller
 
 import com.example.forsubmit.JpaConfig
-import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
-import com.example.forsubmit.domain.post.service.PostService
+import com.example.forsubmit.domain.room.payload.request.CreateRoomRequest
+import com.example.forsubmit.domain.room.service.RoomService
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.global.security.auth.AuthDetails
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
@@ -31,12 +31,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
-@WebMvcTest(PostController)
+@WebMvcTest(RoomController)
 @AutoConfigureRestDocs(uriScheme = "http", uriHost = "docs.api.com")
 @AutoConfigureMockMvc
 @MockBean(JpaConfig)
 @ActiveProfiles("test")
-class PostControllerTest extends Specification {
+class RoomControllerTest extends Specification {
 
     @Autowired
     private MockMvc mockMvc
@@ -45,28 +45,28 @@ class PostControllerTest extends Specification {
     private ObjectMapper objectMapper
 
     @SpringBean
-    private PostService postService = GroovyMock(PostService)
+    private RoomService roomService = GroovyMock(RoomService)
 
     @SpringBean
     private JwtTokenProvider jwtTokenProvider = GroovyMock(JwtTokenProvider)
 
     @WithMockUser(username = "email@dsm.hs.kr")
-    def "Post Controller Layer Test"() {
+    def "Room Controller Layer Test"() {
         given:
-        def req = new CreatePostRequest("title", "content")
-        postService.savePost(_) >> {}
+        def req = new CreateRoomRequest("title", "content")
+        roomService.savePost(_) >> {}
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
 
         when:
-        def response = mockMvc.perform(post("/post")
+        def response = mockMvc.perform(post("/room")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(JwtProperties.TOKEN_HEADER_NAME, "Bearer asdfasdf")
                 .content(objectMapper.writeValueAsString(req)))
 
         then:
         response.andExpect(MockMvcResultMatchers.status().isCreated())
-        response.andDo(document("Save_Post",
+        response.andDo(document("Save_Room",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestHeaders(
@@ -84,22 +84,22 @@ class PostControllerTest extends Specification {
     }
 
     @WithMockUser(username = "email@dsm.hs.kr")
-    def "Post Controller Layer Fail Test - 400"() {
+    def "Room Controller Layer Fail Test - 400"() {
         given:
-        def req = new CreatePostRequest("title", "")
-        postService.savePost(_) >> {}
+        def req = new CreateRoomRequest("title", "")
+        roomService.savePost(_) >> {}
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
 
         when:
-        def response = mockMvc.perform(post("/post")
+        def response = mockMvc.perform(post("/room")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "asdfsdaf")
                 .content(objectMapper.writeValueAsString(req)))
 
         then:
         response.andExpect(MockMvcResultMatchers.status().isBadRequest())
-        response.andDo(document("Save_Post_400",
+        response.andDo(document("Save_Room_400",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestHeaders(

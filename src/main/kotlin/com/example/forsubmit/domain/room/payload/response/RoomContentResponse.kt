@@ -1,9 +1,9 @@
-package com.example.forsubmit.domain.post.payload.response
+package com.example.forsubmit.domain.room.payload.response
 
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 
-class PostContentResponse(
+class RoomContentResponse(
 
     val title: String,
 
