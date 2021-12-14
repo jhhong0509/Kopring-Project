@@ -1,4 +1,4 @@
-package com.example.forsubmit.domain.post.entity
+package com.example.forsubmit.domain.room.entity
 
 import com.example.forsubmit.JpaConfig
 import com.example.forsubmit.domain.user.entity.User
@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 @Import(JpaConfig)
 @DataJpaTest
-class PostTest extends Specification {
+class RoomTest extends Specification {
 
     @Autowired
     private TestEntityManager entityManager
@@ -23,11 +23,14 @@ class PostTest extends Specification {
         def user = entityManager.persist(unsaved)
 
         when:
-        def unsavedPost = new Post(0, "title", "content", LocalDateTime.now(), user)
-        def post = entityManager.persist(unsavedPost)
+        def unsavedRoom = new Room(0, "title", "content", LocalDateTime.now(), user)
+        def room = entityManager.persist(unsavedRoom)
 
         then:
-        post.createdDate != null
-        post.id != 0
+        room.createdDate != null
+        room.id != 0
+        room.title != null
+        room.content != null
+        room.user != null
     }
 }

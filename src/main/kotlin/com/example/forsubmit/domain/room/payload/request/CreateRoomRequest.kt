@@ -1,8 +1,8 @@
-package com.example.forsubmit.domain.post.payload.request
+package com.example.forsubmit.domain.room.payload.request
 
 import javax.validation.constraints.NotBlank
 
-class CreatePostRequest(
+class CreateRoomRequest(
     @field:NotBlank
     val title: String,
 

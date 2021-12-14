@@ -446,10 +446,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_sign_in">1. Sign In</a>
+<li><a href="#_room">1. Room</a>
 <ul class="sectlevel2">
-<li><a href="#_로그인_성공">1.1. 로그인 성공</a></li>
-<li><a href="#_로그인_사용자를_찾을_수_없음">1.2. 로그인 - 사용자를 찾을 수 없음</a></li>
+<li><a href="#_room_생성_성공">1.1. Room 생성 성공</a></li>
+<li><a href="#_room_unauthorized">1.2. Room Unauthorized</a></li>
 </ul>
 </li>
 </ul>
@@ -457,64 +457,79 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_sign_in"><a class="anchor" href="#_sign_in"></a><a class="link" href="#_sign_in">1. Sign In</a></h2>
+<h2 id="_room"><a class="anchor" href="#_room"></a><a class="link" href="#_room">1. Room</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_로그인_성공"><a class="anchor" href="#_로그인_성공"></a><a class="link" href="#_로그인_성공">1.1. 로그인 성공</a></h3>
+<h3 id="_room_생성_성공"><a class="anchor" href="#_room_생성_성공"></a><a class="link" href="#_room_생성_성공">1.1. Room 생성 성공</a></h3>
 <div class="sect3">
 <h4 id="_request_fields"><a class="anchor" href="#_request_fields"></a><a class="link" href="#_request_fields">1.1.1. Request Fields</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
-  "email" : "email@dsm.hs.kr",
-  "password" : "password"
+  "title" : "title",
+  "content" : "content"
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_example"><a class="anchor" href="#_request_example"></a><a class="link" href="#_request_example">1.1.2. Request Example</a></h4>
+<h4 id="_request_headers"><a class="anchor" href="#_request_headers"></a><a class="link" href="#_request_headers">1.1.2. Request Headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_example"><a class="anchor" href="#_request_example"></a><a class="link" href="#_request_example">1.1.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /auth HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /room HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 60
+Authorization: Bearer asdfasdf
+Content-Length: 48
 Host: docs.api.com:8080
 
 {
-  "email" : "email@dsm.hs.kr",
-  "password" : "password"
+  "title" : "title",
+  "content" : "content"
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response"><a class="anchor" href="#_http_response"></a><a class="link" href="#_http_response">1.1.3. HTTP Response</a></h4>
+<h4 id="_http_response"><a class="anchor" href="#_http_response"></a><a class="link" href="#_http_response">1.1.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 57
-
-{
-  "access_token" : "test",
-  "refresh_token" : "test"
-}</code></pre>
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_로그인_사용자를_찾을_수_없음"><a class="anchor" href="#_로그인_사용자를_찾을_수_없음"></a><a class="link" href="#_로그인_사용자를_찾을_수_없음">1.2. 로그인 - 사용자를 찾을 수 없음</a></h3>
+<h3 id="_room_unauthorized"><a class="anchor" href="#_room_unauthorized"></a><a class="link" href="#_room_unauthorized">1.2. Room Unauthorized</a></h3>
 <div class="sect3">
 <h4 id="_request_fields_2"><a class="anchor" href="#_request_fields_2"></a><a class="link" href="#_request_fields_2">1.2.1. Request Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -532,56 +547,70 @@ Content-Length: 57
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">잘못된 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">잘못된 게시글 내용 (Empty)</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_2"><a class="anchor" href="#_request_example_2"></a><a class="link" href="#_request_example_2">1.2.2. Request Example</a></h4>
+<h4 id="_request_headers_2"><a class="anchor" href="#_request_headers_2"></a><a class="link" href="#_request_headers_2">1.2.2. Request Headers</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access Token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_example_2"><a class="anchor" href="#_request_example_2"></a><a class="link" href="#_request_example_2">1.2.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /auth HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /room HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 60
+Authorization: asdfsdaf
+Content-Length: 41
 Host: docs.api.com:8080
 
 {
-  "email" : "email@dsm.hs.kr",
-  "password" : "password"
+  "title" : "title",
+  "content" : ""
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_2"><a class="anchor" href="#_http_response_2"></a><a class="link" href="#_http_response_2">1.2.3. HTTP Response</a></h4>
+<h4 id="_http_response_2"><a class="anchor" href="#_http_response_2"></a><a class="link" href="#_http_response_2">1.2.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=UTF-8
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-X-Frame-Options: DENY
-Content-Length: 118
-
-{
-  "status" : 404,
-  "errorMessage" : "User Not Found",
-  "koreanMessage" : "사용자를 찾을 수 없습니다."
-}</code></pre>
+X-Frame-Options: DENY</code></pre>
 </div>
 </div>
 </div>
@@ -592,7 +621,7 @@ Content-Length: 118
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-12-12 21:00:59 +0900
+Last updated 2021-12-14 13:53:44 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

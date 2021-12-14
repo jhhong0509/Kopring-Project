@@ -31,5 +31,4 @@
 | 기존 리소스를 삭제할 떄 사용
 |===
 
-== API 명세
-include::post/save-post.adoc[]
+include::{docdir}/save-room.adoc[]

@@ -42,8 +42,6 @@ class AuthControllerTest extends Specification {
     @Autowired
     private ObjectMapper objectMapper
 
-    private RefreshTokenRepository refreshTokenRepository = GroovyMock(RefreshTokenRepository)
-
     @SpringBean
     private JwtTokenProvider jwtTokenProvider = GroovyMock(JwtTokenProvider)
 
