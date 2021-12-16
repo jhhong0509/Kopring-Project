@@ -3,6 +3,7 @@ package com.example.forsubmit.global.exception
 import com.example.forsubmit.global.exception.exceptions.InternalServerError
 import com.example.forsubmit.global.exception.exceptions.InvalidMethodArgumentException
 import com.example.forsubmit.global.exception.exceptions.RequestNotFoundException
+import com.example.forsubmit.global.payload.BaseResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.filter.OncePerRequestFilter
@@ -36,7 +37,7 @@ class ExceptionFilter : OncePerRequestFilter() {
     }
 
     private fun writeErrorCode(exception: GlobalException, response: HttpServletResponse) {
-        val errorResponse = ErrorResponse.of(exception)
+        val errorResponse = BaseResponse.of(exception)
 
         response.characterEncoding = "UTF-8"
         response.status = errorResponse.status

@@ -6,11 +6,8 @@ import com.corundumstudio.socketio.annotation.SpringAnnotationScanner
 import com.example.forsubmit.global.socket.error.SocketErrorController
 import com.example.forsubmit.global.socket.property.SocketProperties
 import org.springframework.context.annotation.Bean
-import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 
-
-@Order(Int.MAX_VALUE)
 @Component
 class SocketIOConfig(
     private val socketErrorController: SocketErrorController,

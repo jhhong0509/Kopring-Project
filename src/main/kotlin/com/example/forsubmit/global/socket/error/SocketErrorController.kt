@@ -2,13 +2,12 @@ package com.example.forsubmit.global.socket.error
 
 import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.listener.ExceptionListener
-import com.example.forsubmit.global.exception.ErrorResponse
 import com.example.forsubmit.global.exception.GlobalException
 import com.example.forsubmit.global.exception.exceptions.InternalServerError
+import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.socket.property.EventProperties
 import io.netty.channel.ChannelHandlerContext
 import org.springframework.stereotype.Controller
-import java.lang.Exception
 
 @Controller
 class SocketErrorController : ExceptionListener {
@@ -30,12 +29,7 @@ class SocketErrorController : ExceptionListener {
     }
 
     private fun sendErrorMessage(e: GlobalException, client: SocketIOClient) {
-        val errorResponse = ErrorResponse(
-            errorMessage = e.errorMessage,
-            koreanMessage = e.koreanMessage,
-            status = e.status
-        )
-
+        val errorResponse = BaseResponse.of(e)
         client.sendEvent(EventProperties.ERROR, errorResponse)
     }
 }
