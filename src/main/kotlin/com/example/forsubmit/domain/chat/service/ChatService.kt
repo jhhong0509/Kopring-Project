@@ -3,8 +3,8 @@ package com.example.forsubmit.domain.chat.service
 import com.corundumstudio.socketio.SocketIOClient
 import com.corundumstudio.socketio.SocketIOServer
 import com.example.forsubmit.domain.chat.entity.chat.Chat
+import com.example.forsubmit.domain.chat.entity.chat.ChatRepository
 import com.example.forsubmit.domain.chat.entity.chat.ChatType
-import com.example.forsubmit.domain.chat.entity.chat.manager.ChatRepositoryManager
 import com.example.forsubmit.domain.chat.payload.request.ChatRequest
 import com.example.forsubmit.domain.chat.payload.response.ChatMessage
 import com.example.forsubmit.domain.chatroom.entity.chatroom.ChatRoom
@@ -15,22 +15,22 @@ import org.springframework.stereotype.Service
 
 @Service
 class ChatService(
-    private val chatRepositoryManager: ChatRepositoryManager,
     private val chatRoomExportManager: ChatRoomExportManager,
-    private val socketAuthenticationFacade: SocketAuthenticationFacade
+    private val socketAuthenticationFacade: SocketAuthenticationFacade,
+    private val chatRepository: ChatRepository
 ) {
     companion object {
         const val MESSAGE_KEY = "message"
     }
 
     fun sendChatMessage(client: SocketIOClient, server: SocketIOServer, request: ChatRequest) {
-        
+
         val user = socketAuthenticationFacade.getUser(client)
         val chatRoom = chatRoomExportManager.findById(request.chatRoomId)
-        
+
         val chat = buildChat(user, request, chatRoom)
-        chatRepositoryManager.save(chat)
-        
+        chatRepository.save(chat)
+
         server.getRoomOperations(request.chatRoomId.toString())
             .clients
             .forEach { sendMessage(it, user, request) }
