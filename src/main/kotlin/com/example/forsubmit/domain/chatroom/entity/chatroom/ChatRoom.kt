@@ -3,10 +3,12 @@ package com.example.forsubmit.domain.chatroom.entity.chatroom
 import com.example.forsubmit.domain.chat.entity.chat.Chat
 import com.example.forsubmit.domain.chatroom.entity.member.ChatRoomMember
 import org.jetbrains.annotations.NotNull
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import javax.persistence.*
 
 @Entity
 @Table(name = "chatroom")
+@EntityListeners(AuditingEntityListener::class)
 class ChatRoom(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
