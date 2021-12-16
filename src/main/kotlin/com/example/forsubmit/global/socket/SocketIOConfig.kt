@@ -1,6 +1,7 @@
 package com.example.forsubmit.global.socket
 
 import com.corundumstudio.socketio.Configuration
+import com.corundumstudio.socketio.SocketConfig
 import com.corundumstudio.socketio.SocketIOServer
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner
 import com.example.forsubmit.global.socket.error.SocketErrorController
@@ -16,6 +17,11 @@ class SocketIOConfig(
     @Bean
     fun socketIOServer(): SocketIOServer {
         val config = Configuration()
+        val socketConfig = SocketConfig()
+
+        socketConfig.isReuseAddress = true
+
+        config.socketConfig = socketConfig
         config.port = socketProperties.port
         config.origin = "*"
         config.exceptionListener = socketErrorController
