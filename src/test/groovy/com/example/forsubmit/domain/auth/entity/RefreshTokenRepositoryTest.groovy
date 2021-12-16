@@ -3,18 +3,17 @@ package com.example.forsubmit.domain.auth.entity
 import com.example.forsubmit.global.redis.EmbeddedRedisConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 @DataRedisTest
 @ActiveProfiles("test")
-@Import (EmbeddedRedisConfig)
+@Import(EmbeddedRedisConfig)
 class RefreshTokenRepositoryTest extends Specification {
 
     @Autowired
-    private RefreshTokenRepository refreshTokenRepository;
+    private RefreshTokenRepository refreshTokenRepository
 
     def "Save Token Success Test"() {
         given:

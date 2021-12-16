@@ -503,11 +503,16 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 57
+Content-Length: 188
 
 {
-  "access_token" : "test",
-  "refresh_token" : "test"
+  "status" : 201,
+  "message" : "Sign In Success",
+  "korean_message" : "로그인에 성공했습니다",
+  "content" : {
+    "access_token" : "test",
+    "refresh_token" : "test"
+  }
 }</code></pre>
 </div>
 </div>
@@ -575,11 +580,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 118
+Content-Length: 113
 
 {
   "status" : 404,
-  "errorMessage" : "User Not Found",
+  "message" : "User Not Found",
   "koreanMessage" : "사용자를 찾을 수 없습니다."
 }</code></pre>
 </div>

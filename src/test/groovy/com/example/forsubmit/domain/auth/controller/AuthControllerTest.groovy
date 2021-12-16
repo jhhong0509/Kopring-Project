@@ -1,13 +1,13 @@
 package com.example.forsubmit.domain.auth.controller
 
 
-import com.example.forsubmit.domain.auth.entity.RefreshTokenRepository
 import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundException
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.auth.service.AuthService
 import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
+import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
@@ -53,7 +53,7 @@ class AuthControllerTest extends Specification {
         def request = new AuthRequest(email, requestPassword)
         def requestString = objectMapper.writeValueAsString(request)
 
-        authService.signIn(_) >> { new TokenResponse("test", "test") }
+        authService.signIn(_) >> { new BaseResponse(201, "Sign In Success", "로그인에 성공했습니다", new TokenResponse("test", "test")) }
 
         when:
         def result = mockMvc.perform(post("/auth")
@@ -70,16 +70,18 @@ class AuthControllerTest extends Specification {
                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                 ),
                 responseFields(
-                        fieldWithPath("access_token").type(JsonFieldType.STRING).description("Access Token"),
-                        fieldWithPath("refresh_token").type(JsonFieldType.STRING).description("Refresh Token")
+                        fieldWithPath("status").description("Status Code"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("korean_message").description("한글 응답 메세지"),
+                        subsectionWithPath("content").description("응답 본문 Body"),
+                        fieldWithPath("content.access_token").type(JsonFieldType.STRING).description("Access Token"),
+                        fieldWithPath("content.refresh_token").type(JsonFieldType.STRING).description("Refresh Token")
                 )))
 
         def response = result.andReturn()
                 .response.contentAsString
-        def tokens = objectMapper.readValue(response, TokenResponse)
-
-        tokens.refreshToken != null
-        tokens.accessToken != null
+        def tokens = objectMapper.readValue(response, BaseResponse<TokenResponse>)
+        tokens.content != null
 
         where:
         email             | requestPassword | password
@@ -117,7 +119,7 @@ class AuthControllerTest extends Specification {
 
     def "Token Refresh Success"() {
         given:
-        authService.tokenRefresh(_) >> new AccessTokenResponse("test")
+        authService.tokenRefresh(_) >> new BaseResponse(200, "Token Refresh Success", "토큰 재발급에 성공했습니다.", new AccessTokenResponse("test"))
 
         when:
         def result = mockMvc.perform(put("/auth")
@@ -129,7 +131,11 @@ class AuthControllerTest extends Specification {
                                 headerWithName("Refresh-Token").description("Refresh Token")
                         ),
                         responseFields(
-                                fieldWithPath("access_token").description("Access Token")
+                                fieldWithPath("status").description("Status Code"),
+                                fieldWithPath("message").description("응답 메세지"),
+                                fieldWithPath("korean_message").description("한글 응답 메세지"),
+                                subsectionWithPath("content").description("응답 본문 Body"),
+                                fieldWithPath("content.access_token").type(JsonFieldType.STRING).description("재발급된 Access Token"),
                         )
                 ))
 
@@ -139,9 +145,9 @@ class AuthControllerTest extends Specification {
         def response = result.andReturn()
                 .response.contentAsString
 
-        def accessToken = objectMapper.readValue(response, AccessTokenResponse)
+        def baseResponse = objectMapper.readValue(response, BaseResponse<AccessTokenResponse>)
 
-        accessToken.accessToken != null
+        baseResponse.content != null
 
         where:
         refreshToken | userEmail
