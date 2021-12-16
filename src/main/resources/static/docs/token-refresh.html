@@ -507,10 +507,15 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 29
+Content-Length: 172
 
 {
-  "access_token" : "test"
+  "status" : 200,
+  "message" : "Token Refresh Success",
+  "korean_message" : "토큰 재발급에 성공했습니다.",
+  "content" : {
+    "access_token" : "test"
+  }
 }</code></pre>
 </div>
 </div>
@@ -564,11 +569,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 131
+Content-Length: 126
 
 {
   "status" : 404,
-  "errorMessage" : "RefreshToken Not Found",
+  "message" : "RefreshToken Not Found",
   "koreanMessage" : "Refresh Token 을 찾을 수 없습니다."
 }</code></pre>
 </div>
@@ -581,7 +586,7 @@ Content-Length: 131
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-12-14 12:06:43 +0900
+Last updated 2021-12-15 16:40:04 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
