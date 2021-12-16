@@ -40,8 +40,8 @@ class AuthServiceTest extends Specification {
         1 * passwordEncoder.matches(request.password, user.password) >> true
         1 * jwtTokenProvider.getToken(user.email) >> { new TokenResponse(accessToken, refreshToken) }
 
-        response.accessToken == accessToken
-        response.refreshToken == refreshToken
+        response.content.accessToken == accessToken
+        response.content.refreshToken == refreshToken
 
         where:
         accessToken | refreshToken
@@ -92,7 +92,7 @@ class AuthServiceTest extends Specification {
         refreshTokenRepository.findByToken(refreshToken) >> new RefreshToken("email", refreshToken, 100000)
         jwtTokenProvider.getAccessToken(user.email) >> new AccessTokenResponse(expectedAccessToken)
 
-        accessToken.getAccessToken() === expectedAccessToken
+        accessToken.content.accessToken === expectedAccessToken
 
         where:
         refreshToken | expectedAccessToken
