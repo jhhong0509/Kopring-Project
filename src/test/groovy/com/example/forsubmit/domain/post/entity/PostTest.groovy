@@ -1,7 +1,7 @@
-package com.example.forsubmit.domain.chatroom.entity
+package com.example.forsubmit.domain.post.entity
 
 import com.example.forsubmit.JpaConfig
-import com.example.forsubmit.domain.chatroom.entity.chatroom.ChatRoom
+import com.example.forsubmit.domain.user.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
@@ -10,22 +10,25 @@ import spock.lang.Specification
 
 @Import(JpaConfig)
 @DataJpaTest
-class RoomTest extends Specification {
+class PostTest extends Specification {
 
     @Autowired
     private TestEntityManager entityManager
 
     def "Save Success Test"() {
         given:
-        def unsavedRoom = new ChatRoom(0, "name", new ArrayList(), new ArrayList())
+        def unsavedUser = new User("email", "name", "password")
+        def user = entityManager.persist(unsavedUser)
+
+        def unsavedPost = new Post("title", "content", user)
 
         when:
-        def room = entityManager.persist(unsavedRoom)
+        def post = entityManager.persist(unsavedPost)
 
         then:
-        room.id != 0
-        room.name != null
-        room.chatRoomMember.isEmpty()
-        room.chat.isEmpty()
+        post.id != 0
+        post.title != null
+        post
+        post.user != null
     }
 }

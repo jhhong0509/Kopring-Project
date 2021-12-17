@@ -9,15 +9,18 @@ import com.example.forsubmit.domain.auth.service.AuthService
 import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
 import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
+import com.example.forsubmit.global.security.property.JwtProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import spock.lang.Specification
@@ -34,6 +37,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureRestDocs(uriScheme = "http", uriHost = "docs.api.com")
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@EnableConfigurationProperties(JwtProperties)
+@TestPropertySource("classpath:application.yml")
 class AuthControllerTest extends Specification {
 
     @Autowired
