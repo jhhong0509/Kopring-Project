@@ -1,33 +1,37 @@
 package com.example.forsubmit.domain.user.entity
 
-import com.example.forsubmit.domain.chat.entity.chat.Chat
-import com.example.forsubmit.domain.chat.entity.chatreader.ChatReader
-import com.example.forsubmit.domain.chatroom.entity.member.ChatRoomMember
+import com.example.forsubmit.domain.post.entity.Post
 import org.hibernate.annotations.NaturalId
 import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 @Entity
-data class User(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0,
-
+class User(
     @NaturalId
     val email: String,
 
-    @NotNull
-    val name: String,
+    name: String,
+
+    password: String
+
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0
 
     @NotNull
-    val password: String,
+    final var name = name
+        private set
+
+    @NotNull
+    final var password = password
+        private set
 
     @OneToMany(mappedBy = "user")
-    val chat: MutableList<Chat> = mutableListOf(),
+    val posts: List<Post> = mutableListOf()
 
-    @OneToMany(mappedBy = "chatReaderId.user")
-    val chatReader: MutableList<ChatReader> = mutableListOf(),
-
-    @OneToMany(mappedBy = "chatRoomMemberId.user")
-    val chatRoomMember: MutableList<ChatRoomMember> = mutableListOf()
-)
+    fun updateUser(name: String, password: String) {
+        this.name = name
+        this.password = password
+    }
+}
