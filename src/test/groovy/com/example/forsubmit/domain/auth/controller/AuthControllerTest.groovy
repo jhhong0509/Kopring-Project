@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.auth.controller
 
-
+import com.example.forsubmit.BaseTest
 import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundException
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
@@ -35,15 +35,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 
 @WebMvcTest(AuthController)
-@AutoConfigureRestDocs(uriScheme = "http", uriHost = "docs.api.com")
-@AutoConfigureMockMvc
 @ActiveProfiles("test")
 @EnableConfigurationProperties(JwtProperties)
 @TestPropertySource("classpath:application.yml")
-class AuthControllerTest extends Specification {
-
-    @Autowired
-    private MockMvc mockMvc
+class AuthControllerTest extends BaseTest {
 
     @Autowired
     private ObjectMapper objectMapper
