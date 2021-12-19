@@ -6,14 +6,14 @@ class BaseResponse<T>(
     val status: Int,
     val message: String,
     val koreanMessage: String,
-    val content: T
+    val content: T?
 ) {
     override fun toString(): String {
         return """
             {
                 "status": ${status},
                 "message": "$message",
-                "koreanMessage": "$koreanMessage"
+                "korean_message": "$koreanMessage"
             }
         """.trimIndent()
     }
