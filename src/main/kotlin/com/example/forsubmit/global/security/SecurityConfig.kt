@@ -1,5 +1,7 @@
 package com.example.forsubmit.global.security
 
+import com.example.forsubmit.global.security.auth.CustomAccessDeniedHandler
+import com.example.forsubmit.global.security.auth.CustomAuthenticationEntryPoint
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,7 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -21,12 +25,15 @@ class SecurityConfig(
             .csrf().disable()
 
             .authorizeRequests()
-//            .antMatchers("/post").permitAll()
-            .antMatchers("/auth").permitAll()
-            .antMatchers("/docs/**").permitAll()
-            .antMatchers("/docs").permitAll()
-//            .antMatchers("/post/**").permitAll()
-            .anyRequest().authenticated()
+                .antMatchers("/auth").permitAll()
+                .antMatchers("/user").permitAll()
+                .antMatchers("/docs/**").permitAll()
+                .anyRequest().authenticated()
+            .and()
+
+            .exceptionHandling()
+                .accessDeniedHandler(customAccessDeniedHandler)
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
             .and()
 
             .apply(FilterConfig(jwtTokenProvider))
