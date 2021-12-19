@@ -20,12 +20,12 @@ class User(
     val id: Long = 0
 
     @NotNull
-    final var name = name
-        private set
+    var name = name
+        protected set
 
     @NotNull
-    final var password = password
-        private set
+    var password = password
+        protected set
 
     @OneToMany(mappedBy = "user")
     val posts: List<Post> = mutableListOf()
