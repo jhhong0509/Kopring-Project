@@ -1,6 +1,8 @@
 package com.example.forsubmit
 
-import com.example.forsubmit.global.exception.ExceptionFilter
+import com.example.forsubmit.global.security.auth.CustomAccessDeniedHandler
+import com.example.forsubmit.global.security.auth.CustomAuthenticationEntryPoint
+import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.restdocs.RestDocumentationContextProvider
@@ -26,8 +28,7 @@ class BaseTest extends Specification {
     def setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(provider))
-                .addFilters(new ExceptionFilter())
-                .alwaysDo(print())
+//                .alwaysDo(print())    // for debug
                 .build()
     }
 }
