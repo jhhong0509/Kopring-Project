@@ -1,0 +1,29 @@
+== Post
+
+=== Post 생성 성공
+
+==== Request Fields
+include::{snippets}/Save_Post/request-body.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post/http-response.adoc[]
+
+=== Post Unauthorized
+
+==== Request Fields
+include::{snippets}/Save_Post_400/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post_400/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post_400/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post_400/http-response.adoc[]
