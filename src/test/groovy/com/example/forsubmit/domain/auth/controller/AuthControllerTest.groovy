@@ -11,6 +11,7 @@ import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import com.example.forsubmit.global.security.property.JwtProperties
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlin.Unit
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -85,8 +86,15 @@ class AuthControllerTest extends Specification {
 
         def response = result.andReturn()
                 .response.contentAsString
-        def tokens = objectMapper.readValue(response, BaseResponse<TokenResponse>)
-        tokens.content != null
+        def baseResponse = objectMapper.readValue(response, BaseResponse)
+        def tokens = objectMapper.readValue(objectMapper.writeValueAsString(baseResponse.content), TokenResponse)
+
+        baseResponse.status == 201
+        baseResponse.message != null
+        baseResponse.koreanMessage != null
+
+        tokens.accessToken != null
+        tokens.refreshToken != null
 
         where:
         email             | requestPassword | password
@@ -115,6 +123,14 @@ class AuthControllerTest extends Specification {
                         fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("잘못된 비밀번호")
                 )))
+
+        def response = result.andReturn()
+                .response.contentAsString
+        def baseResponse = objectMapper.readValue(response, BaseResponse<Unit>)
+
+        baseResponse.message != null
+        baseResponse.koreanMessage != null
+        baseResponse.status == 404
 
         where:
         email             | password
@@ -150,9 +166,10 @@ class AuthControllerTest extends Specification {
         def response = result.andReturn()
                 .response.contentAsString
 
-        def baseResponse = objectMapper.readValue(response, BaseResponse<AccessTokenResponse>)
+        def baseResponse = objectMapper.readValue(response, BaseResponse)
+        def tokens = objectMapper.readValue(objectMapper.writeValueAsString(baseResponse.content), AccessTokenResponse)
 
-        baseResponse.content != null
+        tokens.accessToken != null
 
         where:
         refreshToken | userEmail
@@ -174,6 +191,13 @@ class AuthControllerTest extends Specification {
                 requestHeaders(
                         headerWithName("Refresh-Token").description("Refresh Token")
                 )))
+        def response = result.andReturn()
+                .response.contentAsString
+        def baseResponse = objectMapper.readValue(response, BaseResponse<Unit>)
+
+        baseResponse.message != null
+        baseResponse.koreanMessage != null
+        baseResponse.status == 404
 
         where:
         refreshToken | _
