@@ -14,9 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtTokenProvider: JwtTokenProvider,
-    private val customAccessDeniedHandler: CustomAccessDeniedHandler,
-    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint
+    private val jwtTokenProvider: JwtTokenProvider
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -32,8 +30,8 @@ class SecurityConfig(
             .and()
 
             .exceptionHandling()
-                .accessDeniedHandler(customAccessDeniedHandler)
-                .authenticationEntryPoint(customAuthenticationEntryPoint)
+                .accessDeniedHandler(CustomAccessDeniedHandler())
+                .authenticationEntryPoint(CustomAuthenticationEntryPoint())
             .and()
 
             .apply(FilterConfig(jwtTokenProvider))
