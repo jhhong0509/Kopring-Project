@@ -1,20 +1,38 @@
-//package com.example.forsubmit.domain.post.service
-//
-//
-//import com.example.forsubmit.domain.chatroom.entity.chatroom.ChatRoom
-//import com.example.forsubmit.domain.chatroom.entity.chatroom.ChatRoomRepository
-//import com.example.forsubmit.domain.chatroom.payload.request.CreateChatRoomRequest
-//import spock.lang.Specification
-//
-//class PostServiceTest extends Specification {
-//
-//    private def chatRoomRepository = GroovyMock(ChatRoomRepository)
-//    private def chatRoomService = new ChatRoomService(chatRoomRepository)
-//
-//    def "Create Chat Room Success Test"() {
-//        given:
-//        chatRoomRepository.save(_) >> new ChatRoom(1, "name", new ArrayList(), new ArrayList())
-//        def chatRoomRequest = new CreateChatRoomRequest("name")
-//        chatRoomService.saveChatRoom(chatRoomRequest)
-//    }
-//}
+package com.example.forsubmit.domain.post.service
+
+
+import com.example.forsubmit.domain.post.entity.Post
+import com.example.forsubmit.domain.post.entity.PostRepository
+import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
+import com.example.forsubmit.domain.user.entity.User
+import com.example.forsubmit.domain.user.facade.UserFacade
+import spock.lang.Specification
+
+class PostServiceTest extends Specification {
+
+    private def postRepository = GroovyMock(PostRepository)
+    private def userFacade = GroovyMock(UserFacade)
+    private def postService = new PostService(postRepository, userFacade)
+
+    def "Save Post Success Test"() {
+        given:
+        def postRequest = new CreatePostRequest(title, content)
+        def user = new User()
+        userFacade.findCurrentUser() >> user
+        postRepository.save(_) >> new Post(postRequest.title, postRequest.content, user)
+
+        when:
+        def response = postService.savePost(postRequest)
+
+        then:
+        response.status == 201
+        response.koreanMessage != null
+        response.message != null
+        response.content.id == 0
+
+        where:
+        title     | content
+        "title1"  | "content1"
+        "title22" | "content22"
+    }
+}

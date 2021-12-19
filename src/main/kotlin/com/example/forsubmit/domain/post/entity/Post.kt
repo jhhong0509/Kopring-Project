@@ -23,17 +23,17 @@ class Post(
     val id: Long = 0
 
     @NotNull
-    final var title = title
-        private set
+    var title = title
+        protected set
 
     @NotNull
-    final var content = content
-        private set
+    var content = content
+        protected set
 
     @CreatedDate
     @NotNull
-    final var createdDate: LocalDateTime? = null
-        private set
+    var createdDate: LocalDateTime? = null
+        protected set
 
     fun update(title: String, content: String) {
         this.title = title

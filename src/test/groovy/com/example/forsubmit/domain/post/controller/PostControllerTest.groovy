@@ -106,7 +106,8 @@ class PostControllerTest extends BaseTest {
                 responseFields(
                         fieldWithPath("status").description("Status Code"),
                         fieldWithPath("message").description("응답 메세지"),
-                        fieldWithPath("korean_message").description("한글 응답 메세지")
+                        fieldWithPath("korean_message").description("한글 응답 메세지"),
+                        fieldWithPath("content").description("빈 content")
                 )))
     }
 
@@ -126,7 +127,7 @@ class PostControllerTest extends BaseTest {
 
         then:
         response.andExpect(MockMvcResultMatchers.status().isBadRequest())
-        response.andDo(document("Save_Room_400",
+        response.andDo(document("Save_Post_400",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestHeaders(
