@@ -12,6 +12,8 @@ enum class AuthErrorCode(
     JWT_EXPIRED(401, "Jwt Token Expired", "토큰이 만료되었습니다."),
     JWT_SIGNATURE(401, "Invalid Signature", "토큰 시그니쳐가 손상되어있습니다."),
     JWT_VALIDATE_FAIL(401, "Token Validate Failed", "토큰 검증에 실패했습니다."),
+    NO_TOKEN(401, "No Token Present", "토큰이 존재하지 않습니다."),
+    FORBIDDEN(403, "Not Enough Permission", "페이지에 접근할 권한이 없습니다."),
     UNEXPECTED_TOKEN(500, "Unexpected Token Exception", "토큰 검증 과정에서 예기치 못한 문제가 발생했습니다.")
 
 }
