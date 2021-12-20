@@ -35,4 +35,26 @@ class PostServiceTest extends Specification {
         "title1"  | "content1"
         "title22" | "content22"
     }
+
+    def "Save Post Fail Test"() {
+        given:
+        def postRequest = new CreatePostRequest(title, content)
+        def user = new User()
+        userFacade.findCurrentUser() >> user
+        postRepository.save(_) >> new Post(postRequest.title, postRequest.content, user)
+
+        when:
+        def response = postService.savePost(postRequest)
+
+        then:
+        response.status == 201
+        response.koreanMessage != null
+        response.message != null
+        response.content.id == 0
+
+        where:
+        title     | content
+        "title1"  | "content1"
+        "title22" | "content22"
+    }
 }
