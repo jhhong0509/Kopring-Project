@@ -8,7 +8,6 @@ import com.example.forsubmit.domain.post.payload.response.PostListResponse
 import com.example.forsubmit.domain.post.payload.response.SavePostResponse
 import com.example.forsubmit.domain.post.service.PostService
 import com.example.forsubmit.global.payload.BaseResponse
-import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -40,7 +39,7 @@ class PostController(
     }
 
     @GetMapping
-    fun getPostList(pageable: Pageable): BaseResponse<PostListResponse> {
-        return postService.getPostList(pageable)
+    fun getPostList(@RequestParam lastId: Long): BaseResponse<PostListResponse> {
+        return postService.getPostList(lastId)
     }
 }
