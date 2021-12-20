@@ -2,7 +2,7 @@ package com.example.forsubmit.global.exception
 
 import com.example.forsubmit.global.exception.property.ExceptionProperty
 
-open class GlobalException(private val property: ExceptionProperty): RuntimeException() {
+open class GlobalException(private val property: ExceptionProperty): RuntimeException(property.errorMessage) {
     val status: Int
     get() = property.status
 
