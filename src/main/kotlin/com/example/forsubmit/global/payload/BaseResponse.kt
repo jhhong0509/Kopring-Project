@@ -1,11 +1,13 @@
 package com.example.forsubmit.global.payload
 
 import com.example.forsubmit.global.exception.GlobalException
+import com.fasterxml.jackson.annotation.JsonInclude
 
 class BaseResponse<T>(
     val status: Int,
     val message: String,
     val koreanMessage: String,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     val content: T?
 ) {
     override fun toString(): String {
@@ -24,7 +26,7 @@ class BaseResponse<T>(
                 status = exception.status,
                 message = exception.errorMessage,
                 koreanMessage = exception.koreanMessage,
-                Unit
+                content = null
             )
         }
     }
