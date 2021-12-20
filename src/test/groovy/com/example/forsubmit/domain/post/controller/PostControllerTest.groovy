@@ -4,15 +4,18 @@ import com.example.forsubmit.BaseTest
 import com.example.forsubmit.domain.post.exceptions.CannotUpdatePostException
 import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
 import com.example.forsubmit.domain.post.payload.request.UpdatePostRequest
+import com.example.forsubmit.domain.post.payload.response.DeletePostResponse
 import com.example.forsubmit.domain.post.payload.response.SavePostResponse
 import com.example.forsubmit.domain.post.service.PostService
 import com.example.forsubmit.domain.user.entity.User
+import com.example.forsubmit.domain.user.payload.request.SignUpRequest
 import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.auth.AuthDetails
 import com.example.forsubmit.global.security.property.JwtProperties
 import org.spockframework.spring.SpringBean
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.test.context.support.WithMockUser
@@ -24,7 +27,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*
 import static org.springframework.restdocs.payload.PayloadDocumentation.*
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
@@ -108,7 +112,7 @@ class PostControllerTest extends BaseTest {
                 )))
     }
 
-    def "Post Controller Update Success Test"() {
+    def "Post Controller Update Test"() {
         given:
         def req = new UpdatePostRequest("title", "content")
         postService.updatePost(_, _) >> { new BaseResponse(200, "Update Success", "수정 성공", null) }
@@ -116,7 +120,7 @@ class PostControllerTest extends BaseTest {
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
 
         when:
-        def response = mockMvc.perform(patch("/post/1")
+        def response = mockMvc.perform(RestDocumentationRequestBuilders.patch("/post/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "asdfsdaf")
                 .content(objectMapper.writeValueAsString(req)))
@@ -129,9 +133,14 @@ class PostControllerTest extends BaseTest {
                 requestHeaders(
                         headerWithName("Authorization").description("Access Token")
                 ),
+                pathParameters(
+                        parameterWithName("id").description("삭제할 id")
+                ),
                 requestFields(
-                        fieldWithPath("title").type(JsonFieldType.STRING).description("수정할 제목"),
+                        fieldWithPath("title").type(JsonFieldType.STRING).description("수정할 제목")
+                                .attributes(getConstraintAttribute(SignUpRequest, "title")),
                         fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 내용")
+                                .attributes(getConstraintAttribute(SignUpRequest, "content"))
                 ),
                 responseFields(
                         fieldWithPath("status").description("상태코드"),
@@ -148,7 +157,7 @@ class PostControllerTest extends BaseTest {
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
 
         when:
-        def response = mockMvc.perform(patch("/post/1")
+        def response = mockMvc.perform(RestDocumentationRequestBuilders.patch("/post/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "asdfsdaf")
                 .content(objectMapper.writeValueAsString(req)))
@@ -162,9 +171,75 @@ class PostControllerTest extends BaseTest {
                 requestHeaders(
                         headerWithName("Authorization").description("Access Token")
                 ),
+                pathParameters(
+                        parameterWithName("id").description("삭제할 id")
+                ),
                 requestFields(
-                        fieldWithPath("title").type(JsonFieldType.STRING).description("수정할 제목"),
+                        fieldWithPath("title").type(JsonFieldType.STRING).description("수정할 제목")
+                                .attributes(getConstraintAttribute(SignUpRequest, "title")),
                         fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 내용")
+                                .attributes(getConstraintAttribute(SignUpRequest, "content"))
+                ),
+                responseFields(
+                        fieldWithPath("status").description("상태코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("korean_message").description("한글 응답 메세지")
+                )))
+    }
+
+    def "Post Controller Delete Test"() {
+        given:
+        postService.deletePost(_) >> { new BaseResponse(200, "Delete Success", "삭제 성공", new DeletePostResponse(1)) }
+        def details = new AuthDetails(new User())
+        jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
+
+        when:
+        def response = mockMvc.perform(RestDocumentationRequestBuilders.delete("/post/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "asdfsdaf"))
+                .andDo(print())
+
+        then:
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+        response.andDo(document("Delete_Post",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestHeaders(
+                        headerWithName("Authorization").description("Access Token")
+                ),
+                pathParameters(
+                        parameterWithName("id").description("삭제할 id")
+                ),
+                responseFields(
+                        fieldWithPath("status").description("상태코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("korean_message").description("한글 응답 메세지"),
+                        fieldWithPath("content.id").description("삭제된 게시글 id")
+                )))
+    }
+
+    def "Post Controller Delete Fail Test - 403"() {
+        given:
+        postService.deletePost(_) >> { throw CannotUpdatePostException.EXCEPTION }
+        def details = new AuthDetails(new User())
+        jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
+
+        when:
+        def response = mockMvc.perform(RestDocumentationRequestBuilders.delete("/post/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "asdfsdaf"))
+                .andDo(print())
+
+        then:
+        response.andExpect(MockMvcResultMatchers.status().isForbidden())
+        response.andDo(document("Delete_Post_403",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestHeaders(
+                        headerWithName("Authorization").description("Access Token")
+                ),
+                pathParameters(
+                        parameterWithName("id").description("삭제할 id")
                 ),
                 responseFields(
                         fieldWithPath("status").description("상태코드"),

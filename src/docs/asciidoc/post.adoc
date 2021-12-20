@@ -57,3 +57,27 @@ include::{snippets}/Update_Post_403/http-request.adoc[]
 
 ==== HTTP Response
 include::{snippets}/Update_Post_403/http-response.adoc[]
+
+== Post 삭제
+
+=== 성공
+
+==== Request Headers
+include::{snippets}/Delete_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Delete_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Delete_Post/http-response.adoc[]
+
+=== Forbidden
+
+==== Request Headers
+include::{snippets}/Delete_Post_403/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Delete_Post_403/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Delete_Post_403/http-response.adoc[]

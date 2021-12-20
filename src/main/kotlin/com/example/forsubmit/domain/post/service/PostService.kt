@@ -88,7 +88,7 @@ class PostService(
 
         postRepository.delete(post)
 
-        val responseContent = DeletePostResponse(post.id)
+        val responseContent = DeletePostResponse(id)
 
         return BaseResponse(
             status = 200,
