@@ -15,7 +15,7 @@ endif::[]
 === 성공
 
 ==== Request Fields
-include::{snippets}/Save_Post/request-body.adoc[]
+include::{snippets}/Save_Post/request-fields.adoc[]
 
 ==== Request Headers
 include::{snippets}/Save_Post/request-headers.adoc[]
@@ -39,3 +39,33 @@ include::{snippets}/Save_Post_400/http-request.adoc[]
 
 ==== HTTP Response
 include::{snippets}/Save_Post_400/http-response.adoc[]
+
+== Post 수정
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Update_Post/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Update_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Update_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Update_Post/http-response.adoc[]
+
+=== Forbidden
+
+==== Request Fields
+include::{snippets}/Update_Post_403/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Update_Post_403/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Update_Post_403/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Update_Post_403/http-response.adoc[]
