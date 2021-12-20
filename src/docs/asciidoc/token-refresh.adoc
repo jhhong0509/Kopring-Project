@@ -1,15 +1,3 @@
-= Token
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 2
-:sectnums:
-:sectlinks:
-:sectanchors:
-ifndef::snippets[]
-:snippets: ./build/generated-snippets
-endif::[]
-
 == Token Refresh
 
 === 토큰 재발급 성공

@@ -1,15 +1,3 @@
-= Post
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 2
-:sectnums:
-:sectlinks:
-:sectanchors:
-ifndef::snippets[]
-:snippets: ./build/generated-snippets
-endif::[]
-
 == Sign In
 
 === 성공
