@@ -118,7 +118,7 @@ class PostService(
         )
     }
 
-    fun getPostList(lastId: Long): BaseResponse<PostListResponse> {
+    fun getPostList(lastId: Long?): BaseResponse<PostListResponse> {
         val postPage = postRepository.postPageable(lastId)
 
         val postList = postPage.posts

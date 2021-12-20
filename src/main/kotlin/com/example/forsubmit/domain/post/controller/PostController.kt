@@ -39,7 +39,7 @@ class PostController(
     }
 
     @GetMapping
-    fun getPostList(@RequestParam lastId: Long): BaseResponse<PostListResponse> {
+    fun getPostList(@RequestParam(required = false) lastId: Long?): BaseResponse<PostListResponse> {
         return postService.getPostList(lastId)
     }
 }
