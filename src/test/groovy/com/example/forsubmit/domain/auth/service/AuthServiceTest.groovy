@@ -29,7 +29,7 @@ class AuthServiceTest extends Specification {
     def "Sign in Success test"() {
         given:
         def request = new AuthRequest("email@dsm.hs.kr", "password")
-        def user = new User(1, request.email, "name", request.password, new ArrayList(), new ArrayList(), new ArrayList())
+        def user = new User(request.email, "name", request.password)
 
         when:
         def response = authService.signIn(request)
@@ -51,7 +51,7 @@ class AuthServiceTest extends Specification {
     def "Sign In Password Not Match Exception Test"() {
         given:
         def request = new AuthRequest("email@dsm.hs.kr", "password")
-        def user = new User(1, request.email, "name", request.password, new ArrayList(), new ArrayList(), new ArrayList())
+        def user = new User(request.email, "name", request.password)
 
         when:
         authService.signIn(request)
@@ -83,7 +83,7 @@ class AuthServiceTest extends Specification {
 
     def "Token Refresh Success Test"() {
         given:
-        def user = new User(1, "email", "name", "password", new ArrayList(), new ArrayList(), new ArrayList())
+        def user = new User("email", "name", "password")
 
         when:
         def accessToken = authService.tokenRefresh(refreshToken)

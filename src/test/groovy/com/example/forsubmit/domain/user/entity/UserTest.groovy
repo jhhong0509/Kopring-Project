@@ -16,7 +16,7 @@ class UserTest extends Specification {
 
     def "Save Success Test"() {
         when:
-        def unsaved = new User(0, "email@dsm.hs.kr", "name", "passowrd", new ArrayList(), new ArrayList(), new ArrayList())
+        def unsaved = new User("email@dsm.hs.kr", "name", "passowrd")
         def user = entityManager.persistAndFlush(unsaved)
 
         then:

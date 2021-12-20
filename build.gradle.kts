@@ -11,13 +11,6 @@ plugins {
     groovy
     id("org.sonarqube") version "3.3"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
-    id("org.jetbrains.dokka") version "1.6.0"
-}
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.6.0")
-    }
 }
 
 group = "com.example"

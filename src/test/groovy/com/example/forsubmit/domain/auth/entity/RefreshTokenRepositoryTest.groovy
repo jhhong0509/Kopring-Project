@@ -42,6 +42,7 @@ class RefreshTokenRepositoryTest extends Specification {
         then:
         refresh.token == token
         refresh.email == email
+        refresh.ttl == exp
 
         where:
         email    | token        | exp

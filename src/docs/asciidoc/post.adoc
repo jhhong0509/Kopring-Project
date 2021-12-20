@@ -1,0 +1,71 @@
+= Post
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectnums:
+:sectlinks:
+:sectanchors:
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+== Post 작성
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Save_Post/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post/http-response.adoc[]
+
+=== Bad Request
+
+==== Request Fields
+include::{snippets}/Save_Post_400/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post_400/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post_400/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post_400/http-response.adoc[]
+
+== Post 수정
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Update_Post/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Update_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Update_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Update_Post/http-response.adoc[]
+
+=== Forbidden
+
+==== Request Fields
+include::{snippets}/Update_Post_403/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Update_Post_403/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Update_Post_403/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Update_Post_403/http-response.adoc[]

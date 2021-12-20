@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.auth.controller
 
-
+import com.example.forsubmit.BaseTest
 import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundException
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
@@ -9,15 +9,19 @@ import com.example.forsubmit.domain.auth.service.AuthService
 import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
 import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
+import com.example.forsubmit.global.security.property.JwtProperties
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlin.Unit
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import spock.lang.Specification
@@ -31,13 +35,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 
 @WebMvcTest(AuthController)
-@AutoConfigureRestDocs(uriScheme = "http", uriHost = "docs.api.com")
-@AutoConfigureMockMvc
 @ActiveProfiles("test")
-class AuthControllerTest extends Specification {
-
-    @Autowired
-    private MockMvc mockMvc
+@EnableConfigurationProperties(JwtProperties)
+@TestPropertySource("classpath:application.yml")
+class AuthControllerTest extends BaseTest {
 
     @Autowired
     private ObjectMapper objectMapper
@@ -73,15 +74,21 @@ class AuthControllerTest extends Specification {
                         fieldWithPath("status").description("Status Code"),
                         fieldWithPath("message").description("응답 메세지"),
                         fieldWithPath("korean_message").description("한글 응답 메세지"),
-                        subsectionWithPath("content").description("응답 본문 Body"),
                         fieldWithPath("content.access_token").type(JsonFieldType.STRING).description("Access Token"),
                         fieldWithPath("content.refresh_token").type(JsonFieldType.STRING).description("Refresh Token")
                 )))
 
         def response = result.andReturn()
                 .response.contentAsString
-        def tokens = objectMapper.readValue(response, BaseResponse<TokenResponse>)
-        tokens.content != null
+        def baseResponse = objectMapper.readValue(response, BaseResponse)
+        def tokens = objectMapper.readValue(objectMapper.writeValueAsString(baseResponse.content), TokenResponse)
+
+        baseResponse.status == 201
+        baseResponse.message != null
+        baseResponse.koreanMessage != null
+
+        tokens.accessToken != null
+        tokens.refreshToken != null
 
         where:
         email             | requestPassword | password
@@ -111,6 +118,14 @@ class AuthControllerTest extends Specification {
                         fieldWithPath("password").type(JsonFieldType.STRING).description("잘못된 비밀번호")
                 )))
 
+        def response = result.andReturn()
+                .response.contentAsString
+        def baseResponse = objectMapper.readValue(response, BaseResponse<Unit>)
+
+        baseResponse.message != null
+        baseResponse.koreanMessage != null
+        baseResponse.status == 404
+
         where:
         email             | password
         "email@dsm.hs.kr" | "password2"
@@ -134,7 +149,6 @@ class AuthControllerTest extends Specification {
                                 fieldWithPath("status").description("Status Code"),
                                 fieldWithPath("message").description("응답 메세지"),
                                 fieldWithPath("korean_message").description("한글 응답 메세지"),
-                                subsectionWithPath("content").description("응답 본문 Body"),
                                 fieldWithPath("content.access_token").type(JsonFieldType.STRING).description("재발급된 Access Token"),
                         )
                 ))
@@ -145,9 +159,10 @@ class AuthControllerTest extends Specification {
         def response = result.andReturn()
                 .response.contentAsString
 
-        def baseResponse = objectMapper.readValue(response, BaseResponse<AccessTokenResponse>)
+        def baseResponse = objectMapper.readValue(response, BaseResponse)
+        def tokens = objectMapper.readValue(objectMapper.writeValueAsString(baseResponse.content), AccessTokenResponse)
 
-        baseResponse.content != null
+        tokens.accessToken != null
 
         where:
         refreshToken | userEmail
@@ -169,6 +184,13 @@ class AuthControllerTest extends Specification {
                 requestHeaders(
                         headerWithName("Refresh-Token").description("Refresh Token")
                 )))
+        def response = result.andReturn()
+                .response.contentAsString
+        def baseResponse = objectMapper.readValue(response, BaseResponse<Unit>)
+
+        baseResponse.message != null
+        baseResponse.koreanMessage != null
+        baseResponse.status == 404
 
         where:
         refreshToken | _

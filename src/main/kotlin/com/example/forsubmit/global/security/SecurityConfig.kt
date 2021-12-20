@@ -1,5 +1,7 @@
 package com.example.forsubmit.global.security
 
+import com.example.forsubmit.global.security.auth.CustomAccessDeniedHandler
+import com.example.forsubmit.global.security.auth.CustomAuthenticationEntryPoint
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,12 +23,15 @@ class SecurityConfig(
             .csrf().disable()
 
             .authorizeRequests()
-//            .antMatchers("/post").permitAll()
-            .antMatchers("/auth").permitAll()
-            .antMatchers("/docs/**").permitAll()
-            .antMatchers("/docs").permitAll()
-//            .antMatchers("/post/**").permitAll()
-            .anyRequest().authenticated()
+                .antMatchers("/auth").permitAll()
+                .antMatchers("/user").permitAll()
+                .antMatchers("/docs/**").permitAll()
+                .anyRequest().authenticated()
+            .and()
+
+            .exceptionHandling()
+                .accessDeniedHandler(CustomAccessDeniedHandler())
+                .authenticationEntryPoint(CustomAuthenticationEntryPoint())
             .and()
 
             .apply(FilterConfig(jwtTokenProvider))

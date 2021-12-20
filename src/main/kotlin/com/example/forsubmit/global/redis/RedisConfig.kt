@@ -8,11 +8,11 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 
 @Configuration
 class RedisConfig(
-    private val redisProperty: RedisProperty
+    private val redisProperties: RedisProperties
 ) {
     @Bean
     @ConditionalOnMissingBean(RedisConnectionFactory::class)
     fun redisConnectionFactory(): RedisConnectionFactory {
-        return LettuceConnectionFactory(redisProperty.host, redisProperty.port)
+        return LettuceConnectionFactory(redisProperties.host, redisProperties.port)
     }
 }
