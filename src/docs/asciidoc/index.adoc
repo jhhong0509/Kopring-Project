@@ -7,7 +7,139 @@
 :sectlinks:
 :sectanchors:
 
-include::post.adoc[]
-include::sign-in.adoc[]
-include::token-refresh.adoc[]
-include::user.adoc[]
+== Post 작성
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Save_Post/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post/http-response.adoc[]
+
+=== Bad Request
+
+==== Request Fields
+include::{snippets}/Save_Post_400/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post_400/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post_400/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post_400/http-response.adoc[]
+
+== Post 수정
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Update_Post/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Update_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Update_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Update_Post/http-response.adoc[]
+
+=== Forbidden
+
+==== Request Fields
+include::{snippets}/Update_Post_403/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Update_Post_403/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Update_Post_403/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Update_Post_403/http-response.adoc[]
+
+== Sign In
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Sign_In/request-fields.adoc[]
+
+==== Request Example
+include::{snippets}/Sign_In/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Sign_In/http-response.adoc[]
+
+=== 사용자를 찾을 수 없음
+
+==== Request Fields
+include::{snippets}/Sign_In_404/request-fields.adoc[]
+
+==== Request Example
+include::{snippets}/Sign_In_404/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Sign_In_404/http-response.adoc[]
+
+== Token Refresh
+
+=== 토큰 재발급 성공
+
+==== Request Headers
+include::{snippets}/Token_Refresh/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Token_Refresh/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Token_Refresh/http-response.adoc[]
+
+=== 토큰 재발급 - Refresh Token을 찾을 수 없음
+
+==== Request Headers
+include::{snippets}/Token_Refresh_404/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Token_Refresh_404/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Token_Refresh_404/http-response.adoc[]
+== Sign Up
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Sign_Up/request-fields.adoc[]
+
+==== Request Example
+include::{snippets}/Sign_Up/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Sign_Up/http-response.adoc[]
+
+==== Response Fields
+include::{snippets}/Sign_Up/response-fields.adoc[]
+
+=== 로그인 - 사용자를 찾을 수 없음
+
+==== Request Fields
+include::{snippets}/Sign_Up_409/request-fields.adoc[]
+
+==== Request Example
+include::{snippets}/Sign_Up_409/http-request.adoc[]
+
+==== Response Fields
+include::{snippets}/Sign_Up_409/response-fields.adoc[]
+
+==== HTTP Response
+include::{snippets}/Sign_Up_409/http-response.adoc[]
