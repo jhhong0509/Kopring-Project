@@ -124,6 +124,10 @@ tasks.asciidoctor {
     dependsOn(tasks.jacocoTestCoverageVerification)
 }
 
+tasks.bootJar {
+    dependsOn(tasks.asciidoctor)
+}
+
 // jacoco Setting
 jacoco {
     toolVersion = "0.8.7"
