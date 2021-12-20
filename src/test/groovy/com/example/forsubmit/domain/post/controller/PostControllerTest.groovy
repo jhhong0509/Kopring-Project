@@ -66,7 +66,6 @@ class PostControllerTest extends BaseTest {
                         fieldWithPath("status").description("Status Code"),
                         fieldWithPath("message").description("응답 메세지"),
                         fieldWithPath("korean_message").description("한글 응답 메세지"),
-                        subsectionWithPath("content").description("응답 본문 Body"),
                         fieldWithPath("content.id").description("저장된 게시글 id")
                 )))
 
