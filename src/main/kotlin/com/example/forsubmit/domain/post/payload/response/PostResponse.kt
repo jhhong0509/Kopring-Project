@@ -5,9 +5,11 @@ import java.time.LocalDateTime
 
 class PostResponse(
 
+    val id: Long,
+
     val title: String,
 
-    @DateTimeFormat(pattern = "yyyy년 MM월 dd일")
+    @field:DateTimeFormat(pattern = "yyyy년 MM월 dd일")
     val createdAt: LocalDateTime?,
 
     val userName: String,

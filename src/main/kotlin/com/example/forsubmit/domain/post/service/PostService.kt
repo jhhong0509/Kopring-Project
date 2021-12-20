@@ -9,11 +9,9 @@ import com.example.forsubmit.domain.post.payload.request.UpdatePostRequest
 import com.example.forsubmit.domain.post.payload.response.*
 import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.global.payload.BaseResponse
-import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 @Service
 class PostService(
@@ -90,7 +88,7 @@ class PostService(
 
         postRepository.delete(post)
 
-        val responseContent = DeletePostResponse(post.id)
+        val responseContent = DeletePostResponse(id)
 
         return BaseResponse(
             status = 200,
@@ -120,23 +118,24 @@ class PostService(
         )
     }
 
-    fun getPostList(pageable: Pageable): BaseResponse<PostListResponse> {
-        val postPage = postRepository.findAllBy(pageable)
+    fun getPostList(lastId: Long): BaseResponse<PostListResponse> {
+        val postPage = postRepository.postPageable(lastId)
 
-        val postList = postPage.content
+        val postList = postPage.posts
             .map {
                 PostResponse(
+                    id = it.id,
                     userName = it.user.name,
                     userEmail = it.user.email,
                     createdAt = it.createdDate,
                     title = it.title
                 )
             }
-            .toCollection(mutableListOf())
+            .toList()
 
         val responseContent = PostListResponse(
             responses = postList,
-            hasNextPage = postPage.hasNext()
+            nextId = postPage.nextPostId
         )
 
         return BaseResponse(
