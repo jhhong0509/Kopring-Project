@@ -1,4 +1,4 @@
-= Index
+= Post
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
@@ -6,6 +6,9 @@
 :sectnums:
 :sectlinks:
 :sectanchors:
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
 
 == Post 작성
 
