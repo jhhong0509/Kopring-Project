@@ -1,4 +1,4 @@
-= Post
+= Index
 :icons: font
 :source-highlighter: highlightjs
 :toc: left

@@ -30,3 +30,5 @@ jwt:
   secretKey: ${SECRET_KEY}
   accessTokenExp: ${ACCESS_EXP}
   refreshTokenExp: ${REFRESH_EXP}
+server:
+  port: 8181
