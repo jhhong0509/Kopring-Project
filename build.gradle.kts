@@ -124,15 +124,6 @@ tasks.asciidoctor {
     dependsOn(tasks.jacocoTestCoverageVerification)
 }
 
-tasks.bootJar {
-    copy {
-        val asciidoctor by tasks.getting(org.asciidoctor.gradle.jvm.AsciidoctorTask::class)
-        from(asciidoctor.outputDir)
-        into("src/main/resources/static/docs")
-    }
-    dependsOn(tasks.asciidoctor)
-}
-
 // jacoco Setting
 jacoco {
     toolVersion = "0.8.7"
