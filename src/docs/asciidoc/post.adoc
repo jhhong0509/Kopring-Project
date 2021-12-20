@@ -10,9 +10,9 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
-== Post
+== Post 작성
 
-=== Post 생성 성공
+=== 성공
 
 ==== Request Fields
 include::{snippets}/Save_Post/request-body.adoc[]
@@ -26,7 +26,7 @@ include::{snippets}/Save_Post/http-request.adoc[]
 ==== HTTP Response
 include::{snippets}/Save_Post/http-response.adoc[]
 
-=== Post Unauthorized
+=== Bad Request
 
 ==== Request Fields
 include::{snippets}/Save_Post_400/request-fields.adoc[]
