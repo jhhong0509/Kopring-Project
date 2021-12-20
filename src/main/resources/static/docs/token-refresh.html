@@ -488,7 +488,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /auth HTTP/1.1
 Refresh-Token: asdfasdf
-Host: docs.api.com:8080</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -501,12 +501,6 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
 Content-Length: 172
 
 {
@@ -550,7 +544,7 @@ Content-Length: 172
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /auth HTTP/1.1
 Refresh-Token: asdfasdf
-Host: docs.api.com:8080</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -562,19 +556,13 @@ Host: docs.api.com:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json;charset=UTF-8
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 126
+Content-Type: application/json
+Content-Length: 127
 
 {
   "status" : 404,
   "message" : "RefreshToken Not Found",
-  "koreanMessage" : "Refresh Token 을 찾을 수 없습니다."
+  "korean_message" : "Refresh Token 을 찾을 수 없습니다."
 }</code></pre>
 </div>
 </div>
