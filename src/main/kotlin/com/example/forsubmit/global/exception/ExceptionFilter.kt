@@ -22,7 +22,7 @@ class ExceptionFilter : OncePerRequestFilter() {
         try {
             filterChain.doFilter(request, response)
         } catch (exception: Exception) {
-            when (val causeException = exception.cause) {
+            when (val causeException = exception) {
                 is GlobalException -> writeErrorCode(causeException, response)
                 is MethodArgumentTypeMismatchException,
                 is MethodArgumentNotValidException -> writeErrorCode(InvalidMethodArgumentException.EXCEPTION, response)
