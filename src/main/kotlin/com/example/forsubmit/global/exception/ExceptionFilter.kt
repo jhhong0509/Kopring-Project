@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import org.springframework.web.servlet.NoHandlerFoundException
+import org.springframework.web.util.NestedServletException
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -22,11 +23,8 @@ class ExceptionFilter : OncePerRequestFilter() {
         try {
             filterChain.doFilter(request, response)
         } catch (exception: Exception) {
-            when (val causeException = exception) {
-                is GlobalException -> writeErrorCode(causeException, response)
-                is MethodArgumentTypeMismatchException,
-                is MethodArgumentNotValidException -> writeErrorCode(InvalidMethodArgumentException.EXCEPTION, response)
-                is NoHandlerFoundException -> writeErrorCode(RequestNotFoundException.EXCEPTION, response)
+            when(exception) {
+                is GlobalException -> writeErrorCode(exception, response)
                 else -> writeErrorCode(InternalServerError.EXCEPTION, response)
             }
         }
@@ -39,6 +37,5 @@ class ExceptionFilter : OncePerRequestFilter() {
         response.status = errorResponse.status
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.writer.write(errorResponse.toString())
-
     }
 }
