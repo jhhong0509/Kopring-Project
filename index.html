@@ -978,8 +978,8 @@ Content-Length: 138
 
 {
   "status" : 403,
-  "message" : "Invalid Access To Update Post",
-  "korean_message" : "게시글을 수정할 권한이 없습니다."
+  "message" : "Invalid Access To Remove Post",
+  "korean_message" : "게시글을 삭제할 권한이 없습니다."
 }</code></pre>
 </div>
 </div>
@@ -1279,7 +1279,7 @@ Content-Length: 127
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이메일</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be a well-formed email address<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
@@ -1302,11 +1302,11 @@ Content-Length: 127
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user HTTP/1.1
 Content-Type: application/json
-Content-Length: 69
+Content-Length: 78
 Host: localhost:8080
 
 {
-  "email" : "email@",
+  "email" : "email@dsm.hs.kr",
   "name" : "1",
   "password" : "password22"
 }</code></pre>
@@ -1405,7 +1405,7 @@ Content-Length: 206
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이메일</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must be a well-formed email address<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
@@ -1428,11 +1428,11 @@ Content-Length: 206
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user HTTP/1.1
 Content-Type: application/json
-Content-Length: 69
+Content-Length: 77
 Host: localhost:8080
 
 {
-  "email" : "email@",
+  "email" : "email@hsad.sda",
   "name" : "1",
   "password" : "password22"
 }</code></pre>
@@ -1499,7 +1499,7 @@ Content-Length: 126
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-12-22 05:46:20 UTC
+Last updated 2021-12-22 05:47:59 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
