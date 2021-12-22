@@ -16,16 +16,21 @@ class SocketIOConfig(
 ) {
     @Bean
     fun socketIOServer(): SocketIOServer {
-        val config = Configuration()
-        val socketConfig = SocketConfig()
+        val customSocketConfig = SocketConfig()
+        val customConfig = Configuration()
 
-        socketConfig.isReuseAddress = true
+        customSocketConfig.apply {
+            isReuseAddress = true
+        }
 
-        config.socketConfig = socketConfig
-        config.port = socketProperties.port
-        config.origin = "*"
-        config.exceptionListener = socketErrorController
-        return SocketIOServer(config)
+        customConfig.apply {
+            socketConfig = customSocketConfig
+            port = socketProperties.port
+            origin = "*"
+            exceptionListener = socketErrorController
+        }
+
+        return SocketIOServer(customConfig)
     }
 
     @Bean

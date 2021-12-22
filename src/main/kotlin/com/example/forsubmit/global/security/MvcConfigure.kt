@@ -12,8 +12,4 @@ class MvcConfigure : WebMvcConfigurer {
             .allowedOrigins("*")
             .allowedMethods("*")
     }
-
-    override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
-        registry.addResourceHandler("/docs/**").addResourceLocations("classpath:/static/docs/")
-    }
 }
