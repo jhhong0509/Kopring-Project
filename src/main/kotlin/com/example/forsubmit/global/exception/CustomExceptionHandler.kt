@@ -23,6 +23,11 @@ class CustomExceptionHandler {
         return handleException(RequestNotFoundException.EXCEPTION)
     }
 
+    @ExceptionHandler(GlobalException::class)
+    fun globalException(e: GlobalException): ResponseEntity<BaseResponse<Unit>> {
+        return handleException(e)
+    }
+
     private fun handleException(e: GlobalException): ResponseEntity<BaseResponse<Unit>> {
         val httpStatus = HttpStatus.valueOf(e.status)
         val body = BaseResponse.of(e)
