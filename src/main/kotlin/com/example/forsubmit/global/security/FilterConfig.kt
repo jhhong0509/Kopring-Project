@@ -1,5 +1,6 @@
 package com.example.forsubmit.global.security
 
+import com.example.forsubmit.global.exception.ExceptionFilter
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,6 +12,8 @@ class FilterConfig(
 ) : SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>() {
     override fun configure(builder: HttpSecurity) {
         val tokenFilter = TokenFilter(jwtTokenProvider)
+        val exceptionFilter = ExceptionFilter()
         builder.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter::class.java)
+        builder.addFilterBefore(exceptionFilter, TokenFilter::class.java)
     }
 }
