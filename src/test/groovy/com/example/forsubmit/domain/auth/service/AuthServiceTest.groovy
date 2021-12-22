@@ -1,5 +1,6 @@
 package com.example.forsubmit.domain.auth.service
 
+import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.auth.entity.RefreshToken
 import com.example.forsubmit.domain.auth.entity.RefreshTokenRepository
 import com.example.forsubmit.domain.auth.exceptions.PasswordNotMatchException
@@ -28,7 +29,9 @@ class AuthServiceTest extends Specification {
 
     def "Sign in Success test"() {
         given:
-        def request = new AuthRequest("email@dsm.hs.kr", "password")
+        def request = new AuthRequest()
+        TestUtils.setVariable(AuthRequest.class, "email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable(AuthRequest.class, "password", "password", request)
         def user = new User(request.email, "name", request.password)
 
         when:
@@ -50,7 +53,9 @@ class AuthServiceTest extends Specification {
 
     def "Sign In Password Not Match Exception Test"() {
         given:
-        def request = new AuthRequest("email@dsm.hs.kr", "password")
+        def request = new AuthRequest()
+        TestUtils.setVariable(AuthRequest.class, "email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable(AuthRequest.class, "password", "password", request)
         def user = new User(request.email, "name", request.password)
 
         when:
@@ -66,7 +71,9 @@ class AuthServiceTest extends Specification {
 
     def "Sign In User Not Found Exception Test"() {
         given:
-        AuthRequest request = new AuthRequest(email, password)
+        def request = new AuthRequest()
+        TestUtils.setVariable(AuthRequest.class, "email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable(AuthRequest.class, "password", "password", request)
 
         when:
         authService.signIn(request)

@@ -1,6 +1,9 @@
 package com.example.forsubmit.domain.post.controller
 
 import com.example.forsubmit.BaseTest
+import com.example.forsubmit.TestUtils
+import com.example.forsubmit.domain.auth.payload.request.AuthRequest
+import com.example.forsubmit.domain.post.exceptions.CannotDeletePostException
 import com.example.forsubmit.domain.post.exceptions.CannotUpdatePostException
 import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
 import com.example.forsubmit.domain.post.payload.request.UpdatePostRequest
@@ -9,17 +12,20 @@ import com.example.forsubmit.domain.post.payload.response.SavePostResponse
 import com.example.forsubmit.domain.post.service.PostService
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.payload.request.SignUpRequest
+import com.example.forsubmit.global.exception.CustomExceptionHandler
 import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.auth.AuthDetails
 import com.example.forsubmit.global.security.property.JwtProperties
 import org.spockframework.spring.SpringBean
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
@@ -32,7 +38,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
-@WebMvcTest(PostController)
+@WebMvcTest([PostController])
+@Import(CustomExceptionHandler)
 @ActiveProfiles("test")
 class PostControllerTest extends BaseTest {
 
@@ -42,7 +49,10 @@ class PostControllerTest extends BaseTest {
     @WithMockUser(username = "email@dsm.hs.kr")
     def "Post Controller Save Test"() {
         given:
-        def req = new CreatePostRequest("title", "content")
+        def request = new CreatePostRequest()
+        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
+        TestUtils.setVariable(CreatePostRequest.class, "content", "content", request)
+
         postService.savePost(_) >> new BaseResponse(201, "Save Success", "저장 성공", new SavePostResponse(1))
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
@@ -52,7 +62,7 @@ class PostControllerTest extends BaseTest {
                 .perform(post("/post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(JwtProperties.TOKEN_HEADER_NAME, "Bearer asdfasdf")
-                        .content(objectMapper.writeValueAsString(req)))
+                        .content(objectMapper.writeValueAsString(request)))
 
         then:
         response.andExpect(MockMvcResultMatchers.status().isCreated())
@@ -82,8 +92,9 @@ class PostControllerTest extends BaseTest {
     @WithMockUser(username = "email@dsm.hs.kr")
     def "Post Controller Save Fail Test - 400"() {
         given:
-        def req = new CreatePostRequest("title", "")
-        postService.savePost(_) >> {}
+        def request = new CreatePostRequest()
+        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
+        TestUtils.setVariable(CreatePostRequest.class, "content", "", request)
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
 
@@ -91,7 +102,8 @@ class PostControllerTest extends BaseTest {
         def response = mockMvc.perform(post("/post")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "asdfsdaf")
-                .content(objectMapper.writeValueAsString(req)))
+                .content(objectMapper.writeValueAsString(request)))
+        .andDo(print())
 
         then:
         response.andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -114,7 +126,10 @@ class PostControllerTest extends BaseTest {
 
     def "Post Controller Update Test"() {
         given:
-        def req = new UpdatePostRequest("title", "content")
+        def request = new CreatePostRequest()
+        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
+        TestUtils.setVariable(CreatePostRequest.class, "content", "content", request)
+
         postService.updatePost(_, _) >> { new BaseResponse(200, "Update Success", "수정 성공", null) }
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
@@ -123,7 +138,7 @@ class PostControllerTest extends BaseTest {
         def response = mockMvc.perform(RestDocumentationRequestBuilders.patch("/post/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "asdfsdaf")
-                .content(objectMapper.writeValueAsString(req)))
+                .content(objectMapper.writeValueAsString(request)))
 
         then:
         response.andExpect(MockMvcResultMatchers.status().isOk())
@@ -151,7 +166,10 @@ class PostControllerTest extends BaseTest {
 
     def "Post Controller Update Fail Test - 403"() {
         given:
-        def req = new UpdatePostRequest("title", "content")
+        def request = new CreatePostRequest()
+        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
+        TestUtils.setVariable(CreatePostRequest.class, "content", "content", request)
+
         postService.updatePost(_, _) >> { throw CannotUpdatePostException.EXCEPTION }
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
@@ -160,7 +178,7 @@ class PostControllerTest extends BaseTest {
         def response = mockMvc.perform(RestDocumentationRequestBuilders.patch("/post/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "asdfsdaf")
-                .content(objectMapper.writeValueAsString(req)))
+                .content(objectMapper.writeValueAsString(request)))
                 .andDo(print())
 
         then:
@@ -220,7 +238,7 @@ class PostControllerTest extends BaseTest {
 
     def "Post Controller Delete Fail Test - 403"() {
         given:
-        postService.deletePost(_) >> { throw CannotUpdatePostException.EXCEPTION }
+        postService.deletePost(_) >> { throw CannotDeletePostException.EXCEPTION }
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
 

@@ -2,10 +2,12 @@ package com.example.forsubmit.domain.post.payload.request
 
 import javax.validation.constraints.NotBlank
 
-class CreatePostRequest(
+class CreatePostRequest {
     @field:NotBlank
-    val title: String,
+    lateinit var title: String
+        private set
 
     @field:NotBlank
-    val content: String
-)
+    lateinit var content: String
+        private set
+}

@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.post.service
 
-
+import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.post.entity.Post
 import com.example.forsubmit.domain.post.entity.PostRepository
 import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
@@ -16,7 +16,9 @@ class PostServiceTest extends Specification {
 
     def "Save Post Success Test"() {
         given:
-        def postRequest = new CreatePostRequest(title, content)
+        def postRequest = new CreatePostRequest()
+        TestUtils.setVariable(CreatePostRequest.class, "title", title, postRequest)
+        TestUtils.setVariable(CreatePostRequest.class, "content", content, postRequest)
         def user = new User()
         userFacade.findCurrentUser() >> user
         postRepository.save(_) >> new Post(postRequest.title, postRequest.content, user)
@@ -38,7 +40,10 @@ class PostServiceTest extends Specification {
 
     def "Save Post Fail Test"() {
         given:
-        def postRequest = new CreatePostRequest(title, content)
+        def postRequest = new CreatePostRequest()
+        TestUtils.setVariable(CreatePostRequest.class, "title", title, postRequest)
+        TestUtils.setVariable(CreatePostRequest.class, "content", content, postRequest)
+
         def user = new User()
         userFacade.findCurrentUser() >> user
         postRepository.save(_) >> new Post(postRequest.title, postRequest.content, user)
