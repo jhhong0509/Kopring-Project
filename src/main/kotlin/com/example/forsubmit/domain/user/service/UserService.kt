@@ -7,12 +7,14 @@ import com.example.forsubmit.domain.user.exceptions.EmailAlreadyExistsException
 import com.example.forsubmit.domain.user.payload.request.SignUpRequest
 import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val passwordEncoder: PasswordEncoder
 ) {
     companion object {
         private const val SIGN_UP_MESSAGE = "Sign Up Success"
@@ -25,7 +27,7 @@ class UserService(
         val user = User(
             name = request.name,
             email = request.email,
-            password = request.password
+            password = passwordEncoder.encode(request.password)
         )
 
         userRepository.save(user)
