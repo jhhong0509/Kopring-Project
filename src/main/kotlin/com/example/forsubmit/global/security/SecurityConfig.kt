@@ -24,7 +24,7 @@ class SecurityConfig(
             .antMatchers("/auth").permitAll()
             .antMatchers("/user").permitAll()
             .antMatchers("/docs/**").permitAll()
-            .anyRequest().authenticated()
+            .anyRequest().denyAll()
             .and()
 
             .apply(FilterConfig(jwtTokenProvider))
