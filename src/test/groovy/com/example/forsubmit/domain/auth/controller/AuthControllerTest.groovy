@@ -1,6 +1,7 @@
 package com.example.forsubmit.domain.auth.controller
 
 import com.example.forsubmit.BaseTest
+import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundException
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
@@ -15,16 +16,12 @@ import kotlin.Unit
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import spock.lang.Specification
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
@@ -51,7 +48,9 @@ class AuthControllerTest extends BaseTest {
 
     def "Sign In Success"() {
         given:
-        def request = new AuthRequest(email, requestPassword)
+        def request = new AuthRequest()
+        TestUtils.setVariable(AuthRequest.class, "email", email, request)
+        TestUtils.setVariable(AuthRequest.class, "password", requestPassword, request)
         def requestString = objectMapper.writeValueAsString(request)
 
         authService.signIn(_) >> { new BaseResponse(201, "Sign In Success", "로그인에 성공했습니다", new TokenResponse("test", "test")) }
@@ -98,7 +97,9 @@ class AuthControllerTest extends BaseTest {
 
     def "Sign In Fail"() {
         given:
-        def request = new AuthRequest(email, password)
+        def request = new AuthRequest()
+        TestUtils.setVariable(AuthRequest.class, "email", email, request)
+        TestUtils.setVariable(AuthRequest.class, "password", password, request)
         def requestString = objectMapper.writeValueAsString(request)
 
         authService.signIn(_) >> { throw UserNotFoundException.EXCEPTION }
