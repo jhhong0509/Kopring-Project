@@ -4,6 +4,7 @@ import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.post.entity.Post
 import com.example.forsubmit.domain.post.entity.PostRepository
 import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
+import com.example.forsubmit.domain.post.payload.request.UpdatePostRequest
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.facade.UserFacade
 import spock.lang.Specification
@@ -17,8 +18,8 @@ class PostServiceTest extends Specification {
     def "Save Post Success Test"() {
         given:
         def postRequest = new CreatePostRequest()
-        TestUtils.setVariable(CreatePostRequest.class, "title", title, postRequest)
-        TestUtils.setVariable(CreatePostRequest.class, "content", content, postRequest)
+        TestUtils.setVariable("title", title, postRequest)
+        TestUtils.setVariable("content", content, postRequest)
         def user = new User()
         userFacade.findCurrentUser() >> user
         postRepository.save(_) >> new Post(postRequest.title, postRequest.content, user)
@@ -41,8 +42,8 @@ class PostServiceTest extends Specification {
     def "Save Post Fail Test"() {
         given:
         def postRequest = new CreatePostRequest()
-        TestUtils.setVariable(CreatePostRequest.class, "title", title, postRequest)
-        TestUtils.setVariable(CreatePostRequest.class, "content", content, postRequest)
+        TestUtils.setVariable("title", title, postRequest)
+        TestUtils.setVariable("content", content, postRequest)
 
         def user = new User()
         userFacade.findCurrentUser() >> user

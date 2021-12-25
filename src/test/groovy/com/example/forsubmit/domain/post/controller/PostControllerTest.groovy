@@ -50,8 +50,8 @@ class PostControllerTest extends BaseTest {
     def "Post Controller Save Test"() {
         given:
         def request = new CreatePostRequest()
-        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
-        TestUtils.setVariable(CreatePostRequest.class, "content", "content", request)
+        TestUtils.setVariable("title", "title", request)
+        TestUtils.setVariable("content", "content", request)
 
         postService.savePost(_) >> new BaseResponse(201, "Save Success", "저장 성공", new SavePostResponse(1))
         def details = new AuthDetails(new User())
@@ -93,8 +93,8 @@ class PostControllerTest extends BaseTest {
     def "Post Controller Save Fail Test - 400"() {
         given:
         def request = new CreatePostRequest()
-        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
-        TestUtils.setVariable(CreatePostRequest.class, "content", "", request)
+        TestUtils.setVariable("title", "title", request)
+        TestUtils.setVariable("content", "", request)
         def details = new AuthDetails(new User())
         jwtTokenProvider.authenticateUser(_) >> new UsernamePasswordAuthenticationToken(details, "", new ArrayList())
 
@@ -127,8 +127,8 @@ class PostControllerTest extends BaseTest {
     def "Post Controller Update Test"() {
         given:
         def request = new CreatePostRequest()
-        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
-        TestUtils.setVariable(CreatePostRequest.class, "content", "content", request)
+        TestUtils.setVariable("title", "title", request)
+        TestUtils.setVariable("content", "content", request)
 
         postService.updatePost(_, _) >> { new BaseResponse(200, "Update Success", "수정 성공", null) }
         def details = new AuthDetails(new User())
@@ -167,8 +167,8 @@ class PostControllerTest extends BaseTest {
     def "Post Controller Update Fail Test - 403"() {
         given:
         def request = new CreatePostRequest()
-        TestUtils.setVariable(CreatePostRequest.class, "title", "title", request)
-        TestUtils.setVariable(CreatePostRequest.class, "content", "content", request)
+        TestUtils.setVariable("title", "title", request)
+        TestUtils.setVariable("content", "content", request)
 
         postService.updatePost(_, _) >> { throw CannotUpdatePostException.EXCEPTION }
         def details = new AuthDetails(new User())

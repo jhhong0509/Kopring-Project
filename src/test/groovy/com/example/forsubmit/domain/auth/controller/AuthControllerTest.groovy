@@ -49,8 +49,8 @@ class AuthControllerTest extends BaseTest {
     def "Sign In Success"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable(AuthRequest.class, "email", email, request)
-        TestUtils.setVariable(AuthRequest.class, "password", requestPassword, request)
+        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("password", requestPassword, request)
         def requestString = objectMapper.writeValueAsString(request)
 
         authService.signIn(_) >> { new BaseResponse(201, "Sign In Success", "로그인에 성공했습니다", new TokenResponse("test", "test")) }
@@ -98,8 +98,8 @@ class AuthControllerTest extends BaseTest {
     def "Sign In Fail"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable(AuthRequest.class, "email", email, request)
-        TestUtils.setVariable(AuthRequest.class, "password", password, request)
+        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("password", password, request)
         def requestString = objectMapper.writeValueAsString(request)
 
         authService.signIn(_) >> { throw UserNotFoundException.EXCEPTION }
