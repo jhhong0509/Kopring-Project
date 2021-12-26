@@ -116,16 +116,13 @@ allOpen {
 tasks.test {
     val property = project.property("snippetsDir")!!
     outputs.dir(property)
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 
 // asciiDoc Setting
 tasks.asciidoctor {
-    dependsOn(tasks.jacocoTestCoverageVerification)
-}
-
-tasks.bootJar {
-    dependsOn(tasks.asciidoctor)
+    finalizedBy(tasks.bootJar)
 }
 
 // jacoco Setting
@@ -139,7 +136,7 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         csv.required.set(false)
     }
-    dependsOn(tasks.test)
+    finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -158,7 +155,7 @@ tasks.jacocoTestCoverageVerification {
             )
         }
     }
-    dependsOn(tasks.jacocoTestReport)
+    finalizedBy(tasks.asciidoctor)
 }
 
 // sonarqube Setting
