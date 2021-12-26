@@ -5,11 +5,14 @@ import com.example.forsubmit.domain.post.entity.Post
 import com.example.forsubmit.domain.post.entity.PostRepository
 import com.example.forsubmit.domain.post.exceptions.CannotDeletePostException
 import com.example.forsubmit.domain.post.exceptions.CannotUpdatePostException
+import com.example.forsubmit.domain.post.exceptions.PostNotFoundException
 import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
 import com.example.forsubmit.domain.post.payload.request.UpdatePostRequest
 import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.facade.UserFacade
 import spock.lang.Specification
+
+import java.time.LocalDateTime
 
 class PostServiceTest extends Specification {
 
@@ -141,7 +144,7 @@ class PostServiceTest extends Specification {
         postRepository.findById(id) >> Optional.of(post)
 
         when:
-        def response = postService.deletePost(id)
+        postService.deletePost(id)
 
         then:
         thrown(CannotDeletePostException)
@@ -152,5 +155,47 @@ class PostServiceTest extends Specification {
         2  | _
     }
 
+    def "Get Single Post Success Test"() {
+        given:
+        def user = new User(email, name, "password")
+        def post = new Post(title, content, user)
+        TestUtils.setVariable("createdDate", createdDate, post)
+        userFacade.findCurrentUser() >> user
+        postRepository.findById(id) >> Optional.of(post)
+
+        when:
+        def response = postService.getSinglePost(id)
+
+        then:
+        response.status == 200
+        response.koreanMessage != null
+        response.message != null
+        response.content.title == title
+        response.content.content == content
+        response.content.createdAt == createdDate
+        response.content.userEmail == email
+        response.content.userName == name
+
+        where:
+        id | title     | content     | email             | name   | createdDate
+        1  | "title1"  | "content1"  | "email@dsm.hs.kr" | "name" | LocalDateTime.of(2021, 5, 9, 20, 5)
+        2  | "" | "" | ""                | ""     | LocalDateTime.now()
+    }
+
+    def "Get Single Post Test - Not Found"() {
+        given:
+        postRepository.findById(id) >> Optional.empty()
+
+        when:
+        postService.getSinglePost(id)
+
+        then:
+        thrown(PostNotFoundException)
+
+        where:
+        id | _
+        1  | _
+        2  | _
+    }
 
 }
