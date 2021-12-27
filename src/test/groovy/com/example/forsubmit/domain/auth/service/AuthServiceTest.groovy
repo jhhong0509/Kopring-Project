@@ -112,7 +112,7 @@ class AuthServiceTest extends Specification {
         authService.tokenRefresh(refreshToken)
 
         then:
-        refreshTokenRepository.findByToken(refreshToken) >> { throw RefreshTokenNotFoundException.EXCEPTION }
+        refreshTokenRepository.findByToken(refreshToken) >> null
         thrown(RefreshTokenNotFoundException)
 
         where:
