@@ -116,16 +116,13 @@ allOpen {
 tasks.test {
     val property = project.property("snippetsDir")!!
     outputs.dir(property)
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 
 // asciiDoc Setting
 tasks.asciidoctor {
-    dependsOn(tasks.jacocoTestCoverageVerification)
-}
-
-tasks.bootJar {
-    dependsOn(tasks.asciidoctor)
+    finalizedBy(tasks.bootJar)
 }
 
 // jacoco Setting
@@ -139,7 +136,16 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         csv.required.set(false)
     }
-    dependsOn(tasks.test)
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("com/example/forsubmit/domain/**/entity/Q*.class")
+                exclude("com/example/forsubmit/global/redis/**")
+            }
+        })
+    )
+
+    finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -150,15 +156,9 @@ tasks.jacocoTestCoverageVerification {
                 value = "COVEREDRATIO"
                 minimum = "0.000".toBigDecimal()
             }
-
-            excludes = listOf(
-                "com.example.forsubmit.ForSubmitApplication.kt",
-                "*.html",
-                "*.adoc",
-            )
         }
     }
-    dependsOn(tasks.jacocoTestReport)
+    finalizedBy(tasks.asciidoctor)
 }
 
 // sonarqube Setting

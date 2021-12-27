@@ -22,7 +22,7 @@ class UserService(
     }
 
     fun saveUser(request: SignUpRequest): BaseResponse<TokenResponse> {
-        userRepository.findByEmail(request.email)?.let { throw EmailAlreadyExistsException.EXCEPTION }
+        userRepository.findByNaturalId(request.email)?.let { throw EmailAlreadyExistsException.EXCEPTION }
 
         val user = User(
             name = request.name,

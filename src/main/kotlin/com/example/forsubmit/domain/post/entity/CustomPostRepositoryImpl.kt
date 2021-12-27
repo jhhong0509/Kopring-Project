@@ -27,7 +27,7 @@ class CustomPostRepositoryImpl(
 
         var nextId: Long? = null
 
-        if (result.lastIndex == PAGE_LIMIT + 1) {
+        if (result.size >= PAGE_LIMIT + 1) {
             nextId = result.removeLast().id
         }
 
@@ -41,7 +41,7 @@ class CustomPostRepositoryImpl(
     private fun lastIdQuery(lastId: Long?): BooleanExpression? {
         return if (lastId == null) {
             null
-        } else post.id.lt(lastId)
+        } else post.id.loe(lastId)
     }
 
 }

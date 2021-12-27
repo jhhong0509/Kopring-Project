@@ -42,6 +42,80 @@ include::{snippets}/Save_Post_400/http-response.adoc[]
 
 == Post 수정
 
+== Post 단건 조회
+
+=== 성공
+
+==== Path Parameters
+include::{snippets}/Get_Single_Post/path-parameters.adoc[]
+
+==== Request Headers
+include::{snippets}/Get_Single_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Get_Single_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Get_Single_Post/http-response.adoc[]
+
+=== Not Found
+==== Path Parameters
+include::{snippets}/Get_Single_Post_404/path-parameters.adoc[]
+
+==== Request Headers
+include::{snippets}/Get_Single_Post_404/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Get_Single_Post_404/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Get_Single_Post_404/http-response.adoc[]
+
+== Post 목록 조회
+
+=== 성공
+
+==== Request Headers
+include::{snippets}/Get_Post_List/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Get_Post_List/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Get_Post_List/http-response.adoc[]
+
+== Post 작성
+
+=== 성공
+
+==== Request Fields
+include::{snippets}/Save_Post/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post/http-response.adoc[]
+
+=== Bad Request
+
+==== Request Fields
+include::{snippets}/Save_Post_400/request-fields.adoc[]
+
+==== Request Headers
+include::{snippets}/Save_Post_400/request-headers.adoc[]
+
+==== Request Example
+include::{snippets}/Save_Post_400/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post_400/http-response.adoc[]
+
+== Post 수정
+
 === 성공
 
 ==== Request Fields
