@@ -10,15 +10,6 @@ class BaseResponse<T>(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     val content: T?
 ) {
-    override fun toString(): String {
-        return """
-            {
-                "status": ${status},
-                "message": "$message",
-                "korean_message": "$koreanMessage"
-            }
-        """.trimIndent()
-    }
 
     companion object {
         fun of(exception: GlobalException): BaseResponse<Unit> {
