@@ -136,6 +136,15 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         csv.required.set(false)
     }
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("com/example/forsubmit/domain/**/entity/Q*.class")
+                exclude("com/example/forsubmit/global/redis/**")
+            }
+        })
+    )
+
     finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
@@ -147,12 +156,6 @@ tasks.jacocoTestCoverageVerification {
                 value = "COVEREDRATIO"
                 minimum = "0.000".toBigDecimal()
             }
-
-            excludes = listOf(
-                "com.example.forsubmit.ForSubmitApplication.kt",
-                "*.html",
-                "*.adoc",
-            )
         }
     }
     finalizedBy(tasks.asciidoctor)
