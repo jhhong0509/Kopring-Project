@@ -1,7 +1,8 @@
 package com.example.forsubmit
 
-import com.example.forsubmit.global.exception.CustomExceptionHandler
+
 import com.example.forsubmit.global.exception.ExceptionFilter
+import com.example.forsubmit.global.security.TokenFilter
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
@@ -10,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.constraints.ConstraintDescriptions
 import org.springframework.restdocs.snippet.Attributes
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -38,6 +38,7 @@ class BaseTest extends Specification {
     def setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(provider))
+                .addFilters(new ExceptionFilter(objectMapper), new TokenFilter(jwtTokenProvider))
 //                .alwaysDo(print())    // for debug
                 .build()
     }
