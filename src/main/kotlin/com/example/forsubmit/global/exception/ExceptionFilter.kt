@@ -24,7 +24,7 @@ class ExceptionFilter(
         try {
             filterChain.doFilter(request, response)
         } catch (exception: Exception) {
-            kLogger.error(exception.message)
+            kLogger.error { exception.message }
             when (exception) {
                 is GlobalException -> writeErrorCode(exception, response)
                 else -> writeErrorCode(InternalServerError.EXCEPTION, response)
@@ -38,6 +38,6 @@ class ExceptionFilter(
         response.characterEncoding = "UTF-8"
         response.status = errorResponse.status
         response.contentType = MediaType.APPLICATION_JSON_VALUE
-        response.writer.write(errorResponse.toString())
+        response.writer.write(objectMapper.writeValueAsString(errorResponse))
     }
 }
