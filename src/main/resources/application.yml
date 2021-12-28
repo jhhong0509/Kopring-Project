@@ -34,4 +34,4 @@ server:
 
 logging:
   level:
-    root: error
+    root: info
