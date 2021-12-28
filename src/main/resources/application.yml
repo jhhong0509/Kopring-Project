@@ -18,7 +18,6 @@ spring:
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
-
   data:
     web:
       pageable:
@@ -32,3 +31,7 @@ jwt:
   refreshTokenExp: ${REFRESH_EXP}
 server:
   port: 8181
+
+logging:
+  level:
+    root: info
