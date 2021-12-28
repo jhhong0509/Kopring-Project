@@ -2,6 +2,7 @@ package com.example.forsubmit
 
 
 import com.example.forsubmit.global.exception.ExceptionFilter
+import com.example.forsubmit.global.logger.LogFilter
 import com.example.forsubmit.global.security.TokenFilter
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -38,7 +39,7 @@ class BaseTest extends Specification {
     def setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
                 .apply(documentationConfiguration(provider))
-                .addFilters(new ExceptionFilter(objectMapper), new TokenFilter(jwtTokenProvider))
+                .addFilters(new LogFilter(), new ExceptionFilter(objectMapper), new TokenFilter(jwtTokenProvider))
 //                .alwaysDo(print())    // for debug
                 .build()
     }
