@@ -87,6 +87,9 @@ dependencies {
     kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
     implementation("com.querydsl:querydsl-jpa")
 
+    // logger
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
+
 }
 
 tasks.withType<KotlinCompile> {
