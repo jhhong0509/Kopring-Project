@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank
 
 class AuthRequest {
     @field:Email
+    @field:NotBlank
     lateinit var email: String
         private set
 
