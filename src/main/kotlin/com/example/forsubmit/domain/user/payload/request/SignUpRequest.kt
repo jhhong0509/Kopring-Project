@@ -6,6 +6,7 @@ import javax.validation.constraints.Size
 
 class SignUpRequest {
     @field:Email
+    @NotBlank
     lateinit var email: String
         private set
 
@@ -14,6 +15,7 @@ class SignUpRequest {
         private set
 
     @field:Size(min = 6, max = 20)
+    @field:NotBlank
     lateinit var password: String
         private set
 }

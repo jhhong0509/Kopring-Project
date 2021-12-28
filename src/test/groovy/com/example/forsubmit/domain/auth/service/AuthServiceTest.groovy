@@ -30,8 +30,8 @@ class AuthServiceTest extends Specification {
     def "Sign in Success test"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable(AuthRequest.class, "email", "email@dsm.hs.kr", request)
-        TestUtils.setVariable(AuthRequest.class, "password", "password", request)
+        TestUtils.setVariable("email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable("password", "password", request)
         def user = new User(request.email, "name", request.password)
 
         when:
@@ -54,8 +54,8 @@ class AuthServiceTest extends Specification {
     def "Sign In Password Not Match Exception Test"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable(AuthRequest.class, "email", "email@dsm.hs.kr", request)
-        TestUtils.setVariable(AuthRequest.class, "password", "password", request)
+        TestUtils.setVariable("email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable("password", "password", request)
         def user = new User(request.email, "name", request.password)
 
         when:
@@ -72,8 +72,8 @@ class AuthServiceTest extends Specification {
     def "Sign In User Not Found Exception Test"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable(AuthRequest.class, "email", "email@dsm.hs.kr", request)
-        TestUtils.setVariable(AuthRequest.class, "password", "password", request)
+        TestUtils.setVariable("email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable("password", "password", request)
 
         when:
         authService.signIn(request)
@@ -112,7 +112,7 @@ class AuthServiceTest extends Specification {
         authService.tokenRefresh(refreshToken)
 
         then:
-        refreshTokenRepository.findByToken(refreshToken) >> { throw RefreshTokenNotFoundException.EXCEPTION }
+        refreshTokenRepository.findByToken(refreshToken) >> null
         thrown(RefreshTokenNotFoundException)
 
         where:

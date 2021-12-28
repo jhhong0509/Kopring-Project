@@ -2,6 +2,7 @@ package com.example.forsubmit.domain.post.service
 
 import com.example.forsubmit.domain.post.entity.Post
 import com.example.forsubmit.domain.post.entity.PostRepository
+import com.example.forsubmit.domain.post.exceptions.CannotDeletePostException
 import com.example.forsubmit.domain.post.exceptions.CannotUpdatePostException
 import com.example.forsubmit.domain.post.exceptions.PostNotFoundException
 import com.example.forsubmit.domain.post.payload.request.CreatePostRequest
@@ -83,7 +84,7 @@ class PostService(
         val post = findPostById(id)
 
         if (post.user != user) {
-            throw CannotUpdatePostException.EXCEPTION
+            throw CannotDeletePostException.EXCEPTION
         }
 
         postRepository.delete(post)

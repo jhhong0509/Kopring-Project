@@ -28,9 +28,9 @@ class UserControllerTest extends BaseTest {
     def "Sign Up Success"() {
         given:
         def request = new SignUpRequest()
-        TestUtils.setVariable(SignUpRequest.class, "email", email, request)
-        TestUtils.setVariable(SignUpRequest.class, "password", password, request)
-        TestUtils.setVariable(SignUpRequest.class, "name", name, request)
+        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("password", password, request)
+        TestUtils.setVariable("name", name, request)
         userService.saveUser(_) >> new BaseResponse(201, "Sign Up Success", "회원가입에 성공했습니다", new TokenResponse("accessToken", "refreshToken"))
 
         when:
@@ -68,9 +68,9 @@ class UserControllerTest extends BaseTest {
     def "Sign Up Failed - 400"() {
         given:
         def request = new SignUpRequest()
-        TestUtils.setVariable(SignUpRequest.class, "email", email, request)
-        TestUtils.setVariable(SignUpRequest.class, "password", password, request)
-        TestUtils.setVariable(SignUpRequest.class, "name", name, request)
+        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("password", password, request)
+        TestUtils.setVariable("name", name, request)
 
         when:
         def response = mockMvc.perform(post("/user")
@@ -106,9 +106,9 @@ class UserControllerTest extends BaseTest {
     def "User Already Exist"() {
         given:
         def request = new SignUpRequest()
-        TestUtils.setVariable(SignUpRequest.class, "email", email, request)
-        TestUtils.setVariable(SignUpRequest.class, "password", password, request)
-        TestUtils.setVariable(SignUpRequest.class, "name", name, request)
+        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("password", password, request)
+        TestUtils.setVariable("name", name, request)
         userService.saveUser(_) >> { throw EmailAlreadyExistsException.EXCEPTION }
 
         when:
