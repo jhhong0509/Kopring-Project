@@ -10,6 +10,7 @@ spring:
     hibernate:
       ddl-auto: update
     database: mysql
+    open-in-view: false
   datasource:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
