@@ -28,6 +28,12 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR12")
+    }
+}
+
 extra["snippetsDir"] = file("$buildDir/generated-snippets")
 
 dependencies {
@@ -89,6 +95,9 @@ dependencies {
 
     // logger
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
+
+    // feignClient
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
 }
 
