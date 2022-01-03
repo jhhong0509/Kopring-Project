@@ -27,3 +27,7 @@ jwt:
   secretKey: sdaf
   accessTokenExp: 1000
   refreshTokenExp: 10000
+oauth2:
+  google:
+    clientId: yoho
+    clientSecret: yohohoho
