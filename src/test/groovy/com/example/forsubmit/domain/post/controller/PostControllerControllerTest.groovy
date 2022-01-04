@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.post.controller
 
-import com.example.forsubmit.BaseTest
+import com.example.forsubmit.BaseControllerTest
 import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.post.exceptions.CannotDeletePostException
 import com.example.forsubmit.domain.post.exceptions.CannotUpdatePostException
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest([PostController])
 @Import(CustomExceptionHandler)
 @ActiveProfiles("test")
-class PostControllerTest extends BaseTest {
+class PostControllerControllerTest extends BaseControllerTest {
 
     @SpringBean
     private PostService postService = GroovyMock(PostService)
