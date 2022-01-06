@@ -4,7 +4,7 @@ import com.example.forsubmit.domain.auth.exceptions.InvalidOauthTypeException
 import com.example.forsubmit.domain.auth.payload.response.OAuthRedirectUrlResponse
 import com.example.forsubmit.domain.auth.properties.OAuthBaseProperty
 import com.example.forsubmit.domain.auth.properties.OAuthProperties
-import com.example.forsubmit.domain.auth.utils.OAuthPKCE
+import com.example.forsubmit.domain.auth.properties.OAuthPKCE
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap

@@ -1,6 +1,5 @@
 package com.example.forsubmit.domain.auth.properties
 
-import com.example.forsubmit.domain.auth.utils.OAuthPKCE
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.context.annotation.Configuration
