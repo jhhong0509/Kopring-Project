@@ -62,8 +62,7 @@ class PostControllerControllerTest extends BaseControllerTest {
         postService.savePost(_) >> new BaseResponse(201, "Save Success", "저장 성공", new SavePostResponse(1))
 
         when:
-        def response = mockMvc
-                .perform(post("/post")
+        def response = mockMvc.perform(post("/post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(JwtProperties.TOKEN_HEADER_NAME, token)
                         .content(objectMapper.writeValueAsString(request)))
