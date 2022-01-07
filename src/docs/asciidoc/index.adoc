@@ -10,6 +10,22 @@ ifndef::snippets[]
 :snippets: ./build/generated-snippets
 endif::[]
 
+== OAuth 링크 조회
+
+=== 성공
+
+==== Path Parameters
+include::{snippets}/OAuth_Link/path-parameters.adoc[]
+
+==== Request Example
+include::{snippets}/OAuth_Link/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/OAuth_Link/http-response.adoc[]
+
+==== HTTP Response
+include::{snippets}/Save_Post/http-response.adoc[]
+
 == Post 작성
 
 === 성공
@@ -39,8 +55,6 @@ include::{snippets}/Save_Post_400/http-request.adoc[]
 
 ==== HTTP Response
 include::{snippets}/Save_Post_400/http-response.adoc[]
-
-== Post 수정
 
 == Post 단건 조회
 
