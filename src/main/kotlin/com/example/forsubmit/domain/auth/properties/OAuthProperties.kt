@@ -12,10 +12,6 @@ class OAuthProperties {
     lateinit var google: Google
     lateinit var github: Github
 
-    companion object {
-        const val OAUTH_PROTOCOL = "https"
-    }
-
     class Google(
         override val clientId: String,
         override val clientSecret: String,
