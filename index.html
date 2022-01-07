@@ -446,45 +446,49 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_post_작성">1. Post 작성</a>
+<li><a href="#_oauth_링크_조회">1. OAuth 링크 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_성공">1.1. 성공</a></li>
-<li><a href="#_bad_request">1.2. Bad Request</a></li>
 </ul>
 </li>
-<li><a href="#_post_수정">2. Post 수정</a></li>
+<li><a href="#_post_작성">2. Post 작성</a>
+<ul class="sectlevel2">
+<li><a href="#_성공_2">2.1. 성공</a></li>
+<li><a href="#_bad_request">2.2. Bad Request</a></li>
+</ul>
+</li>
 <li><a href="#_post_단건_조회">3. Post 단건 조회</a>
 <ul class="sectlevel2">
-<li><a href="#_성공_2">3.1. 성공</a></li>
+<li><a href="#_성공_3">3.1. 성공</a></li>
 <li><a href="#_not_found">3.2. Not Found</a></li>
 </ul>
 </li>
 <li><a href="#_post_목록_조회">4. Post 목록 조회</a>
 <ul class="sectlevel2">
-<li><a href="#_성공_3">4.1. 성공</a></li>
+<li><a href="#_성공_4">4.1. 성공</a></li>
 </ul>
 </li>
 <li><a href="#_post_작성_2">5. Post 작성</a>
 <ul class="sectlevel2">
-<li><a href="#_성공_4">5.1. 성공</a></li>
+<li><a href="#_성공_5">5.1. 성공</a></li>
 <li><a href="#_bad_request_2">5.2. Bad Request</a></li>
 </ul>
 </li>
-<li><a href="#_post_수정_2">6. Post 수정</a>
+<li><a href="#_post_수정">6. Post 수정</a>
 <ul class="sectlevel2">
-<li><a href="#_성공_5">6.1. 성공</a></li>
+<li><a href="#_성공_6">6.1. 성공</a></li>
 <li><a href="#_forbidden">6.2. Forbidden</a></li>
 </ul>
 </li>
 <li><a href="#_post_삭제">7. Post 삭제</a>
 <ul class="sectlevel2">
-<li><a href="#_성공_6">7.1. 성공</a></li>
+<li><a href="#_성공_7">7.1. 성공</a></li>
 <li><a href="#_forbidden_2">7.2. Forbidden</a></li>
 </ul>
 </li>
 <li><a href="#_sign_in">8. Sign In</a>
 <ul class="sectlevel2">
-<li><a href="#_성공_7">8.1. 성공</a></li>
+<li><a href="#_성공_8">8.1. 성공</a></li>
 <li><a href="#_사용자를_찾을_수_없음">8.2. 사용자를 찾을 수 없음</a></li>
 </ul>
 </li>
@@ -496,7 +500,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_sign_up">10. Sign Up</a>
 <ul class="sectlevel2">
-<li><a href="#_성공_8">10.1. 성공</a></li>
+<li><a href="#_성공_9">10.1. 성공</a></li>
 <li><a href="#_로그인_사용자를_찾을_수_없음">10.2. 로그인 - 사용자를 찾을 수 없음</a></li>
 </ul>
 </li>
@@ -505,12 +509,95 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_post_작성"><a class="anchor" href="#_post_작성"></a><a class="link" href="#_post_작성">1. Post 작성</a></h2>
+<h2 id="_oauth_링크_조회"><a class="anchor" href="#_oauth_링크_조회"></a><a class="link" href="#_oauth_링크_조회">1. OAuth 링크 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_성공"><a class="anchor" href="#_성공"></a><a class="link" href="#_성공">1.1. 성공</a></h3>
 <div class="sect3">
-<h4 id="_request_fields"><a class="anchor" href="#_request_fields"></a><a class="link" href="#_request_fields">1.1.1. Request Fields</a></h4>
+<h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a><a class="link" href="#_path_parameters">1.1.1. Path Parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /oauth/auth-endpoint/{type}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">OAuth 타입</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_request_example"><a class="anchor" href="#_request_example"></a><a class="link" href="#_request_example">1.1.2. Request Example</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/auth-endpoint/google HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response"><a class="anchor" href="#_http_response"></a><a class="link" href="#_http_response">1.1.3. HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 156
+
+{
+  "status" : 200,
+  "message" : "Success",
+  "korean_message" : "성공",
+  "content" : {
+    "authentication_url" : "http://google.com:8181/google"
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_2"><a class="anchor" href="#_http_response_2"></a><a class="link" href="#_http_response_2">1.1.4. HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 122
+
+{
+  "status" : 201,
+  "message" : "Save Success",
+  "korean_message" : "저장 성공",
+  "content" : {
+    "id" : 1
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_post_작성"><a class="anchor" href="#_post_작성"></a><a class="link" href="#_post_작성">2. Post 작성</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_성공_2"><a class="anchor" href="#_성공_2"></a><a class="link" href="#_성공_2">2.1. 성공</a></h3>
+<div class="sect3">
+<h4 id="_request_fields"><a class="anchor" href="#_request_fields"></a><a class="link" href="#_request_fields">2.1.1. Request Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -543,7 +630,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_headers"><a class="anchor" href="#_request_headers"></a><a class="link" href="#_request_headers">1.1.2. Request Headers</a></h4>
+<h4 id="_request_headers"><a class="anchor" href="#_request_headers"></a><a class="link" href="#_request_headers">2.1.2. Request Headers</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -564,7 +651,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example"><a class="anchor" href="#_request_example"></a><a class="link" href="#_request_example">1.1.3. Request Example</a></h4>
+<h4 id="_request_example_2"><a class="anchor" href="#_request_example_2"></a><a class="link" href="#_request_example_2">2.1.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /post HTTP/1.1
@@ -581,7 +668,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response"><a class="anchor" href="#_http_response"></a><a class="link" href="#_http_response">1.1.4. HTTP Response</a></h4>
+<h4 id="_http_response_3"><a class="anchor" href="#_http_response_3"></a><a class="link" href="#_http_response_3">2.1.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -604,9 +691,9 @@ Content-Length: 122
 </div>
 </div>
 <div class="sect2">
-<h3 id="_bad_request"><a class="anchor" href="#_bad_request"></a><a class="link" href="#_bad_request">1.2. Bad Request</a></h3>
+<h3 id="_bad_request"><a class="anchor" href="#_bad_request"></a><a class="link" href="#_bad_request">2.2. Bad Request</a></h3>
 <div class="sect3">
-<h4 id="_request_fields_2"><a class="anchor" href="#_request_fields_2"></a><a class="link" href="#_request_fields_2">1.2.1. Request Fields</a></h4>
+<h4 id="_request_fields_2"><a class="anchor" href="#_request_fields_2"></a><a class="link" href="#_request_fields_2">2.2.1. Request Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -639,7 +726,7 @@ Content-Length: 122
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_headers_2"><a class="anchor" href="#_request_headers_2"></a><a class="link" href="#_request_headers_2">1.2.2. Request Headers</a></h4>
+<h4 id="_request_headers_2"><a class="anchor" href="#_request_headers_2"></a><a class="link" href="#_request_headers_2">2.2.2. Request Headers</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -660,7 +747,7 @@ Content-Length: 122
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_2"><a class="anchor" href="#_request_example_2"></a><a class="link" href="#_request_example_2">1.2.3. Request Example</a></h4>
+<h4 id="_request_example_3"><a class="anchor" href="#_request_example_3"></a><a class="link" href="#_request_example_3">2.2.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /post HTTP/1.1
@@ -677,7 +764,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_2"><a class="anchor" href="#_http_response_2"></a><a class="link" href="#_http_response_2">1.2.4. HTTP Response</a></h4>
+<h4 id="_http_response_4"><a class="anchor" href="#_http_response_4"></a><a class="link" href="#_http_response_4">2.2.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
@@ -699,20 +786,14 @@ Content-Length: 118
 </div>
 </div>
 <div class="sect1">
-<h2 id="_post_수정"><a class="anchor" href="#_post_수정"></a><a class="link" href="#_post_수정">2. Post 수정</a></h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
 <h2 id="_post_단건_조회"><a class="anchor" href="#_post_단건_조회"></a><a class="link" href="#_post_단건_조회">3. Post 단건 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_2"><a class="anchor" href="#_성공_2"></a><a class="link" href="#_성공_2">3.1. 성공</a></h3>
+<h3 id="_성공_3"><a class="anchor" href="#_성공_3"></a><a class="link" href="#_성공_3">3.1. 성공</a></h3>
 <div class="sect3">
-<h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a><a class="link" href="#_path_parameters">3.1.1. Path Parameters</a></h4>
+<h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a><a class="link" href="#_path_parameters_2">3.1.1. Path Parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /post/{id}</caption>
+<caption class="title">Table 2. /post/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -753,7 +834,7 @@ Content-Length: 118
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_3"><a class="anchor" href="#_request_example_3"></a><a class="link" href="#_request_example_3">3.1.3. Request Example</a></h4>
+<h4 id="_request_example_4"><a class="anchor" href="#_request_example_4"></a><a class="link" href="#_request_example_4">3.1.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /post/1 HTTP/1.1
@@ -764,7 +845,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_3"><a class="anchor" href="#_http_response_3"></a><a class="link" href="#_http_response_3">3.1.4. HTTP Response</a></h4>
+<h4 id="_http_response_5"><a class="anchor" href="#_http_response_5"></a><a class="link" href="#_http_response_5">3.1.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -781,7 +862,7 @@ Content-Length: 281
   "content" : {
     "title" : "title",
     "content" : "content",
-    "created_at" : "2021-12-28T16:17:57.025027",
+    "created_at" : "2022-01-07T16:30:45.645357",
     "user_name" : "name",
     "user_email" : "test@dsm.hs.kr"
   }
@@ -793,9 +874,9 @@ Content-Length: 281
 <div class="sect2">
 <h3 id="_not_found"><a class="anchor" href="#_not_found"></a><a class="link" href="#_not_found">3.2. Not Found</a></h3>
 <div class="sect3">
-<h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a><a class="link" href="#_path_parameters_2">3.2.1. Path Parameters</a></h4>
+<h4 id="_path_parameters_3"><a class="anchor" href="#_path_parameters_3"></a><a class="link" href="#_path_parameters_3">3.2.1. Path Parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. /post/{id}</caption>
+<caption class="title">Table 3. /post/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -836,7 +917,7 @@ Content-Length: 281
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_4"><a class="anchor" href="#_request_example_4"></a><a class="link" href="#_request_example_4">3.2.3. Request Example</a></h4>
+<h4 id="_request_example_5"><a class="anchor" href="#_request_example_5"></a><a class="link" href="#_request_example_5">3.2.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /post/1 HTTP/1.1
@@ -847,7 +928,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_4"><a class="anchor" href="#_http_response_4"></a><a class="link" href="#_http_response_4">3.2.4. HTTP Response</a></h4>
+<h4 id="_http_response_6"><a class="anchor" href="#_http_response_6"></a><a class="link" href="#_http_response_6">3.2.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
@@ -872,7 +953,7 @@ Content-Length: 114
 <h2 id="_post_목록_조회"><a class="anchor" href="#_post_목록_조회"></a><a class="link" href="#_post_목록_조회">4. Post 목록 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_3"><a class="anchor" href="#_성공_3"></a><a class="link" href="#_성공_3">4.1. 성공</a></h3>
+<h3 id="_성공_4"><a class="anchor" href="#_성공_4"></a><a class="link" href="#_성공_4">4.1. 성공</a></h3>
 <div class="sect3">
 <h4 id="_request_headers_5"><a class="anchor" href="#_request_headers_5"></a><a class="link" href="#_request_headers_5">4.1.1. Request Headers</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -895,7 +976,7 @@ Content-Length: 114
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_5"><a class="anchor" href="#_request_example_5"></a><a class="link" href="#_request_example_5">4.1.2. Request Example</a></h4>
+<h4 id="_request_example_6"><a class="anchor" href="#_request_example_6"></a><a class="link" href="#_request_example_6">4.1.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /post?lastId=10 HTTP/1.1
@@ -906,7 +987,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_5"><a class="anchor" href="#_http_response_5"></a><a class="link" href="#_http_response_5">4.1.3. HTTP Response</a></h4>
+<h4 id="_http_response_7"><a class="anchor" href="#_http_response_7"></a><a class="link" href="#_http_response_7">4.1.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -924,25 +1005,25 @@ Content-Length: 837
     "responses" : [ {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2021-12-28T16:17:57.191579",
+      "created_at" : "2022-01-07T16:30:45.812778",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2021-12-28T16:17:57.191579",
+      "created_at" : "2022-01-07T16:30:45.812778",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2021-12-28T16:17:57.191579",
+      "created_at" : "2022-01-07T16:30:45.812778",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2021-12-28T16:17:57.191579",
+      "created_at" : "2022-01-07T16:30:45.812778",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     } ],
@@ -959,7 +1040,7 @@ Content-Length: 837
 <h2 id="_post_작성_2"><a class="anchor" href="#_post_작성_2"></a><a class="link" href="#_post_작성_2">5. Post 작성</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_4"><a class="anchor" href="#_성공_4"></a><a class="link" href="#_성공_4">5.1. 성공</a></h3>
+<h3 id="_성공_5"><a class="anchor" href="#_성공_5"></a><a class="link" href="#_성공_5">5.1. 성공</a></h3>
 <div class="sect3">
 <h4 id="_request_fields_3"><a class="anchor" href="#_request_fields_3"></a><a class="link" href="#_request_fields_3">5.1.1. Request Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1015,7 +1096,7 @@ Content-Length: 837
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_6"><a class="anchor" href="#_request_example_6"></a><a class="link" href="#_request_example_6">5.1.3. Request Example</a></h4>
+<h4 id="_request_example_7"><a class="anchor" href="#_request_example_7"></a><a class="link" href="#_request_example_7">5.1.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /post HTTP/1.1
@@ -1032,7 +1113,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_6"><a class="anchor" href="#_http_response_6"></a><a class="link" href="#_http_response_6">5.1.4. HTTP Response</a></h4>
+<h4 id="_http_response_8"><a class="anchor" href="#_http_response_8"></a><a class="link" href="#_http_response_8">5.1.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -1111,7 +1192,7 @@ Content-Length: 122
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_7"><a class="anchor" href="#_request_example_7"></a><a class="link" href="#_request_example_7">5.2.3. Request Example</a></h4>
+<h4 id="_request_example_8"><a class="anchor" href="#_request_example_8"></a><a class="link" href="#_request_example_8">5.2.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /post HTTP/1.1
@@ -1128,7 +1209,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_7"><a class="anchor" href="#_http_response_7"></a><a class="link" href="#_http_response_7">5.2.4. HTTP Response</a></h4>
+<h4 id="_http_response_9"><a class="anchor" href="#_http_response_9"></a><a class="link" href="#_http_response_9">5.2.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request
@@ -1150,10 +1231,10 @@ Content-Length: 118
 </div>
 </div>
 <div class="sect1">
-<h2 id="_post_수정_2"><a class="anchor" href="#_post_수정_2"></a><a class="link" href="#_post_수정_2">6. Post 수정</a></h2>
+<h2 id="_post_수정"><a class="anchor" href="#_post_수정"></a><a class="link" href="#_post_수정">6. Post 수정</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_5"><a class="anchor" href="#_성공_5"></a><a class="link" href="#_성공_5">6.1. 성공</a></h3>
+<h3 id="_성공_6"><a class="anchor" href="#_성공_6"></a><a class="link" href="#_성공_6">6.1. 성공</a></h3>
 <div class="sect3">
 <h4 id="_request_fields_5"><a class="anchor" href="#_request_fields_5"></a><a class="link" href="#_request_fields_5">6.1.1. Request Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1209,7 +1290,7 @@ Content-Length: 118
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_8"><a class="anchor" href="#_request_example_8"></a><a class="link" href="#_request_example_8">6.1.3. Request Example</a></h4>
+<h4 id="_request_example_9"><a class="anchor" href="#_request_example_9"></a><a class="link" href="#_request_example_9">6.1.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /post/1 HTTP/1.1
@@ -1226,7 +1307,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_8"><a class="anchor" href="#_http_response_8"></a><a class="link" href="#_http_response_8">6.1.4. HTTP Response</a></h4>
+<h4 id="_http_response_10"><a class="anchor" href="#_http_response_10"></a><a class="link" href="#_http_response_10">6.1.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1302,7 +1383,7 @@ Content-Length: 90
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_9"><a class="anchor" href="#_request_example_9"></a><a class="link" href="#_request_example_9">6.2.3. Request Example</a></h4>
+<h4 id="_request_example_10"><a class="anchor" href="#_request_example_10"></a><a class="link" href="#_request_example_10">6.2.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /post/1 HTTP/1.1
@@ -1319,7 +1400,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_9"><a class="anchor" href="#_http_response_9"></a><a class="link" href="#_http_response_9">6.2.4. HTTP Response</a></h4>
+<h4 id="_http_response_11"><a class="anchor" href="#_http_response_11"></a><a class="link" href="#_http_response_11">6.2.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
@@ -1344,7 +1425,7 @@ Content-Length: 138
 <h2 id="_post_삭제"><a class="anchor" href="#_post_삭제"></a><a class="link" href="#_post_삭제">7. Post 삭제</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_6"><a class="anchor" href="#_성공_6"></a><a class="link" href="#_성공_6">7.1. 성공</a></h3>
+<h3 id="_성공_7"><a class="anchor" href="#_성공_7"></a><a class="link" href="#_성공_7">7.1. 성공</a></h3>
 <div class="sect3">
 <h4 id="_request_headers_10"><a class="anchor" href="#_request_headers_10"></a><a class="link" href="#_request_headers_10">7.1.1. Request Headers</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1367,7 +1448,7 @@ Content-Length: 138
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_10"><a class="anchor" href="#_request_example_10"></a><a class="link" href="#_request_example_10">7.1.2. Request Example</a></h4>
+<h4 id="_request_example_11"><a class="anchor" href="#_request_example_11"></a><a class="link" href="#_request_example_11">7.1.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /post/1 HTTP/1.1
@@ -1378,7 +1459,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_10"><a class="anchor" href="#_http_response_10"></a><a class="link" href="#_http_response_10">7.1.3. HTTP Response</a></h4>
+<h4 id="_http_response_12"><a class="anchor" href="#_http_response_12"></a><a class="link" href="#_http_response_12">7.1.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1424,7 +1505,7 @@ Content-Length: 124
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_11"><a class="anchor" href="#_request_example_11"></a><a class="link" href="#_request_example_11">7.2.2. Request Example</a></h4>
+<h4 id="_request_example_12"><a class="anchor" href="#_request_example_12"></a><a class="link" href="#_request_example_12">7.2.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /post/1 HTTP/1.1
@@ -1435,7 +1516,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_11"><a class="anchor" href="#_http_response_11"></a><a class="link" href="#_http_response_11">7.2.3. HTTP Response</a></h4>
+<h4 id="_http_response_13"><a class="anchor" href="#_http_response_13"></a><a class="link" href="#_http_response_13">7.2.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 403 Forbidden
@@ -1460,7 +1541,7 @@ Content-Length: 138
 <h2 id="_sign_in"><a class="anchor" href="#_sign_in"></a><a class="link" href="#_sign_in">8. Sign In</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_7"><a class="anchor" href="#_성공_7"></a><a class="link" href="#_성공_7">8.1. 성공</a></h3>
+<h3 id="_성공_8"><a class="anchor" href="#_성공_8"></a><a class="link" href="#_성공_8">8.1. 성공</a></h3>
 <div class="sect3">
 <h4 id="_request_fields_7"><a class="anchor" href="#_request_fields_7"></a><a class="link" href="#_request_fields_7">8.1.1. Request Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1495,7 +1576,7 @@ Content-Length: 138
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_12"><a class="anchor" href="#_request_example_12"></a><a class="link" href="#_request_example_12">8.1.2. Request Example</a></h4>
+<h4 id="_request_example_13"><a class="anchor" href="#_request_example_13"></a><a class="link" href="#_request_example_13">8.1.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /auth HTTP/1.1
@@ -1511,7 +1592,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_12"><a class="anchor" href="#_http_response_12"></a><a class="link" href="#_http_response_12">8.1.3. HTTP Response</a></h4>
+<h4 id="_http_response_14"><a class="anchor" href="#_http_response_14"></a><a class="link" href="#_http_response_14">8.1.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -1570,7 +1651,7 @@ Content-Length: 188
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_13"><a class="anchor" href="#_request_example_13"></a><a class="link" href="#_request_example_13">8.2.2. Request Example</a></h4>
+<h4 id="_request_example_14"><a class="anchor" href="#_request_example_14"></a><a class="link" href="#_request_example_14">8.2.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /auth HTTP/1.1
@@ -1586,7 +1667,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_13"><a class="anchor" href="#_http_response_13"></a><a class="link" href="#_http_response_13">8.2.3. HTTP Response</a></h4>
+<h4 id="_http_response_15"><a class="anchor" href="#_http_response_15"></a><a class="link" href="#_http_response_15">8.2.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
@@ -1634,7 +1715,7 @@ Content-Length: 114
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_14"><a class="anchor" href="#_request_example_14"></a><a class="link" href="#_request_example_14">9.1.2. Request Example</a></h4>
+<h4 id="_request_example_15"><a class="anchor" href="#_request_example_15"></a><a class="link" href="#_request_example_15">9.1.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /auth HTTP/1.1
@@ -1644,7 +1725,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_14"><a class="anchor" href="#_http_response_14"></a><a class="link" href="#_http_response_14">9.1.3. HTTP Response</a></h4>
+<h4 id="_http_response_16"><a class="anchor" href="#_http_response_16"></a><a class="link" href="#_http_response_16">9.1.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1690,7 +1771,7 @@ Content-Length: 172
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_15"><a class="anchor" href="#_request_example_15"></a><a class="link" href="#_request_example_15">9.2.2. Request Example</a></h4>
+<h4 id="_request_example_16"><a class="anchor" href="#_request_example_16"></a><a class="link" href="#_request_example_16">9.2.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /auth HTTP/1.1
@@ -1700,7 +1781,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_15"><a class="anchor" href="#_http_response_15"></a><a class="link" href="#_http_response_15">9.2.3. HTTP Response</a></h4>
+<h4 id="_http_response_17"><a class="anchor" href="#_http_response_17"></a><a class="link" href="#_http_response_17">9.2.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
@@ -1725,7 +1806,7 @@ Content-Length: 127
 <h2 id="_sign_up"><a class="anchor" href="#_sign_up"></a><a class="link" href="#_sign_up">10. Sign Up</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_8"><a class="anchor" href="#_성공_8"></a><a class="link" href="#_성공_8">10.1. 성공</a></h3>
+<h3 id="_성공_9"><a class="anchor" href="#_성공_9"></a><a class="link" href="#_성공_9">10.1. 성공</a></h3>
 <div class="sect3">
 <h4 id="_request_fields_9"><a class="anchor" href="#_request_fields_9"></a><a class="link" href="#_request_fields_9">10.1.1. Request Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1768,7 +1849,7 @@ Size must be between 6 and 20 inclusive<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_16"><a class="anchor" href="#_request_example_16"></a><a class="link" href="#_request_example_16">10.1.2. Request Example</a></h4>
+<h4 id="_request_example_17"><a class="anchor" href="#_request_example_17"></a><a class="link" href="#_request_example_17">10.1.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user HTTP/1.1
@@ -1785,7 +1866,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_16"><a class="anchor" href="#_http_response_16"></a><a class="link" href="#_http_response_16">10.1.3. HTTP Response</a></h4>
+<h4 id="_http_response_18"><a class="anchor" href="#_http_response_18"></a><a class="link" href="#_http_response_18">10.1.3. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
@@ -1896,7 +1977,7 @@ Size must be between 6 and 20 inclusive<br></p></td>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_request_example_17"><a class="anchor" href="#_request_example_17"></a><a class="link" href="#_request_example_17">10.2.2. Request Example</a></h4>
+<h4 id="_request_example_18"><a class="anchor" href="#_request_example_18"></a><a class="link" href="#_request_example_18">10.2.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /user HTTP/1.1
@@ -1947,7 +2028,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_17"><a class="anchor" href="#_http_response_17"></a><a class="link" href="#_http_response_17">10.2.4. HTTP Response</a></h4>
+<h4 id="_http_response_19"><a class="anchor" href="#_http_response_19"></a><a class="link" href="#_http_response_19">10.2.4. HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 409 Conflict
@@ -1972,7 +2053,7 @@ Content-Length: 126
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-12-28 16:15:22 UTC
+Last updated 2022-01-07 16:27:30 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
