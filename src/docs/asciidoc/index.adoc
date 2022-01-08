@@ -12,7 +12,21 @@ endif::[]
 
 == OAuth 링크 조회
 
-=== 성공
+=== PKCE 방식
+
+==== Path Parameters
+include::{snippets}/OAuth_Link_PKCE/path-parameters.adoc[]
+
+==== Query Parameters
+include::{snippets}/OAuth_Link_PKCE/request-parameters.adoc[]
+
+==== Request Example
+include::{snippets}/OAuth_Link_PKCE/http-request.adoc[]
+
+==== HTTP Response
+include::{snippets}/OAuth_Link_PKCE/http-response.adoc[]
+
+=== Authorization Code 방식
 
 ==== Path Parameters
 include::{snippets}/OAuth_Link/path-parameters.adoc[]
@@ -22,9 +36,6 @@ include::{snippets}/OAuth_Link/http-request.adoc[]
 
 ==== HTTP Response
 include::{snippets}/OAuth_Link/http-response.adoc[]
-
-==== HTTP Response
-include::{snippets}/Save_Post/http-response.adoc[]
 
 == Post 작성
 
