@@ -1,20 +1,22 @@
 package com.example.forsubmit.domain.auth.service
 
 import com.example.forsubmit.domain.auth.exceptions.InvalidOauthTypeException
-import com.example.forsubmit.domain.auth.properties.OAuthProperties
+import com.example.forsubmit.domain.auth.properties.GithubOAuthProperties
+import com.example.forsubmit.domain.auth.properties.GoogleOAuthProperties
 import spock.lang.Specification
 
 class OAuthServiceTest extends Specification {
 
-    private OAuthProperties oAuthProperties = GroovyMock(OAuthProperties)
-    private def oAuthService = new OAuthService(oAuthProperties)
+    private GoogleOAuthProperties googleOAuthProperties = GroovyMock(GoogleOAuthProperties)
+    private GithubOAuthProperties githubOAuthProperties = GroovyMock(GithubOAuthProperties)
+    private def oAuthService = new OAuthService(githubOAuthProperties, googleOAuthProperties)
 
     def "Get OAuth Authentication Url"() {
         given:
         setupOAuthProperties()
 
         when:
-        def response = oAuthService.getAuthenticationUri(type)
+        def response = oAuthService.getAuthorizeUri(type, codeChallenge, codeChallengeMethod)
 
         then:
         response.status == 200
@@ -23,22 +25,29 @@ class OAuthServiceTest extends Specification {
         response.content.authenticationUrl != null
 
         where:
-        type     | _
-        "github" | _
-        "google" | _
+        type     | codeChallenge    | codeChallengeMethod
+        "github" | null             | null
+        "google" | "codeChallenge2" | "codeChallengeMethod2"
     }
 
     def "Get OAuth Authentication Url - Invalid Type"() {
         when:
-        oAuthService.getAuthenticationUri("Invalid Type")
+        oAuthService.getAuthorizeUri("Invalid Type", null, null)
 
         then:
         thrown(InvalidOauthTypeException)
     }
 
     private def setupOAuthProperties() {
-        oAuthProperties.google >> new OAuthProperties.Google("yohoho", "yohohohoho", "localhost/github/redirect", "email")
-        oAuthProperties.github >> new OAuthProperties.Github("yohow", "yoyooyo", "localhost/github/redirect", "email")
+        googleOAuthProperties.clientId >> "yohoho"
+        googleOAuthProperties.clientSecret >> "yohohohoho"
+        googleOAuthProperties.redirectUri >> "localhost/github/redirect"
+        googleOAuthProperties.scope >> "email"
+
+        githubOAuthProperties.clientId >> "yohow"
+        githubOAuthProperties.clientSecret >> "yoyooyo"
+        githubOAuthProperties.redirectUri >> "localhost/github/redirect"
+        githubOAuthProperties.scope >> "email"
     }
 
 }

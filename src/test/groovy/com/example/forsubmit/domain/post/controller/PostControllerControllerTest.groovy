@@ -35,6 +35,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*
 import static org.springframework.restdocs.payload.PayloadDocumentation.*
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
@@ -350,6 +351,9 @@ class PostControllerControllerTest extends BaseControllerTest {
                 preprocessResponse(prettyPrint()),
                 requestHeaders(
                         headerWithName("Authorization").description("Access Token")
+                ),
+                requestParameters(
+                        parameterWithName("lastId").description("마지막으로 조회한 id")
                 ),
                 responseFields(
                         fieldWithPath("status").description("상태코드"),
