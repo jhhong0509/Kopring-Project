@@ -46,10 +46,10 @@ oauth2:
   google:
     clientId: ${GOOGLE_CLIENT_ID}
     clientSecret: ${GOOGLE_CLIENT_SECRET}
-    redirectUrl: ${GOOGLE_REDIRECT_URL}
+    redirectUri: ${GOOGLE_REDIRECT_URL}
     scope: ${GOOGLE_SCOPE}
   github:
-    clientId: ${GOOGLE_CLIENT_ID}
-    clientSecret: ${GOOGLE_CLIENT_SECRET}
-    redirectUrl: ${GOOGLE_REDIRECT_URL}
-    scope: ${GOOGLE_SCOPE}
+    clientId: ${GITHUB_CLIENT_ID}
+    clientSecret: ${GITHUB_CLIENT_SECRET}
+    redirectUri: ${GITHUB_REDIRECT_URL}
+    scope: ${GITHUB_SCOPE}

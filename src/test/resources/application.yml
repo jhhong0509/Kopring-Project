@@ -35,10 +35,10 @@ oauth2:
   google:
     clientId: yohoho
     clientSecret: yohohohoho
-    redirectUrl: localhost/github/redirect
+    redirectUri: localhost/github/redirect
     scope: email
   github:
     clientId: yohow
     clientSecret: yoyooyo
-    redirectUrl: localhost/github/redirect
+    redirectUri: localhost/github/redirect
     scope: email
