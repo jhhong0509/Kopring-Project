@@ -15,6 +15,9 @@ class GoogleOAuthProperties : OAuthBaseProperty {
 
     companion object {
         const val BASE_URL = "https://accounts.google.com/o/oauth2/v2"
+        const val OAUTH_BASE_URL = "https://oauth2.googleapis.com"
         const val AUTHORIZE_URL = "/auth"
+        const val TOKEN_URL = "/token"
+        const val USER_INFO_URL = "/tokeninfo"
     }
 }
