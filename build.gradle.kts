@@ -92,6 +92,7 @@ dependencies {
 
     // feignClient
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0")
+    implementation("io.github.openfeign:feign-httpclient:11.8")
 
 }
 
