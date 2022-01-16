@@ -8,6 +8,5 @@ enum class AuthErrorCode(
     override val koreanMessage: String
 ) : ExceptionProperty {
     PASSWORD_NOT_MATCH(404, "Password Not Match", "비밀번호가 일치하지 않습니다."),
-    REFRESH_TOKEN_NOT_FOUND(404, "RefreshToken Not Found", "Refresh Token 을 찾을 수 없습니다."),
-    INVALID_OAUTH_TYPE(400, "Invalid OAuth Token", "지원되지 않는 OAuth 종류입니다.")
+    REFRESH_TOKEN_NOT_FOUND(404, "RefreshToken Not Found", "Refresh Token 을 찾을 수 없습니다.")
 }

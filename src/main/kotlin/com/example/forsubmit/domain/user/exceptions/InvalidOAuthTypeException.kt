@@ -2,9 +2,9 @@ package com.example.forsubmit.domain.user.exceptions
 
 import com.example.forsubmit.global.exception.GlobalException
 
-class UserNotFoundException private constructor() : GlobalException(UserErrorCode.USER_NOT_FOUND) {
+class InvalidOAuthTypeException private constructor() : GlobalException(UserErrorCode.INVALID_OAUTH_TYPE) {
     companion object {
         @JvmField
-        val EXCEPTION = UserNotFoundException()
+        val EXCEPTION = InvalidOAuthTypeException()
     }
 }
