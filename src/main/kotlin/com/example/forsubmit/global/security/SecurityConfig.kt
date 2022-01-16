@@ -25,7 +25,8 @@ class SecurityConfig(
 
             .authorizeRequests()
             .antMatchers("/auth").permitAll()
-            .antMatchers(HttpMethod.GET, "/oauth/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/oauth/{type}/authentication-uri").permitAll()
+            .antMatchers(HttpMethod.POST, "/oauth/{type}").permitAll()
             .antMatchers("/user").permitAll()
             .antMatchers("/docs/**").permitAll()
             .anyRequest().denyAll()
