@@ -1,8 +1,9 @@
 package com.example.forsubmit.domain.user.controller
 
-import com.example.forsubmit.domain.auth.infrastructure.dto.GoogleTokenResponse
-import com.example.forsubmit.domain.auth.payload.response.OAuthRedirectUriResponse
-import com.example.forsubmit.domain.auth.service.OAuthService
+import com.example.forsubmit.domain.auth.payload.response.TokenResponse
+import com.example.forsubmit.domain.user.enums.OAuthType
+import com.example.forsubmit.domain.user.payload.response.OAuthRedirectUriResponse
+import com.example.forsubmit.domain.user.service.OAuthService
 import com.example.forsubmit.global.payload.BaseResponse
 import org.springframework.web.bind.annotation.*
 
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.*
 class OAuthController(
     private val oAuthService: OAuthService
 ) {
-    @GetMapping("/{type}")
-    fun oauthAuthorizeUrl(
-        @PathVariable type: String,
+    @GetMapping("/{type}/authentication-uri")
+    fun oAuthAuthorizeUri(
+        @PathVariable type: OAuthType,
         @RequestParam(required = false) codeChallenge: String?,
         @RequestParam(required = false) codeChallengeMethod: String?
     ): BaseResponse<OAuthRedirectUriResponse> {
@@ -22,10 +23,10 @@ class OAuthController(
 
     @PostMapping("/{type}")
     fun oauthSignIn(
-        @PathVariable type: String,
+        @PathVariable type: OAuthType,
         @RequestParam(required = false) codeVerifier: String?,
         @RequestParam code: String
-    ): GoogleTokenResponse {
-        return oAuthService.oAuthSignIn(type, codeVerifier, code)
+    ): BaseResponse<TokenResponse> {
+        return oAuthService.oAuthSignInOrSignUp(type, codeVerifier, code)
     }
 }
