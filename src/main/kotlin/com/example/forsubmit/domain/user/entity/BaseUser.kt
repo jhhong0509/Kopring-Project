@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull
 @DiscriminatorColumn(name = "user_type")
 sealed class BaseUser(
     @NaturalId
-    val email: String,
+    val accountId: String,
 
     name: String
 ) {

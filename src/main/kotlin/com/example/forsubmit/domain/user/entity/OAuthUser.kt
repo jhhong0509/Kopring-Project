@@ -4,8 +4,9 @@ import javax.persistence.Entity
 
 @Entity
 class OAuthUser(
-    email: String,
+
+    accountId: String,
 
     name: String
 
-) : BaseUser(email, name)
+) : BaseUser(accountId, name)
