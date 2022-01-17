@@ -1,6 +1,6 @@
-package com.example.forsubmit.domain.auth.properties
+package com.example.forsubmit.domain.user.properties
 
-interface OAuthBaseProperty {
+sealed interface BaseOAuthProperty {
     val clientId: String
     val clientSecret: String
     val redirectUri: String
