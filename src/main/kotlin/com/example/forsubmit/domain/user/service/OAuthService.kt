@@ -1,61 +1,43 @@
-package com.example.forsubmit.domain.auth.service
+package com.example.forsubmit.domain.user.service
 
-import com.example.forsubmit.domain.auth.exceptions.InvalidOauthTypeException
-import com.example.forsubmit.domain.auth.infrastructure.GoogleOAuthClient
-import com.example.forsubmit.domain.auth.infrastructure.dto.GoogleTokenResponse
-import com.example.forsubmit.domain.auth.oauthparams.authorize.GithubAuthorizeParam
-import com.example.forsubmit.domain.auth.oauthparams.authorize.GoogleAuthorizeParam
-import com.example.forsubmit.domain.auth.oauthparams.token.GithubOAuthTokenParam
-import com.example.forsubmit.domain.auth.oauthparams.token.GoogleOAuthTokenParam
-import com.example.forsubmit.domain.auth.payload.response.OAuthRedirectUriResponse
-import com.example.forsubmit.domain.auth.properties.GithubOAuthProperties
-import com.example.forsubmit.domain.auth.properties.GoogleOAuthProperties
-import com.example.forsubmit.domain.auth.utils.OAuthParamUtil
-import com.example.forsubmit.domain.user.entity.UserRepository
+import com.example.forsubmit.domain.auth.payload.response.TokenResponse
+import com.example.forsubmit.domain.user.entity.OAuthUser
+import com.example.forsubmit.domain.user.enums.OAuthType
+import com.example.forsubmit.domain.user.facade.UserFacade
+import com.example.forsubmit.domain.user.infrastructure.userinfo.dto.BaseUserInfoResponse
+import com.example.forsubmit.domain.user.oauthparams.OAuthParamFactory
+import com.example.forsubmit.domain.user.oauthparams.authorize.OAuthBaseAuthorizeParam
+import com.example.forsubmit.domain.user.oauthparams.token.OAuthBaseTokenParam
+import com.example.forsubmit.domain.user.payload.response.OAuthRedirectUriResponse
+import com.example.forsubmit.domain.user.utils.OAuthParamUtil
 import com.example.forsubmit.global.payload.BaseResponse
+import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import org.springframework.stereotype.Service
-import org.springframework.util.MultiValueMap
 import org.springframework.web.util.UriComponentsBuilder
-
 
 @Service
 class OAuthService(
-    private val githubOAuthProperties: GithubOAuthProperties,
-    private val googleOAuthProperties: GoogleOAuthProperties,
-    private val googleOAuthClient: GoogleOAuthClient,
-    private val userRepository: UserRepository,
+    private val userFacade: UserFacade,
+    private val oAuthParamFactory: OAuthParamFactory,
+    private val jwtTokenProvider: JwtTokenProvider
 ) {
 
     companion object {
         const val GET_AUTH_URL_MESSAGE = "Get Authentication Url Success"
         const val GET_AUTH_URL_MESSAGE_KOR = "인증 URL을 성공적으로 반환했습니다."
+
+        const val OAUTH_SIGN_IN_MESSAGE = "OAuth Sign In Success"
+        const val OAUTH_SIGN_IN_MESSAGE_KOR = "OAuth 로그인에 성공했습니다."
     }
 
     fun getAuthorizeUri(
-        type: String,
+        type: OAuthType,
         codeChallenge: String?,
         codeChallengeMethod: String?
     ): BaseResponse<OAuthRedirectUriResponse> {
 
-        val authUri = when (type) {
-            "github" -> getAuthUri(
-                OAuthParamUtil.buildAuthorizeParam(GithubAuthorizeParam(githubOAuthProperties)),
-                GithubOAuthProperties.BASE_URL,
-                GithubOAuthProperties.AUTHORIZE_URL
-            )
-            "google" -> getAuthUri(
-                OAuthParamUtil.buildAuthorizeParam(
-                    GoogleAuthorizeParam(
-                        codeChallenge!!,
-                        codeChallengeMethod!!,
-                        googleOAuthProperties
-                    )
-                ),
-                GoogleOAuthProperties.BASE_URL,
-                GoogleOAuthProperties.AUTHORIZE_URL
-            )
-            else -> throw InvalidOauthTypeException.EXCEPTION
-        }
+        val authorizeParam = oAuthParamFactory.getAuthorizeParam(type, codeChallenge, codeChallengeMethod)
+        val authUri = getAuthUri(authorizeParam)
 
         return BaseResponse(
             status = 200,
@@ -65,33 +47,46 @@ class OAuthService(
         )
     }
 
-    fun oAuthSignIn(type: String, codeVerifier: String?, code: String): GoogleTokenResponse {
+    fun oAuthSignInOrSignUp(type: OAuthType, codeVerifier: String?, code: String): BaseResponse<TokenResponse> {
+        val oAuthTokenParam = oAuthParamFactory.getTokenParam(type, code, codeVerifier)
+        val userInfoResponse = getUserInfo(oAuthTokenParam, type.tokenPrefix)
 
-        val params = when (type) {
-            "google" -> OAuthParamUtil.buildBaseTokenParam(
-                GoogleOAuthTokenParam(
-                    oAuthBaseProperty = googleOAuthProperties,
-                    code = code,
-                    codeVerifier = codeVerifier!!
-                )
-            )
-            "github" -> OAuthParamUtil.buildBaseTokenParam(
-                GithubOAuthTokenParam(
-                    oAuthBaseProperty = googleOAuthProperties,
-                    code = code
-                )
-            )
-            else -> throw InvalidOauthTypeException.EXCEPTION
-        }
+        val user = OAuthUser(
+            accountId = userInfoResponse.getAccountId(),
+            name = userInfoResponse.getName()
+        )
 
-        return googleOAuthClient.getGoogleToken(params)
+        userFacade.saveUser(user)
+
+        val tokens = jwtTokenProvider.getToken(user.accountId)
+
+        val tokenResponse = TokenResponse(
+            accessToken = tokens.accessToken,
+            refreshToken = tokens.refreshToken
+        )
+
+        return BaseResponse(
+            status = 200,
+            message = OAUTH_SIGN_IN_MESSAGE,
+            koreanMessage = OAUTH_SIGN_IN_MESSAGE_KOR,
+            content = tokenResponse
+        )
+
     }
 
-    private fun getAuthUri(params: MultiValueMap<String, String>, baseUrl: String, authorizeUri: String): String {
+    private fun getUserInfo(oAuthParam: OAuthBaseTokenParam, tokenPrefix: String): BaseUserInfoResponse {
+        val params = OAuthParamUtil.buildBaseTokenParam(oAuthParam)
+        val tokenResponse = oAuthParam.oAuthTokenClient.getToken(params)
+        val token = tokenResponse.getToken()
+
+        return oAuthParam.oAuthUserInfoClient.getUserInfo("$tokenPrefix $token")
+    }
+
+    private fun getAuthUri(oAuthBaseAuthorizeParam: OAuthBaseAuthorizeParam): String {
         return UriComponentsBuilder
-            .fromHttpUrl(baseUrl)
-            .path(authorizeUri)
-            .queryParams(params)
+            .fromHttpUrl(oAuthBaseAuthorizeParam.url)
+            .path(oAuthBaseAuthorizeParam.endpoint)
+            .queryParams(OAuthParamUtil.buildAuthorizeParam(oAuthBaseAuthorizeParam))
             .toUriString()
     }
 
