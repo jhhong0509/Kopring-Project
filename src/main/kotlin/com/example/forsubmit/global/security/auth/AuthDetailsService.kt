@@ -10,7 +10,7 @@ class AuthDetailsService(
     private val userFacade: UserFacade
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        val user = userFacade.findUserByEmail(username)
+        val user = userFacade.findUserByAccountId(username)
         return AuthDetails(user = user)
     }
 }
