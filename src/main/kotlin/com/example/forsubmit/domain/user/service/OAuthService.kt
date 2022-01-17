@@ -5,9 +5,9 @@ import com.example.forsubmit.domain.user.entity.OAuthUser
 import com.example.forsubmit.domain.user.enums.OAuthType
 import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.domain.user.infrastructure.userinfo.dto.BaseUserInfoResponse
-import com.example.forsubmit.domain.user.oauthparams.OAuthParamFactory
-import com.example.forsubmit.domain.user.oauthparams.authorize.OAuthBaseAuthorizeParam
-import com.example.forsubmit.domain.user.oauthparams.token.OAuthBaseTokenParam
+import com.example.forsubmit.domain.user.dtos.OAuthDtoFactory
+import com.example.forsubmit.domain.user.dtos.authorize.OAuthBaseAuthorizeDto
+import com.example.forsubmit.domain.user.dtos.token.OAuthBaseTokenDto
 import com.example.forsubmit.domain.user.payload.response.OAuthRedirectUriResponse
 import com.example.forsubmit.domain.user.utils.OAuthParamUtil
 import com.example.forsubmit.global.payload.BaseResponse
@@ -18,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder
 @Service
 class OAuthService(
     private val userFacade: UserFacade,
-    private val oAuthParamFactory: OAuthParamFactory,
+    private val oAuthDtoFactory: OAuthDtoFactory,
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
@@ -36,7 +36,7 @@ class OAuthService(
         codeChallengeMethod: String?
     ): BaseResponse<OAuthRedirectUriResponse> {
 
-        val authorizeParam = oAuthParamFactory.getAuthorizeParam(type, codeChallenge, codeChallengeMethod)
+        val authorizeParam = oAuthDtoFactory.getAuthorizeDto(type, codeChallenge, codeChallengeMethod)
         val authUri = getAuthUri(authorizeParam)
 
         return BaseResponse(
@@ -48,7 +48,7 @@ class OAuthService(
     }
 
     fun oAuthSignInOrSignUp(type: OAuthType, codeVerifier: String?, code: String): BaseResponse<TokenResponse> {
-        val oAuthTokenParam = oAuthParamFactory.getTokenParam(type, code, codeVerifier)
+        val oAuthTokenParam = oAuthDtoFactory.getTokenDto(type, code, codeVerifier)
         val userInfoResponse = getUserInfo(oAuthTokenParam, type.tokenPrefix)
 
         val user = OAuthUser(
@@ -74,7 +74,7 @@ class OAuthService(
 
     }
 
-    private fun getUserInfo(oAuthParam: OAuthBaseTokenParam, tokenPrefix: String): BaseUserInfoResponse {
+    private fun getUserInfo(oAuthParam: OAuthBaseTokenDto, tokenPrefix: String): BaseUserInfoResponse {
         val params = OAuthParamUtil.buildBaseTokenParam(oAuthParam)
         val tokenResponse = oAuthParam.oAuthTokenClient.getToken(params)
         val token = tokenResponse.getToken()
@@ -82,11 +82,11 @@ class OAuthService(
         return oAuthParam.oAuthUserInfoClient.getUserInfo("$tokenPrefix $token")
     }
 
-    private fun getAuthUri(oAuthBaseAuthorizeParam: OAuthBaseAuthorizeParam): String {
+    private fun getAuthUri(oAuthBaseAuthorizeDto: OAuthBaseAuthorizeDto): String {
         return UriComponentsBuilder
-            .fromHttpUrl(oAuthBaseAuthorizeParam.url)
-            .path(oAuthBaseAuthorizeParam.endpoint)
-            .queryParams(OAuthParamUtil.buildAuthorizeParam(oAuthBaseAuthorizeParam))
+            .fromHttpUrl(oAuthBaseAuthorizeDto.url)
+            .path(oAuthBaseAuthorizeDto.endpoint)
+            .queryParams(OAuthParamUtil.buildAuthorizeParam(oAuthBaseAuthorizeDto))
             .toUriString()
     }
 
