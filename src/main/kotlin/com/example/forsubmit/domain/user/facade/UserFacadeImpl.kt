@@ -18,14 +18,14 @@ class UserFacadeImpl(
         return userRepository.findByIdOrNull(id) ?: throw UserNotFoundException.EXCEPTION
     }
 
-    override fun findUserByEmail(email: String): BaseUser {
-        return userRepository.findByEmail(email) ?: throw UserNotFoundException.EXCEPTION
+    override fun findUserByAccountId(email: String): BaseUser {
+        return userRepository.findByAccountId(email) ?: throw UserNotFoundException.EXCEPTION
     }
 
     override fun findCurrentUser(): BaseUser {
         val authentication = SecurityContextHolder.getContext().authentication ?: throw UserNotFoundException.EXCEPTION
         val email = authentication.name
-        return findUserByEmail(email)
+        return findUserByAccountId(email)
     }
 
     override fun saveUser(user: BaseUser): BaseUser {
