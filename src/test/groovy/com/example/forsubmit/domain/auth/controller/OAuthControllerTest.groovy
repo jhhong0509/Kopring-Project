@@ -1,8 +1,10 @@
 package com.example.forsubmit.domain.auth.controller
 
 import com.example.forsubmit.BaseControllerTest
-import com.example.forsubmit.domain.auth.payload.response.OAuthRedirectUriResponse
-import com.example.forsubmit.domain.auth.service.OAuthService
+import com.example.forsubmit.domain.user.controller.OAuthController
+import com.example.forsubmit.domain.user.enums.OAuthType
+import com.example.forsubmit.domain.user.payload.response.OAuthRedirectUriResponse
+import com.example.forsubmit.domain.user.service.OAuthService
 import com.example.forsubmit.global.payload.BaseResponse
 import org.spockframework.spring.SpringBean
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -26,11 +28,11 @@ class OAuthControllerTest extends BaseControllerTest {
 
     def "OAuth Get Auth Url With PKCE Test"() {
         given:
-        def oAuthRedirectUriResponse = new OAuthRedirectUriResponse("http://github.com:8181/google")
+        def oAuthRedirectUriResponse = new OAuthRedirectUriResponse("https://github.com:8181/google")
         oAuthService.getAuthorizeUri(type, codeChallenge, codeChallengeMethod) >> new BaseResponse(200, "Success", "성공", oAuthRedirectUriResponse)
 
         when:
-        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/auth-endpoint/{type}", type)
+        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/{type}/authorize-uri", type)
                 .queryParam("codeChallenge", codeChallenge)
                 .queryParam("codeChallengeMethod", codeChallengeMethod))
 
@@ -54,8 +56,8 @@ class OAuthControllerTest extends BaseControllerTest {
                 )))
 
         where:
-        type     | codeChallenge | codeChallengeMethod
-        "google" | "asdfsadf"    | "S256"
+        type             | codeChallenge | codeChallengeMethod
+        OAuthType.GOOGLE | "asdfsadf"    | "S256"
     }
 
     def "OAuth Get Auth Url Test"() {
@@ -64,7 +66,7 @@ class OAuthControllerTest extends BaseControllerTest {
         oAuthService.getAuthorizeUri(type, null, null) >> new BaseResponse(200, "Success", "성공", oAuthRedirectUriResponse)
 
         when:
-        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/auth-endpoint/{type}", type))
+        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/{type}/authorize-uri", type))
 
         then:
         result.andExpect(MockMvcResultMatchers.status().isOk())
@@ -82,7 +84,7 @@ class OAuthControllerTest extends BaseControllerTest {
                 )))
 
         where:
-        type     | _
-        "github" | _
+        type             | _
+        OAuthType.GITHUB | _
     }
 }
