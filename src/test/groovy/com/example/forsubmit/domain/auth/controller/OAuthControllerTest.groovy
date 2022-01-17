@@ -32,7 +32,7 @@ class OAuthControllerTest extends BaseControllerTest {
         oAuthService.getAuthorizeUri(type, codeChallenge, codeChallengeMethod) >> new BaseResponse(200, "Success", "성공", oAuthRedirectUriResponse)
 
         when:
-        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/{type}/authorize-uri", type)
+        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/{type}/authentication-uri", type)
                 .queryParam("codeChallenge", codeChallenge)
                 .queryParam("codeChallengeMethod", codeChallengeMethod))
 
@@ -52,7 +52,7 @@ class OAuthControllerTest extends BaseControllerTest {
                         fieldWithPath("status").description("Status Code"),
                         fieldWithPath("message").description("응답 메세지"),
                         fieldWithPath("korean_message").description("한글 응답 메세지"),
-                        fieldWithPath("content.authentication_url").type(JsonFieldType.STRING).description("인증 URL")
+                        fieldWithPath("content.authentication_uri").type(JsonFieldType.STRING).description("인증 URL")
                 )))
 
         where:
@@ -66,7 +66,7 @@ class OAuthControllerTest extends BaseControllerTest {
         oAuthService.getAuthorizeUri(type, null, null) >> new BaseResponse(200, "Success", "성공", oAuthRedirectUriResponse)
 
         when:
-        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/{type}/authorize-uri", type))
+        def result = mockMvc.perform(RestDocumentationRequestBuilders.get("/oauth/{type}/authentication-uri", type))
 
         then:
         result.andExpect(MockMvcResultMatchers.status().isOk())
@@ -80,7 +80,7 @@ class OAuthControllerTest extends BaseControllerTest {
                         fieldWithPath("status").description("Status Code"),
                         fieldWithPath("message").description("응답 메세지"),
                         fieldWithPath("korean_message").description("한글 응답 메세지"),
-                        fieldWithPath("content.authentication_url").type(JsonFieldType.STRING).description("인증 URL")
+                        fieldWithPath("content.authentication_uri").type(JsonFieldType.STRING).description("인증 URL")
                 )))
 
         where:

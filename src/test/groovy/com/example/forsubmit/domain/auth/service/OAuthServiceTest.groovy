@@ -1,8 +1,7 @@
 package com.example.forsubmit.domain.auth.service
 
-
 import com.example.forsubmit.domain.user.dtos.OAuthDtoFactory
-import com.example.forsubmit.domain.user.dtos.authorize.GoogleAuthorizeDto
+import com.example.forsubmit.domain.user.dtos.authorize.GithubAuthorizeDto
 import com.example.forsubmit.domain.user.enums.OAuthType
 import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.domain.user.properties.GithubOAuthProperties
@@ -24,44 +23,25 @@ class OAuthServiceTest extends Specification {
     def "Get OAuth Authentication Url"() {
         given:
         setupOAuthProperties()
-        oAuthDtoFactory.getAuthorizeDto(type, codeChallenge, codeChallengeMethod) >>
-                new GoogleAuthorizeDto(codeChallenge, codeChallengeMethod, googleOAuthProperties, host, endpoint)
+        oAuthDtoFactory.getAuthorizeDto(type, null, null) >>
+                new GithubAuthorizeDto(googleOAuthProperties, host, endpoint)
 
         when:
-        def response = oAuthService.getAuthorizeUri(type, codeChallenge, codeChallengeMethod)
+        def response = oAuthService.getAuthorizeUri(type, null, null)
 
         then:
         response.status == 200
         response.koreanMessage != null
         response.message != null
         def uri = UriComponentsBuilder.fromUriString("https://www.google.com/search?q=java").build(true)
-        uri.host == host
         !uri.queryParams.isEmpty()
 
         where:
-        type             | codeChallenge    | codeChallengeMethod    | host                 | endpoint
-        OAuthType.GITHUB | null             | null                   | "https://github.com" | "/authorize"
-        OAuthType.GOOGLE | "codeChallenge2" | "codeChallengeMethod2" | "https://google.com" | "/auth"
+        type             | host                 | endpoint
+        OAuthType.GITHUB | "https://github.com" | "/authorize"
+        OAuthType.GOOGLE | "https://google.com" | "/auth"
     }
 
-    def "Get OAuth Authentication Url"() {
-        given:
-        setupOAuthProperties()
-
-        when:
-        def response = oAuthService.getAuthorizeUri(type, codeChallenge, codeChallengeMethod)
-
-        then:
-        response.status == 200
-        response.koreanMessage != null
-        response.message != null
-        response.content.authenticationUri != null
-
-        where:
-        type             | codeChallenge    | codeChallengeMethod
-        OAuthType.GITHUB | null             | null
-        OAuthType.GOOGLE | "codeChallenge2" | "codeChallengeMethod2"
-    }
 
     private def setupOAuthProperties() {
         googleOAuthProperties.clientId >> "yohoho"
