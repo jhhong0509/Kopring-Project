@@ -9,7 +9,6 @@ const val BASE_PACKAGE = "com.example.forsubmit"
 
 @ConfigurationPropertiesScan
 @SpringBootApplication
-@EnableFeignClients
 class ForSubmitApplication
 
 fun main(args: Array<String>) {
