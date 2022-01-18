@@ -333,7 +333,7 @@ class PostControllerControllerTest extends BaseControllerTest {
     def "Post Controller Get Post List"() {
         given:
         def user = new User(email, name, "password")
-        def post = new PostResponse(1, title, createDate, user.name, user.email)
+        def post = new PostResponse(1, title, createDate, user.name, user.accountId)
         def postListResponse = new PostListResponse(List.of(post, post, post, post), 10)
         postService.getPostList(_) >> new BaseResponse(200, "Get Post List Success", "게시글 조회 성공", postListResponse)
 

@@ -1,6 +1,7 @@
-package com.example.forsubmit.domain.auth.controller
+package com.example.forsubmit.domain.user.controller
 
 import com.example.forsubmit.BaseControllerTest
+import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.user.controller.OAuthController
 import com.example.forsubmit.domain.user.enums.OAuthType
 import com.example.forsubmit.domain.user.payload.response.OAuthRedirectUriResponse
@@ -45,8 +46,8 @@ class OAuthControllerTest extends BaseControllerTest {
                         parameterWithName("type").description("OAuth 타입")
                 ),
                 requestParameters(
-                        parameterWithName("codeChallenge").description("code_verifier값을 암호화 한 후, Base64URLEncoding 한 값").optional(),
-                        parameterWithName("codeChallengeMethod").description("codeChallenge를 암호화 한 방식").optional()
+                        parameterWithName("codeChallenge").description("code_verifier값을 암호화 한 후, Base64URLEncoding 한 값"),
+                        parameterWithName("codeChallengeMethod").description("codeChallenge를 암호화 한 방식")
                 ),
                 responseFields(
                         fieldWithPath("status").description("Status Code"),
@@ -86,5 +87,73 @@ class OAuthControllerTest extends BaseControllerTest {
         where:
         type             | _
         OAuthType.GITHUB | _
+    }
+
+    def "OAuth Sign In Or Sign Up Test"() {
+        given:
+        def tokenResponse = new TokenResponse("accessToken", "refreshToken")
+        oAuthService.oAuthSignInOrSignUp(type, null, code) >> new BaseResponse(200, "Success", "성공", tokenResponse)
+
+        when:
+        def result = mockMvc.perform(RestDocumentationRequestBuilders.post("/oauth/{type}", type)
+                .queryParam("code", code))
+
+        result.andDo(document("OAuth_SignIn",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                pathParameters(
+                        parameterWithName("type").description("OAuth 타입")
+                ),
+                requestParameters(
+                        parameterWithName("code").description("redirect url에서 받아온 Authorization Code")
+                ),
+                responseFields(
+                        fieldWithPath("status").description("Status Code"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("korean_message").description("한글 응답 메세지"),
+                        fieldWithPath("content.access_token").type(JsonFieldType.STRING).description("access token"),
+                        fieldWithPath("content.refresh_token").type(JsonFieldType.STRING).description("refresh token")
+                )))
+        then:
+        result.andExpect(MockMvcResultMatchers.status().isOk())
+
+        where:
+        type             | code
+        OAuthType.GITHUB | "code"
+    }
+
+    def "OAuth Sign In Or Sign Up Test - PKCE"() {
+        given:
+        def tokenResponse = new TokenResponse("accessToken", "refreshToken")
+        oAuthService.oAuthSignInOrSignUp(type, codeVerifier, code) >> new BaseResponse(200, "Success", "성공", tokenResponse)
+
+        when:
+        def result = mockMvc.perform(RestDocumentationRequestBuilders.post("/oauth/{type}", type)
+                .queryParam("code", code)
+                .queryParam("codeVerifier", codeVerifier))
+
+        then:
+        result.andExpect(MockMvcResultMatchers.status().isOk())
+        result.andDo(document("OAuth_SignIn_PKCE",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                pathParameters(
+                        parameterWithName("type").description("OAuth 타입")
+                ),
+                requestParameters(
+                        parameterWithName("code").description("redirect url에서 받아온 Authorization Code"),
+                        parameterWithName("codeVerifier").description("codeChallenge를 암호화하기 전의 값")
+                ),
+                responseFields(
+                        fieldWithPath("status").description("Status Code"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("korean_message").description("한글 응답 메세지"),
+                        fieldWithPath("content.access_token").type(JsonFieldType.STRING).description("access token"),
+                        fieldWithPath("content.refresh_token").type(JsonFieldType.STRING).description("refresh token")
+                )))
+
+        where:
+        type             | code   | codeVerifier
+        OAuthType.GOOGLE | "code" | "codeVerifier"
     }
 }

@@ -39,9 +39,9 @@ class AuthServiceTest extends Specification {
 
         then:
         jwtProperties.refreshTokenExp >> 10000
-        1 * userFacade.findUserByEmail(request.email) >> { user }
+        1 * userFacade.findUserByAccountId(request.email) >> { user }
         1 * passwordEncoder.matches(request.password, user.password) >> true
-        1 * jwtTokenProvider.getToken(user.email) >> { new TokenResponse(accessToken, refreshToken) }
+        1 * jwtTokenProvider.getToken(user.accountId) >> { new TokenResponse(accessToken, refreshToken) }
 
         response.content.accessToken == accessToken
         response.content.refreshToken == refreshToken
@@ -62,7 +62,7 @@ class AuthServiceTest extends Specification {
         authService.signIn(request)
 
         then:
-        1 * userFacade.findUserByEmail(request.email) >> { user }
+        1 * userFacade.findUserByAccountId(request.email) >> { user }
         1 * passwordEncoder.matches(request.password, request.password) >> false
 
         thrown(PasswordNotMatchException)
@@ -79,7 +79,7 @@ class AuthServiceTest extends Specification {
         authService.signIn(request)
 
         then:
-        userFacade.findUserByEmail(request.email) >> { throw UserNotFoundException.EXCEPTION }
+        userFacade.findUserByAccountId(request.email) >> { throw UserNotFoundException.EXCEPTION }
         thrown(UserNotFoundException)
 
         where:
@@ -97,7 +97,7 @@ class AuthServiceTest extends Specification {
 
         then:
         refreshTokenRepository.findByToken(refreshToken) >> new RefreshToken("email", refreshToken, 100000)
-        jwtTokenProvider.getAccessToken(user.email) >> new AccessTokenResponse(expectedAccessToken)
+        jwtTokenProvider.getAccessToken(user.accountId) >> new AccessTokenResponse(expectedAccessToken)
 
         accessToken.content.accessToken === expectedAccessToken
 

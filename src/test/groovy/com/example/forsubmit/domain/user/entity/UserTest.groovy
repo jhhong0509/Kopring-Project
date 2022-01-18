@@ -16,7 +16,7 @@ class UserTest extends BaseJpaTest {
         then:
         user.id != 0
         user.name != null
-        user.email != null
+        user.accountId != null
         user.password != null
         user.posts.isEmpty()
 

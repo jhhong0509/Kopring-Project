@@ -3,8 +3,8 @@ package com.example.forsubmit.domain.user.service
 import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.user.entity.User
-import com.example.forsubmit.domain.user.entity.UserRepository
 import com.example.forsubmit.domain.user.exceptions.EmailAlreadyExistsException
+import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.domain.user.payload.request.SignUpRequest
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -12,10 +12,10 @@ import spock.lang.Specification
 
 class UserServiceTest extends Specification {
 
-    private UserRepository userRepository = GroovyMock(UserRepository)
+    private UserFacade userFacade = GroovyMock(UserFacade)
     private JwtTokenProvider jwtTokenProvider = GroovyMock(JwtTokenProvider)
     private PasswordEncoder passwordEncoder = GroovyMock(PasswordEncoder)
-    private UserService userService = new UserService(userRepository, jwtTokenProvider, passwordEncoder)
+    private UserService userService = new UserService(userFacade, jwtTokenProvider, passwordEncoder)
 
     def "User Service Save Test"() {
         given:
@@ -24,7 +24,7 @@ class UserServiceTest extends Specification {
         TestUtils.setVariable("password", password, request)
         TestUtils.setVariable("name", name, request)
 
-        userRepository.findByEmail(_) >> {}
+        userFacade.findUserByAccountId(_) >> {}
         jwtTokenProvider.getToken(_) >> new TokenResponse(accessToken, refreshToken)
         passwordEncoder.encode(_) >> "sadfadsf"
 
@@ -46,11 +46,14 @@ class UserServiceTest extends Specification {
 
     def "User Service Save Test Failed - Email Already Exists"() {
         given:
-        userRepository.findByNaturalId(_) >> new User()
+        userFacade.findUserByAccountId(_) >> new User()
         def request = new SignUpRequest()
         TestUtils.setVariable("email", email, request)
         TestUtils.setVariable("password", password, request)
         TestUtils.setVariable("name", name, request)
+
+        passwordEncoder.encode(_) >> "asdf"
+        userFacade.saveUser(_) >> { throw EmailAlreadyExistsException.EXCEPTION }
 
         when:
         userService.saveUser(request)
