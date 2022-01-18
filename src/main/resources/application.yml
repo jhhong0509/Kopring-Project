@@ -26,13 +26,30 @@ spring:
         max-page-size: 10
   jackson:
     property-naming-strategy: SNAKE_CASE
+
 jwt:
   secretKey: ${SECRET_KEY}
   accessTokenExp: ${ACCESS_EXP}
   refreshTokenExp: ${REFRESH_EXP}
+
 server:
   port: 8181
+  servlet:
+    context-path: /v1
+  shutdown: graceful
 
 logging:
   level:
-    root: info
+    root: error
+
+oauth2:
+  google:
+    clientId: ${GOOGLE_CLIENT_ID}
+    clientSecret: ${GOOGLE_CLIENT_SECRET}
+    redirectUri: ${GOOGLE_REDIRECT_URL}
+    scope: ${GOOGLE_SCOPE}
+  github:
+    clientId: ${GITHUB_CLIENT_ID}
+    clientSecret: ${GITHUB_CLIENT_SECRET}
+    redirectUri: ${GITHUB_REDIRECT_URL}
+    scope: ${GITHUB_SCOPE}

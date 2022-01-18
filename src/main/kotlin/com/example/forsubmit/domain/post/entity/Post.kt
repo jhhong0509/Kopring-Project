@@ -1,5 +1,6 @@
 package com.example.forsubmit.domain.post.entity
 
+import com.example.forsubmit.domain.user.entity.BaseUser
 import com.example.forsubmit.domain.user.entity.User
 import org.jetbrains.annotations.NotNull
 import org.springframework.data.annotation.CreatedDate
@@ -16,7 +17,7 @@ class Post(
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    val user: User
+    val user: BaseUser
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

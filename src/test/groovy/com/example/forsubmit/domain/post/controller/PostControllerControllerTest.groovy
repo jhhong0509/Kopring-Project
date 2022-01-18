@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.post.controller
 
-import com.example.forsubmit.BaseTest
+import com.example.forsubmit.BaseControllerTest
 import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.post.exceptions.CannotDeletePostException
 import com.example.forsubmit.domain.post.exceptions.CannotUpdatePostException
@@ -35,13 +35,14 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*
 import static org.springframework.restdocs.payload.PayloadDocumentation.*
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
 @WebMvcTest([PostController])
 @Import(CustomExceptionHandler)
 @ActiveProfiles("test")
-class PostControllerTest extends BaseTest {
+class PostControllerControllerTest extends BaseControllerTest {
 
     @SpringBean
     private PostService postService = GroovyMock(PostService)
@@ -62,8 +63,7 @@ class PostControllerTest extends BaseTest {
         postService.savePost(_) >> new BaseResponse(201, "Save Success", "저장 성공", new SavePostResponse(1))
 
         when:
-        def response = mockMvc
-                .perform(post("/post")
+        def response = mockMvc.perform(post("/post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(JwtProperties.TOKEN_HEADER_NAME, token)
                         .content(objectMapper.writeValueAsString(request)))
@@ -333,7 +333,7 @@ class PostControllerTest extends BaseTest {
     def "Post Controller Get Post List"() {
         given:
         def user = new User(email, name, "password")
-        def post = new PostResponse(1, title, createDate, user.name, user.email)
+        def post = new PostResponse(1, title, createDate, user.name, user.accountId)
         def postListResponse = new PostListResponse(List.of(post, post, post, post), 10)
         postService.getPostList(_) >> new BaseResponse(200, "Get Post List Success", "게시글 조회 성공", postListResponse)
 
@@ -351,6 +351,9 @@ class PostControllerTest extends BaseTest {
                 preprocessResponse(prettyPrint()),
                 requestHeaders(
                         headerWithName("Authorization").description("Access Token")
+                ),
+                requestParameters(
+                        parameterWithName("lastId").description("마지막으로 조회한 id")
                 ),
                 responseFields(
                         fieldWithPath("status").description("상태코드"),

@@ -27,3 +27,18 @@ jwt:
   secretKey: sdaf
   accessTokenExp: 1000
   refreshTokenExp: 10000
+
+server:
+  servlet:
+    context-path: /v1
+oauth2:
+  google:
+    clientId: yohoho
+    clientSecret: yohohohoho
+    redirectUri: localhost/github/redirect
+    scope: email
+  github:
+    clientId: yohow
+    clientSecret: yoyooyo
+    redirectUri: localhost/github/redirect
+    scope: email

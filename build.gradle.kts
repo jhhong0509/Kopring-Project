@@ -90,6 +90,10 @@ dependencies {
     // logger
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
 
+    // feignClient
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0")
+    implementation("io.github.openfeign:feign-httpclient:11.8")
+
 }
 
 tasks.withType<KotlinCompile> {

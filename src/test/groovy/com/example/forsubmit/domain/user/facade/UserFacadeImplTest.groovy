@@ -46,12 +46,12 @@ class UserFacadeImplTest extends Specification {
         0  | _
     }
 
-    def "userFacade findByEmail test"() {
+    def "userFacade findByAccountId test"() {
         given:
-        userRepository.findByEmail(_) >> new User()
+        userRepository.findByAccountId(_) >> new User()
 
         when:
-        userFacade.findUserByEmail(email)
+        userFacade.findUserByAccountId(email)
 
         then:
         noExceptionThrown()
@@ -64,7 +64,7 @@ class UserFacadeImplTest extends Specification {
 
     def "userFacade findByEmail Not Found test"() {
         when:
-        userFacade.findUserByEmail(email)
+        userFacade.findUserByAccountId(email)
 
         then:
         thrown(UserNotFoundException)

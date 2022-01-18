@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.user.controller
 
-import com.example.forsubmit.BaseTest
+import com.example.forsubmit.BaseControllerTest
 import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.user.exceptions.EmailAlreadyExistsException
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
 @WebMvcTest(UserController)
-class UserControllerTest extends BaseTest {
+class UserControllerControllerTest extends BaseControllerTest {
 
     @SpringBean
     private UserService userService = GroovyMock(UserService)

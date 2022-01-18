@@ -2,8 +2,7 @@ package com.example.forsubmit.domain.user.service
 
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.user.entity.User
-import com.example.forsubmit.domain.user.entity.UserRepository
-import com.example.forsubmit.domain.user.exceptions.EmailAlreadyExistsException
+import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.domain.user.payload.request.SignUpRequest
 import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-    private val userRepository: UserRepository,
+    private val userFacade: UserFacade,
     private val jwtTokenProvider: JwtTokenProvider,
     private val passwordEncoder: PasswordEncoder
 ) {
@@ -22,17 +21,15 @@ class UserService(
     }
 
     fun saveUser(request: SignUpRequest): BaseResponse<TokenResponse> {
-        userRepository.findByNaturalId(request.email)?.let { throw EmailAlreadyExistsException.EXCEPTION }
-
         val user = User(
             name = request.name,
             email = request.email,
             password = passwordEncoder.encode(request.password)
         )
 
-        userRepository.save(user)
+        userFacade.saveUser(user)
 
-        val tokenResponse = jwtTokenProvider.getToken(user.email)
+        val tokenResponse = jwtTokenProvider.getToken(user.accountId)
 
         return BaseResponse(
             status = 201,
