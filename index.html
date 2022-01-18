@@ -517,7 +517,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_path_parameters"><a class="anchor" href="#_path_parameters"></a><a class="link" href="#_path_parameters">1.1.1. Path Parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /oauth/auth-endpoint/{type}</caption>
+<caption class="title">Table 1. /oauth/{type}/authentication-uri</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -565,7 +565,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_request_example"><a class="anchor" href="#_request_example"></a><a class="link" href="#_request_example">1.1.3. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/auth-endpoint/google?codeChallenge=asdfsadf&amp;codeChallengeMethod=S256 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/GOOGLE/authentication-uri?codeChallenge=asdfsadf&amp;codeChallengeMethod=S256 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -579,14 +579,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 156
+Content-Length: 157
 
 {
   "status" : 200,
   "message" : "Success",
   "korean_message" : "성공",
   "content" : {
-    "authentication_url" : "http://github.com:8181/google"
+    "authentication_uri" : "https://github.com:8181/google"
   }
 }</code></pre>
 </div>
@@ -598,7 +598,7 @@ Content-Length: 156
 <div class="sect3">
 <h4 id="_path_parameters_2"><a class="anchor" href="#_path_parameters_2"></a><a class="link" href="#_path_parameters_2">1.2.1. Path Parameters</a></h4>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. /oauth/auth-endpoint/{type}</caption>
+<caption class="title">Table 2. /oauth/{type}/authentication-uri</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -621,7 +621,7 @@ Content-Length: 156
 <h4 id="_request_example_2"><a class="anchor" href="#_request_example_2"></a><a class="link" href="#_request_example_2">1.2.2. Request Example</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/auth-endpoint/github HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/GITHUB/authentication-uri HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -642,7 +642,7 @@ Content-Length: 156
   "message" : "Success",
   "korean_message" : "성공",
   "content" : {
-    "authentication_url" : "http://github.com:8181/github"
+    "authentication_uri" : "http://github.com:8181/github"
   }
 }</code></pre>
 </div>
@@ -922,7 +922,7 @@ Content-Length: 281
   "content" : {
     "title" : "title",
     "content" : "content",
-    "created_at" : "2022-01-08T15:46:28.364708",
+    "created_at" : "2022-01-18T00:33:49.957407",
     "user_name" : "name",
     "user_email" : "test@dsm.hs.kr"
   }
@@ -1065,25 +1065,25 @@ Content-Length: 837
     "responses" : [ {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-08T15:46:28.593372",
+      "created_at" : "2022-01-18T00:33:50.112679",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-08T15:46:28.593372",
+      "created_at" : "2022-01-18T00:33:50.112679",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-08T15:46:28.593372",
+      "created_at" : "2022-01-18T00:33:50.112679",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-08T15:46:28.593372",
+      "created_at" : "2022-01-18T00:33:50.112679",
       "user_name" : "name",
       "user_email" : "test@dsm.hs.kr"
     } ],
@@ -2113,7 +2113,7 @@ Content-Length: 126
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-01-08 15:44:19 UTC
+Last updated 2022-01-18 00:32:13 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
