@@ -33,9 +33,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*
 import static org.springframework.restdocs.payload.PayloadDocumentation.*
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters
+import static org.springframework.restdocs.request.RequestDocumentation.*
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
@@ -64,9 +62,9 @@ class PostControllerControllerTest extends BaseControllerTest {
 
         when:
         def response = mockMvc.perform(post("/post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header(JwtProperties.TOKEN_HEADER_NAME, token)
-                        .content(objectMapper.writeValueAsString(request)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(JwtProperties.TOKEN_HEADER_NAME, token)
+                .content(objectMapper.writeValueAsString(request)))
 
         then:
         response.andExpect(MockMvcResultMatchers.status().isCreated())
