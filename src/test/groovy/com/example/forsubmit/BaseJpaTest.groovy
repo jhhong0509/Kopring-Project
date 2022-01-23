@@ -8,5 +8,4 @@ import spock.lang.Specification
 
 @Import([JpaConfig, QueryDSLConfig])
 @DataJpaTest
-class BaseJpaTest extends Specification {
-}
+abstract class BaseJpaTest extends Specification {}

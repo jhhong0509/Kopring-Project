@@ -22,7 +22,7 @@ import spock.lang.Specification
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
 
 @AutoConfigureRestDocs
-class BaseControllerTest extends Specification {
+abstract class BaseControllerTest extends Specification {
 
     @Autowired
     protected ObjectMapper objectMapper

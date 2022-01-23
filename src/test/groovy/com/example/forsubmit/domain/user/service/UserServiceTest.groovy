@@ -19,10 +19,7 @@ class UserServiceTest extends Specification {
 
     def "User Service Save Test"() {
         given:
-        def request = new SignUpRequest()
-        TestUtils.setVariable("accountId", accountId, request)
-        TestUtils.setVariable("password", password, request)
-        TestUtils.setVariable("name", name, request)
+        def request = setSignUpRequest(accountId, password, name)
 
         userFacade.findUserByAccountId(_) >> {}
         jwtTokenProvider.getToken(_) >> new TokenResponse(accessToken, refreshToken)
@@ -47,10 +44,7 @@ class UserServiceTest extends Specification {
     def "User Service Save Test Failed - AccountId Already Exists"() {
         given:
         userFacade.findUserByAccountId(_) >> new User()
-        def request = new SignUpRequest()
-        TestUtils.setVariable("accountId", accountId, request)
-        TestUtils.setVariable("password", password, request)
-        TestUtils.setVariable("name", name, request)
+        def request = setSignUpRequest(accountId, password, name)
 
         passwordEncoder.encode(_) >> "asdf"
         userFacade.saveUser(_) >> { throw AccountIdAlreadyExistsException.EXCEPTION }
@@ -66,4 +60,15 @@ class UserServiceTest extends Specification {
         "accountId1" | "name11" | "password1"
         "accountId2" | "name22" | "password2"
     }
+
+    private def setSignUpRequest(String email, String password, String name) {
+        SignUpRequest request = new SignUpRequest()
+
+        TestUtils.setVariable("accountId", email, request)
+        TestUtils.setVariable("password", password, request)
+        TestUtils.setVariable("name", name, request)
+
+        return request
+    }
+
 }
