@@ -913,7 +913,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 281
+Content-Length: 276
 
 {
   "status" : 200,
@@ -922,9 +922,9 @@ Content-Length: 281
   "content" : {
     "title" : "title",
     "content" : "content",
-    "created_at" : "2022-01-22T08:58:17.502006",
+    "created_at" : "2022-01-23T13:00:36.497277",
     "user_name" : "name",
-    "user_email" : "test@dsm.hs.kr"
+    "account_id" : "accountId"
   }
 }</code></pre>
 </div>
@@ -1055,7 +1055,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 837
+Content-Length: 817
 
 {
   "status" : 200,
@@ -1065,27 +1065,27 @@ Content-Length: 837
     "responses" : [ {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-22T08:58:17.645827",
+      "created_at" : "2022-01-23T13:00:36.690738",
       "user_name" : "name",
-      "user_email" : "test@dsm.hs.kr"
+      "account_id" : "accountId"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-22T08:58:17.645827",
+      "created_at" : "2022-01-23T13:00:36.690738",
       "user_name" : "name",
-      "user_email" : "test@dsm.hs.kr"
+      "account_id" : "accountId"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-22T08:58:17.645827",
+      "created_at" : "2022-01-23T13:00:36.690738",
       "user_name" : "name",
-      "user_email" : "test@dsm.hs.kr"
+      "account_id" : "accountId"
     }, {
       "id" : 1,
       "title" : "title",
-      "created_at" : "2022-01-22T08:58:17.645827",
+      "created_at" : "2022-01-23T13:00:36.690738",
       "user_name" : "name",
-      "user_email" : "test@dsm.hs.kr"
+      "account_id" : "accountId"
     } ],
     "next_id" : 10
   }
@@ -1621,9 +1621,9 @@ Content-Length: 138
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account_id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">계정명</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
@@ -1641,11 +1641,11 @@ Content-Length: 138
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /auth HTTP/1.1
 Content-Type: application/json
-Content-Length: 60
+Content-Length: 55
 Host: localhost:8080
 
 {
-  "email" : "email@dsm.hs.kr",
+  "account_id" : "test2",
   "password" : "password"
 }</code></pre>
 </div>
@@ -1696,7 +1696,7 @@ Content-Length: 188
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account_id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1716,11 +1716,11 @@ Content-Length: 188
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /auth HTTP/1.1
 Content-Type: application/json
-Content-Length: 60
+Content-Length: 69
 Host: localhost:8080
 
 {
-  "email" : "email@dsm.hs.kr",
+  "account_id" : "accountId@dsm.hs.kr",
   "password" : "password"
 }</code></pre>
 </div>
@@ -1886,11 +1886,10 @@ Content-Length: 127
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account_id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이메일</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be a well-formed email address<br>
-Must not be blank<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
@@ -1918,7 +1917,7 @@ Content-Length: 78
 Host: localhost:8080
 
 {
-  "email" : "email@dsm.hs.kr",
+  "account_id" : "accountId2",
   "name" : "1",
   "password" : "password22"
 }</code></pre>
@@ -2014,11 +2013,10 @@ Content-Length: 206
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>account_id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">사용자 이메일</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Must be a well-formed email address<br>
-Must not be blank<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Must not be blank<br></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
@@ -2046,7 +2044,7 @@ Content-Length: 77
 Host: localhost:8080
 
 {
-  "email" : "email@hsad.sda",
+  "account_id" : "accountId",
   "name" : "1",
   "password" : "password22"
 }</code></pre>
@@ -2096,12 +2094,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 126
+Content-Length: 127
 
 {
   "status" : 409,
-  "message" : "Email Already Exists",
-  "korean_message" : "이 이메일이 이미 사용중입니다."
+  "message" : "AccountId Already Exists",
+  "korean_message" : "이 계정이 이미 사용중입니다."
 }</code></pre>
 </div>
 </div>
@@ -2113,7 +2111,7 @@ Content-Length: 126
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-01-22 08:56:55 UTC
+Last updated 2022-01-23 12:58:53 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
