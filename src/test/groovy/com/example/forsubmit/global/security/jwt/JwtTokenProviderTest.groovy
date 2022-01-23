@@ -18,9 +18,10 @@ class JwtTokenProviderTest extends Specification {
 
     def "AuthenticateUser Success"() {
         given:
-        def bearerToken = jwtTokenProvider.getAccessToken(email).accessToken
+        jwtProperties.secretKey >> "asdfdsaf"
+        def bearerToken = jwtTokenProvider.getAccessToken(accountId).accessToken
         def accessToken = jwtTokenProvider.parseToken(bearerToken)
-        authDetailsService.loadUserByUsername(email) >> new AuthDetails(new User("email", "name", "password"))
+        authDetailsService.loadUserByUsername(accountId) >> new AuthDetails(new User("email", "name", "password"))
 
         when:
         jwtTokenProvider.authenticateUser(accessToken)
@@ -29,17 +30,16 @@ class JwtTokenProviderTest extends Specification {
         noExceptionThrown()
 
         where:
-        email          | _
-        "email2"       | _
-        "asdfadsfadsf" | _
+        accountId    | _
+        "accountId1" | _
+        "accountId2" | _
     }
 
     def "AuthenticateUser Fail"() {
         given:
-        jwtProperties.accessTokenExp >> exp
-        def bearerToken = jwtTokenProvider.getAccessToken(email).accessToken
+        def bearerToken = jwtTokenProvider.getAccessToken(accountId).accessToken
         def accessToken = prefix + jwtTokenProvider.parseToken(bearerToken) + postfix
-        authDetailsService.loadUserByUsername(email) >> new AuthDetails(new User())
+        authDetailsService.loadUserByUsername(accountId) >> new AuthDetails(new User())
 
         when:
         jwtTokenProvider.authenticateUser(accessToken)
@@ -48,9 +48,9 @@ class JwtTokenProviderTest extends Specification {
         thrown(exception)
 
         where:
-        email    | exp     | prefix     | postfix   | exception
-        "email3" | 1000000 | ""         | "kjhkjhk" | JwtSignatureException
-        "email"  | 100000  | "asdfasdf" | ""        | JwtValidateException
+        accountId | prefix     | postfix   | exception
+        "asdf"    | ""         | "kjhkjhk" | JwtSignatureException
+        "dasf"    | "asdfasdf" | ""        | JwtValidateException
     }
 
     def "GetTokenFromHeader"() {
@@ -80,16 +80,16 @@ class JwtTokenProviderTest extends Specification {
 
     def "GetTokenSuccess"() {
         when:
-        def response = jwtTokenProvider.getToken(email)
+        def response = jwtTokenProvider.getToken(accountId)
 
         then:
         response.accessToken != null
         response.refreshToken != null
 
         where:
-        email    | secretKey
-        "email1" | "secret"
-        "email2" | "secret2"
+        accountId  | secretKey
+        "asdf"     | "secret"
+        "dasfadsf" | "secret2"
     }
 
 }

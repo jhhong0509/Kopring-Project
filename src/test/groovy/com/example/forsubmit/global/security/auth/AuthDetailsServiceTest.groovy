@@ -11,14 +11,14 @@ class AuthDetailsServiceTest extends Specification {
 
     def "User Facade Test"() {
         given:
-        def user = new User(email, name, "password")
+        def user = new User(accountId, name, "password")
         userFacade.findUserByAccountId(_) >> user
 
         when:
-        def userDetails = authDetails.loadUserByUsername(email)
+        def userDetails = authDetails.loadUserByUsername(accountId)
 
         then:
-        userDetails.username == email
+        userDetails.username == accountId
         userDetails.password == name
         userDetails.accountNonExpired
         userDetails.accountNonLocked
@@ -27,8 +27,8 @@ class AuthDetailsServiceTest extends Specification {
         userDetails.authorities != null
 
         where:
-        email             | name
-        "email@dsm.hs.kr" | "name"
-        "test"            | "namename"
+        accountId             | name
+        "accountId" | "name"
+        "test"                | "namename"
     }
 }

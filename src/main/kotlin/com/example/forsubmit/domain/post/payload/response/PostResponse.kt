@@ -14,6 +14,6 @@ class PostResponse(
 
     val userName: String,
 
-    val userEmail: String
+    val accountId: String
 
 )

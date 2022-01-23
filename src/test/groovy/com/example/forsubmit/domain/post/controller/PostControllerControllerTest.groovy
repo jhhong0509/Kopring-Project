@@ -51,7 +51,7 @@ class PostControllerControllerTest extends BaseControllerTest {
         jwtTokenProvider.getTokenFromHeader(_) >> "sdafadsf"
     }
 
-    @WithMockUser(username = "email@dsm.hs.kr")
+    @WithMockUser(username = "asfsadf")
     def "Post Controller Save Test"() {
         given:
         def request = new CreatePostRequest()
@@ -91,7 +91,7 @@ class PostControllerControllerTest extends BaseControllerTest {
         "title2" | "content2" | "Bearer asdfadsf"
     }
 
-    @WithMockUser(username = "email@dsm.hs.kr")
+    @WithMockUser(username = "asdfa")
     def "Post Controller Save Fail Test - 400"() {
         given:
         def request = new CreatePostRequest()
@@ -262,7 +262,7 @@ class PostControllerControllerTest extends BaseControllerTest {
 
     def "Post Controller Get Single Post"() {
         given:
-        def postResponse = new PostContentResponse(title, content, createDate, name, email)
+        def postResponse = new PostContentResponse(title, content, createDate, name, accountId)
         def serviceResponse = new BaseResponse(200, "Get Post Success", "단건 조회 성공", postResponse)
         postService.getSinglePost(_) >> { serviceResponse }
 
@@ -291,13 +291,13 @@ class PostControllerControllerTest extends BaseControllerTest {
                         fieldWithPath("content.content").description("내용"),
                         fieldWithPath("content.created_at").description("게시글 작성일"),
                         fieldWithPath("content.user_name").description("작성자 이름"),
-                        fieldWithPath("content.user_email").description("작성자 이메일")
+                        fieldWithPath("content.account_id").description("작성자 이메일")
                 )))
 
         where:
-        title   | content   | email              | name   | createDate
-        " "     | "  "      | "test22@dsm.hs.kr" | "  "   | LocalDateTime.of(2021, 5, 3, 10, 5, 2)
-        "title" | "content" | "test@dsm.hs.kr"   | "name" | LocalDateTime.now()
+        title   | content   | accountId   | name   | createDate
+        " "     | "  "      | "accountId" | "  "   | LocalDateTime.of(2021, 5, 3, 10, 5, 2)
+        "title" | "content" | "accountId" | "name" | LocalDateTime.now()
     }
 
     def "Post Controller Get Single Post - Not Found"() {
@@ -330,7 +330,7 @@ class PostControllerControllerTest extends BaseControllerTest {
 
     def "Post Controller Get Post List"() {
         given:
-        def user = new User(email, name, "password")
+        def user = new User(accountId, name, "password")
         def post = new PostResponse(1, title, createDate, user.name, user.accountId)
         def postListResponse = new PostListResponse(List.of(post, post, post, post), 10)
         postService.getPostList(_) >> new BaseResponse(200, "Get Post List Success", "게시글 조회 성공", postListResponse)
@@ -362,13 +362,13 @@ class PostControllerControllerTest extends BaseControllerTest {
                         fieldWithPath("content.responses[].title").description("게시글 제목"),
                         fieldWithPath("content.responses[].created_at").description("작성일"),
                         fieldWithPath("content.responses[].user_name").description("작성자 이름"),
-                        fieldWithPath("content.responses[].user_email").description("작성자 이메일"),
+                        fieldWithPath("content.responses[].account_id").description("작성자 이메일"),
                 )))
 
         where:
-        title   | content   | email              | name   | createDate
-        " "     | "  "      | "test22@dsm.hs.kr" | "  "   | LocalDateTime.of(2021, 5, 3, 10, 5, 2)
-        "title" | "content" | "test@dsm.hs.kr"   | "name" | LocalDateTime.now()
+        title   | content   | accountId   | name   | createDate
+        " "     | "  "      | "accountId" | "  "   | LocalDateTime.of(2021, 5, 3, 10, 5, 2)
+        "title" | "content" | "accountId" | "name" | LocalDateTime.now()
     }
 
 }

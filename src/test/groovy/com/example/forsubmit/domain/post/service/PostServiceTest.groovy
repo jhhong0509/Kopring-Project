@@ -158,7 +158,7 @@ class PostServiceTest extends Specification {
 
     def "Get Single Post Success Test"() {
         given:
-        def user = new User(email, name, "password")
+        def user = new User(accountId, name, "password")
         def post = new Post(title, content, user)
         TestUtils.setVariable("createdDate", createdDate, post)
         userFacade.findCurrentUser() >> user
@@ -174,13 +174,13 @@ class PostServiceTest extends Specification {
         response.content.title == title
         response.content.content == content
         response.content.createdAt == createdDate
-        response.content.userEmail == email
+        response.content.accountId == accountId
         response.content.userName == name
 
         where:
-        id | title    | content    | email             | name   | createdDate
-        1  | "title1" | "content1" | "email@dsm.hs.kr" | "name" | LocalDateTime.of(2021, 5, 9, 20, 5)
-        2  | ""       | ""         | ""                | ""     | LocalDateTime.now()
+        id | title    | content    | accountId             | name   | createdDate
+        1  | "title1" | "content1" | "accountId@dsm.hs.kr" | "name" | LocalDateTime.of(2021, 5, 9, 20, 5)
+        2  | ""       | ""         | ""                    | ""     | LocalDateTime.now()
     }
 
     def "Get Single Post Test - Not Found"() {
@@ -201,7 +201,7 @@ class PostServiceTest extends Specification {
 
     def "Get Post List Test"() {
         given:
-        def user = new User(email, name, "password")
+        def user = new User(accountId, name, "password")
         def post = new Post(title, content, user)
         TestUtils.setVariable("createdDate", createdDate, post)
         postRepository.postPageable(_) >> new PostPageResponse(List.of(post, post, post, post), 1)
@@ -217,13 +217,13 @@ class PostServiceTest extends Specification {
         response.content.responses.last().id == 0
         response.content.responses.last().userName == name
         response.content.responses.last().createdAt == createdDate
-        response.content.responses.last().userEmail == email
+        response.content.responses.last().accountId == accountId
         response.content.responses.last().title == title
 
         where:
-        id | title    | content    | email             | name   | createdDate
-        1  | "title1" | "content1" | "email@dsm.hs.kr" | "name" | LocalDateTime.of(2021, 5, 9, 20, 5)
-        2  | ""       | ""         | ""                | ""     | LocalDateTime.now()
+        id | title    | content    | accountId   | name   | createdDate
+        1  | "title1" | "content1" | "accountId" | "name" | LocalDateTime.of(2021, 5, 9, 20, 5)
+        2  | ""       | ""         | ""          | ""     | LocalDateTime.now()
     }
 
 }

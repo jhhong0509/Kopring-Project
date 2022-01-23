@@ -23,7 +23,7 @@ class UserService(
     fun saveUser(request: SignUpRequest): BaseResponse<TokenResponse> {
         val user = User(
             name = request.name,
-            email = request.email,
+            accountId = request.accountId,
             password = passwordEncoder.encode(request.password)
         )
 

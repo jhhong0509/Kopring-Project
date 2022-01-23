@@ -10,7 +10,7 @@ class UserTest extends BaseJpaTest {
 
     def "Save Success Test"() {
         when:
-        def unsaved = new User("email@dsm.hs.kr", "name", "password")
+        def unsaved = new User("accountId@dsm.hs.kr", "name", "password")
         def user = userRepository.save(unsaved)
 
         then:
@@ -21,18 +21,18 @@ class UserTest extends BaseJpaTest {
         user.posts.isEmpty()
 
         where:
-        email             | name    | password
-        "email@dsm.hs.kr" | "name1" | "password"
-        ""                | ""      | ""
+        accountId   | name    | password
+        "accountId" | "name1" | "password"
+        ""          | ""      | ""
     }
 
     def "Find By NaturalKey Test"() {
         given:
-        def unsaved = new User(email, "name", "password")
+        def unsaved = new User(accountId, "name", "password")
         def user = userRepository.save(unsaved)
 
         when:
-        def foundUser = userRepository.findByNaturalId(email)
+        def foundUser = userRepository.findByNaturalId(accountId)
 
 
         then:
@@ -40,9 +40,9 @@ class UserTest extends BaseJpaTest {
         user.name != null
 
         where:
-        email             | _
-        "email@dsm.hs.kr" | _
-        ""                | _
+        accountId             | _
+        "accountId@dsm.hs.kr" | _
+        ""                    | _
     }
 
 }

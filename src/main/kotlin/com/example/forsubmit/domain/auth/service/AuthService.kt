@@ -37,7 +37,7 @@ class AuthService(
     }
 
     fun signIn(request: AuthRequest): BaseResponse<TokenResponse> {
-        val user = userFacade.findUserByAccountId(request.email) as User
+        val user = userFacade.findUserByAccountId(request.accountId) as User
 
         if (!passwordEncoder.matches(request.password, user.password)) {
             throw PasswordNotMatchException.EXCEPTION
@@ -46,7 +46,7 @@ class AuthService(
         val tokenResponse = jwtTokenProvider.getToken(user.accountId)
 
         val refreshToken = RefreshToken(
-            email = user.accountId,
+            accountId = user.accountId,
             token = tokenResponse.refreshToken,
             ttl = refreshExp
         )
@@ -69,7 +69,7 @@ class AuthService(
             status = 200,
             message = TOKEN_REFRESH_MESSAGE,
             koreanMessage = TOKEN_REFRESH_MESSAGE_KOR,
-            content = jwtTokenProvider.getAccessToken(token.email)
+            content = jwtTokenProvider.getAccessToken(token.accountId)
         )
     }
 

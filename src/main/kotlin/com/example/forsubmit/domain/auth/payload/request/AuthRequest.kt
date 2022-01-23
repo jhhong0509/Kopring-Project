@@ -1,12 +1,10 @@
 package com.example.forsubmit.domain.auth.payload.request
 
-import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 
 class AuthRequest {
-    @field:Email
     @field:NotBlank
-    lateinit var email: String
+    lateinit var accountId: String
         private set
 
     @field:NotBlank

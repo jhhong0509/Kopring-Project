@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepository : CustomNaturalIdRepository<BaseUser, Long, String> {
-    fun findByAccountId(email: String): BaseUser?
+    fun findByAccountId(accountId: String): BaseUser?
 }

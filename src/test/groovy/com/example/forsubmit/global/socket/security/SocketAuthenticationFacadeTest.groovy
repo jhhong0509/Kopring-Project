@@ -11,7 +11,7 @@ class SocketAuthenticationFacadeTest extends Specification {
 
     def "SocketAuthenticationFacade Test"() {
         given:
-        def user = new User("email", "name", "password")
+        def user = new User("accountId", "name", "password")
         1 * socketIOClient.get(SecurityProperties.USER_KEY) >> user
 
         when:

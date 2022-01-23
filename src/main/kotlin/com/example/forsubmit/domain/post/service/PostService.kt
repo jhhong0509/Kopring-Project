@@ -107,7 +107,7 @@ class PostService(
             content = post.content,
             title = post.title,
             createdAt = post.createdDate!!,
-            userEmail = user.accountId,
+            accountId = user.accountId,
             userName = user.name
         )
 
@@ -127,7 +127,7 @@ class PostService(
                 PostResponse(
                     id = it.id,
                     userName = it.user.name,
-                    userEmail = it.user.accountId,
+                    accountId = it.user.accountId,
                     createdAt = it.createdDate,
                     title = it.title
                 )
