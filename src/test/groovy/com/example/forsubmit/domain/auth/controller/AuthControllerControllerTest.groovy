@@ -49,7 +49,7 @@ class AuthControllerControllerTest extends BaseControllerTest {
     def "Sign In Success"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("accountId", accountId, request)
         TestUtils.setVariable("password", requestPassword, request)
         def requestString = objectMapper.writeValueAsString(request)
 
@@ -66,7 +66,7 @@ class AuthControllerControllerTest extends BaseControllerTest {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                        fieldWithPath("account_id").type(JsonFieldType.STRING).description("계정명"),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                 ),
                 responseFields(
@@ -90,15 +90,15 @@ class AuthControllerControllerTest extends BaseControllerTest {
         tokens.refreshToken != null
 
         where:
-        email             | requestPassword | password
-        "email@dsm.hs.kr" | "password2"     | "password2"
-        "email@dsm.hs.kr" | "password"      | "password"
+        accountId | requestPassword | password
+        "test1"   | "password2"     | "password2"
+        "test2"   | "password"      | "password"
     }
 
     def "Sign In Fail"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("accountId", accountId, request)
         TestUtils.setVariable("password", password, request)
         def requestString = objectMapper.writeValueAsString(request)
 
@@ -115,7 +115,7 @@ class AuthControllerControllerTest extends BaseControllerTest {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                        fieldWithPath("account_id").type(JsonFieldType.STRING).description("이메일"),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("잘못된 비밀번호")
                 )))
 
@@ -128,9 +128,9 @@ class AuthControllerControllerTest extends BaseControllerTest {
         baseResponse.status == 404
 
         where:
-        email             | password
-        "email@dsm.hs.kr" | "password2"
-        "email@dsm.hs.kr" | "password"
+        accountId             | password
+        "accountId@dsm.hs.kr" | "password2"
+        "accountId@dsm.hs.kr" | "password"
     }
 
     def "Token Refresh Success"() {
@@ -166,7 +166,7 @@ class AuthControllerControllerTest extends BaseControllerTest {
         tokens.accessToken != null
 
         where:
-        refreshToken | userEmail
+        refreshToken | accountId
         "asdf"       | "sadfasdf"
         "asdfasdf"   | "sadfasdf"
     }

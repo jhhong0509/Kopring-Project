@@ -16,7 +16,7 @@ class CustomPostRepositoryImplTest extends BaseJpaTest {
     private User user
 
     def setup() {
-        User user = new User("email@dsm.hs.kr", "name", "password")
+        User user = new User("dsaff@dsm.hs.kr", "name", "password")
         this.user = entityManager.persist(user)
     }
 

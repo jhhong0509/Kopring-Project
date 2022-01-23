@@ -5,7 +5,6 @@ import com.example.forsubmit.domain.user.entity.UserRepository
 import com.example.forsubmit.domain.user.exceptions.UserNotFoundException
 import com.example.forsubmit.global.security.auth.AuthDetails
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import spock.lang.Specification
 
@@ -51,28 +50,28 @@ class UserFacadeImplTest extends Specification {
         userRepository.findByAccountId(_) >> new User()
 
         when:
-        userFacade.findUserByAccountId(email)
+        userFacade.findUserByAccountId(accountId)
 
         then:
         noExceptionThrown()
 
         where:
-        email             | _
-        "email@dsm.hs.kr" | _
-        ""                | _
+        accountId             | _
+        "accountId@dsm.hs.kr" | _
+        ""                    | _
     }
 
-    def "userFacade findByEmail Not Found test"() {
+    def "userFacade findByAccountId Not Found test"() {
         when:
-        userFacade.findUserByAccountId(email)
+        userFacade.findUserByAccountId(accountId)
 
         then:
         thrown(UserNotFoundException)
 
         where:
-        email             | _
-        "email@dsm.hs.kr" | _
-        ""                | _
+        accountId   | _
+        "accountId" | _
+        ""          | _
     }
 
     def "userFacade findCurrentUser Test"() {
@@ -80,7 +79,7 @@ class UserFacadeImplTest extends Specification {
         def user = new User()
         def authDetails = new AuthDetails(user)
         SecurityContextHolder.context.authentication >> new UsernamePasswordAuthenticationToken(authDetails, "", new ArrayList())
-        userRepository.findByEmail(_) >> user
+        userRepository.findByAccountId(_) >> user
 
         when:
         userFacade.findCurrentUser()

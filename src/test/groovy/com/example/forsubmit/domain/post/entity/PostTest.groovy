@@ -12,7 +12,7 @@ class PostTest extends BaseJpaTest {
 
     def "Save Success Test"() {
         given:
-        def unsavedUser = new User("email", "name", "password")
+        def unsavedUser = new User("test", "name", "password")
         def user = entityManager.persist(unsavedUser)
 
         def unsavedPost = new Post("title", "content", user)

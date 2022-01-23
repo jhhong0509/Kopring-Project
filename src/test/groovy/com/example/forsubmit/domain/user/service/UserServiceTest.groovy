@@ -3,7 +3,7 @@ package com.example.forsubmit.domain.user.service
 import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
 import com.example.forsubmit.domain.user.entity.User
-import com.example.forsubmit.domain.user.exceptions.EmailAlreadyExistsException
+import com.example.forsubmit.domain.user.exceptions.AccountIdAlreadyExistsException
 import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.domain.user.payload.request.SignUpRequest
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
@@ -20,7 +20,7 @@ class UserServiceTest extends Specification {
     def "User Service Save Test"() {
         given:
         def request = new SignUpRequest()
-        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("accountId", accountId, request)
         TestUtils.setVariable("password", password, request)
         TestUtils.setVariable("name", name, request)
 
@@ -39,31 +39,31 @@ class UserServiceTest extends Specification {
         response.content.refreshToken != null
 
         where:
-        email               | name     | password    | accessToken       | refreshToken
-        "email11@dsm.hs.kr" | "name11" | "password1" | "Bearer asdfasfd" | "Bearer asdfasdf"
-        "email22@dsm.hs.kr" | "name22" | "password2" | "Bearer asdfasdf" | "Bearer asdfadsf"
+        accountId     | name     | password    | accessToken       | refreshToken
+        "accountId11" | "name11" | "password1" | "Bearer asdfasfd" | "Bearer asdfasdf"
+        "accountId22" | "name22" | "password2" | "Bearer asdfasdf" | "Bearer asdfadsf"
     }
 
-    def "User Service Save Test Failed - Email Already Exists"() {
+    def "User Service Save Test Failed - AccountId Already Exists"() {
         given:
         userFacade.findUserByAccountId(_) >> new User()
         def request = new SignUpRequest()
-        TestUtils.setVariable("email", email, request)
+        TestUtils.setVariable("accountId", accountId, request)
         TestUtils.setVariable("password", password, request)
         TestUtils.setVariable("name", name, request)
 
         passwordEncoder.encode(_) >> "asdf"
-        userFacade.saveUser(_) >> { throw EmailAlreadyExistsException.EXCEPTION }
+        userFacade.saveUser(_) >> { throw AccountIdAlreadyExistsException.EXCEPTION }
 
         when:
         userService.saveUser(request)
 
         then:
-        thrown(EmailAlreadyExistsException)
+        thrown(AccountIdAlreadyExistsException)
 
         where:
-        email               | name     | password
-        "email11@dsm.hs.kr" | "name11" | "password1"
-        "email22@dsm.hs.kr" | "name22" | "password2"
+        accountId    | name     | password
+        "accountId1" | "name11" | "password1"
+        "accountId2" | "name22" | "password2"
     }
 }

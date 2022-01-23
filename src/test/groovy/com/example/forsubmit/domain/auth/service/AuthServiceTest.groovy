@@ -30,16 +30,16 @@ class AuthServiceTest extends Specification {
     def "Sign in Success test"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable("email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable("accountId", "accountId@dsm.hs.kr", request)
         TestUtils.setVariable("password", "password", request)
-        def user = new User(request.email, "name", request.password)
+        def user = new User(request.accountId, "name", request.password)
 
         when:
         def response = authService.signIn(request)
 
         then:
         jwtProperties.refreshTokenExp >> 10000
-        1 * userFacade.findUserByAccountId(request.email) >> { user }
+        1 * userFacade.findUserByAccountId(request.accountId) >> { user }
         1 * passwordEncoder.matches(request.password, user.password) >> true
         1 * jwtTokenProvider.getToken(user.accountId) >> { new TokenResponse(accessToken, refreshToken) }
 
@@ -54,15 +54,15 @@ class AuthServiceTest extends Specification {
     def "Sign In Password Not Match Exception Test"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable("email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable("accountId", "accountId@dsm.hs.kr", request)
         TestUtils.setVariable("password", "password", request)
-        def user = new User(request.email, "name", request.password)
+        def user = new User(request.accountId, "name", request.password)
 
         when:
         authService.signIn(request)
 
         then:
-        1 * userFacade.findUserByAccountId(request.email) >> { user }
+        1 * userFacade.findUserByAccountId(request.accountId) >> { user }
         1 * passwordEncoder.matches(request.password, request.password) >> false
 
         thrown(PasswordNotMatchException)
@@ -72,31 +72,31 @@ class AuthServiceTest extends Specification {
     def "Sign In User Not Found Exception Test"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable("email", "email@dsm.hs.kr", request)
+        TestUtils.setVariable("accountId", "accountId@dsm.hs.kr", request)
         TestUtils.setVariable("password", "password", request)
 
         when:
         authService.signIn(request)
 
         then:
-        userFacade.findUserByAccountId(request.email) >> { throw UserNotFoundException.EXCEPTION }
+        userFacade.findUserByAccountId(request.accountId) >> { throw UserNotFoundException.EXCEPTION }
         thrown(UserNotFoundException)
 
         where:
-        email              | password
-        "email@dsm.hs.kr"  | "password"
-        "email2@dsm.hs.kr" | "password22"
+        accountId              | password
+        "accountId@dsm.hs.kr"  | "password"
+        "accountId2@dsm.hs.kr" | "password22"
     }
 
     def "Token Refresh Success Test"() {
         given:
-        def user = new User("email", "name", "password")
+        def user = new User("accountId", "name", "password")
 
         when:
         def accessToken = authService.tokenRefresh(refreshToken)
 
         then:
-        refreshTokenRepository.findByToken(refreshToken) >> new RefreshToken("email", refreshToken, 100000)
+        refreshTokenRepository.findByToken(refreshToken) >> new RefreshToken("accountId", refreshToken, 100000)
         jwtTokenProvider.getAccessToken(user.accountId) >> new AccessTokenResponse(expectedAccessToken)
 
         accessToken.content.accessToken === expectedAccessToken

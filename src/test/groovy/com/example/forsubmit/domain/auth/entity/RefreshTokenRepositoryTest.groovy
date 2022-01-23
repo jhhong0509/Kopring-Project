@@ -17,7 +17,7 @@ class RefreshTokenRepositoryTest extends Specification {
 
     def "Save Token Success Test"() {
         given:
-        def refreshToken = new RefreshToken(email, token, exp)
+        def refreshToken = new RefreshToken(accoutId, token, exp)
 
         when:
         refreshTokenRepository.save(refreshToken)
@@ -26,14 +26,14 @@ class RefreshTokenRepositoryTest extends Specification {
         noExceptionThrown()
 
         where:
-        email    | token        | exp
-        "email1" | "token1212"  | 10100000
-        "email2" | "token31231" | 0
+        accoutId    | token        | exp
+        "accoutId1" | "token1212"  | 10100000
+        "accoutId2" | "token31231" | 0
     }
 
     def "find token Success Test"() {
         given:
-        def refreshToken = new RefreshToken(email, token, exp)
+        def refreshToken = new RefreshToken(accountId, token, exp)
         refreshTokenRepository.save(refreshToken)
 
         when:
@@ -41,13 +41,13 @@ class RefreshTokenRepositoryTest extends Specification {
 
         then:
         refresh.token == token
-        refresh.email == email
+        refresh.accountId == accountId
         refresh.ttl == exp
 
         where:
-        email    | token        | exp
-        "email1" | "token1212"  | 10100000
-        "email2" | "token31231" | 0
+        accountId   | token        | exp
+        "accoutId1" | "token1212"  | 10100000
+        "accoutId2" | "token31231" | 0
     }
 
 }

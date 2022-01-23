@@ -5,13 +5,13 @@ import javax.validation.constraints.NotNull
 
 @Entity
 class User(
-    email: String,
+    accountId: String,
 
     name: String,
 
     password: String
 
-) : BaseUser(email, name) {
+) : BaseUser(accountId, name) {
 
     @NotNull
     var password = password
