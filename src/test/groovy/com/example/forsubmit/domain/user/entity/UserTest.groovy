@@ -1,27 +1,48 @@
 package com.example.forsubmit.domain.user.entity
 
-import com.example.forsubmit.JpaConfig
-import com.example.forsubmit.global.querydsl.QueryDSLConfig
+import com.example.forsubmit.BaseJpaTest
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
-import org.springframework.context.annotation.Import
-import spock.lang.Specification
 
-@Import([JpaConfig, QueryDSLConfig])
-@DataJpaTest
-class UserTest extends Specification {
+class UserTest extends BaseJpaTest {
 
     @Autowired
-    private TestEntityManager entityManager
+    private UserRepository userRepository
 
     def "Save Success Test"() {
         when:
-        def unsaved = new User("email@dsm.hs.kr", "name", "passowrd")
-        def user = entityManager.persistAndFlush(unsaved)
+        def unsaved = new User("accountId@dsm.hs.kr", "name", "password")
+        def user = userRepository.save(unsaved)
 
         then:
         user.id != 0
+        user.name != null
+        user.accountId != null
+        user.password != null
+        user.posts.isEmpty()
+
+        where:
+        accountId   | name    | password
+        "accountId" | "name1" | "password"
+        ""          | ""      | ""
+    }
+
+    def "Find By NaturalKey Test"() {
+        given:
+        def unsaved = new User(accountId, "name", "password")
+        def user = userRepository.save(unsaved)
+
+        when:
+        def foundUser = userRepository.findByNaturalId(accountId)
+
+
+        then:
+        user.id != 0
+        user.name != null
+
+        where:
+        accountId             | _
+        "accountId@dsm.hs.kr" | _
+        ""                    | _
     }
 
 }

@@ -28,23 +28,23 @@ class JwtTokenProvider(
         return UsernamePasswordAuthenticationToken(authDetails, "", authDetails.authorities)
     }
 
-    fun getToken(email: String): TokenResponse {
-        val accessToken = generateToken(email, jwtProperty.accessTokenExp, JwtProperties.ACCESS_VALUE)
-        val refreshToken = generateToken(email, jwtProperty.refreshTokenExp, JwtProperties.REFRESH_VALUE)
+    fun getToken(accountId: String): TokenResponse {
+        val accessToken = generateToken(accountId, jwtProperty.accessTokenExp, JwtProperties.ACCESS_VALUE)
+        val refreshToken = generateToken(accountId, jwtProperty.refreshTokenExp, JwtProperties.REFRESH_VALUE)
         return TokenResponse(
             accessToken = accessToken,
             refreshToken = refreshToken
         )
     }
 
-    fun getAccessToken(email: String): AccessTokenResponse {
-        val accessToken = generateToken(email, jwtProperty.accessTokenExp, JwtProperties.ACCESS_VALUE)
+    fun getAccessToken(accountId: String): AccessTokenResponse {
+        val accessToken = generateToken(accountId, jwtProperty.accessTokenExp, JwtProperties.ACCESS_VALUE)
         return AccessTokenResponse(accessToken)
     }
 
-    private fun generateToken(email: String, expiration: Long, type: String): String {
+    private fun generateToken(accountId: String, expiration: Long, type: String): String {
         return "Bearer " + Jwts.builder()
-            .setSubject(email)
+            .setSubject(accountId)
             .setIssuedAt(Date())
             .signWith(SignatureAlgorithm.HS512, jwtProperty.secretKey)
             .setExpiration(Date(System.currentTimeMillis() + expiration * 1000))

@@ -1,9 +1,9 @@
 package com.example.forsubmit.domain.user.controller
 
-import com.example.forsubmit.BaseTest
+import com.example.forsubmit.BaseControllerTest
 import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
-import com.example.forsubmit.domain.user.exceptions.EmailAlreadyExistsException
+import com.example.forsubmit.domain.user.exceptions.AccountIdAlreadyExistsException
 import com.example.forsubmit.domain.user.payload.request.SignUpRequest
 import com.example.forsubmit.domain.user.service.UserService
 import com.example.forsubmit.global.payload.BaseResponse
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 
 @WebMvcTest(UserController)
-class UserControllerTest extends BaseTest {
+class UserControllerControllerTest extends BaseControllerTest {
 
     @SpringBean
     private UserService userService = GroovyMock(UserService)
@@ -28,9 +28,9 @@ class UserControllerTest extends BaseTest {
     def "Sign Up Success"() {
         given:
         def request = new SignUpRequest()
-        TestUtils.setVariable(SignUpRequest.class, "email", email, request)
-        TestUtils.setVariable(SignUpRequest.class, "password", password, request)
-        TestUtils.setVariable(SignUpRequest.class, "name", name, request)
+        TestUtils.setVariable("accountId", accountId, request)
+        TestUtils.setVariable("password", password, request)
+        TestUtils.setVariable("name", name, request)
         userService.saveUser(_) >> new BaseResponse(201, "Sign Up Success", "회원가입에 성공했습니다", new TokenResponse("accessToken", "refreshToken"))
 
         when:
@@ -44,8 +44,8 @@ class UserControllerTest extends BaseTest {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일")
-                                .attributes(getConstraintAttribute(SignUpRequest, "email")),
+                        fieldWithPath("account_id").type(JsonFieldType.STRING).description("사용자 이메일")
+                                .attributes(getConstraintAttribute(SignUpRequest, "accountId")),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                                 .attributes(getConstraintAttribute(SignUpRequest, "password")),
                         fieldWithPath("name").type(JsonFieldType.STRING).description("이름")
@@ -60,17 +60,17 @@ class UserControllerTest extends BaseTest {
                 )))
 
         where:
-        email             | name   | password
-        "email@dsm.hs.kr" | "name" | "password"
-        "email@dsm.hs.kr" | "1"    | "password22"
+        accountId    | name   | password
+        "accountId1" | "name" | "password"
+        "accountId2" | "1"    | "password22"
     }
 
     def "Sign Up Failed - 400"() {
         given:
         def request = new SignUpRequest()
-        TestUtils.setVariable(SignUpRequest.class, "email", email, request)
-        TestUtils.setVariable(SignUpRequest.class, "password", password, request)
-        TestUtils.setVariable(SignUpRequest.class, "name", name, request)
+        TestUtils.setVariable("accountId", accountId, request)
+        TestUtils.setVariable("password", password, request)
+        TestUtils.setVariable("name", name, request)
 
         when:
         def response = mockMvc.perform(post("/user")
@@ -83,8 +83,8 @@ class UserControllerTest extends BaseTest {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일")
-                                .attributes(getConstraintAttribute(SignUpRequest, "email")),
+                        fieldWithPath("account_id").type(JsonFieldType.STRING).description("사용자 이메일")
+                                .attributes(getConstraintAttribute(SignUpRequest, "accountId")),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                                 .attributes(getConstraintAttribute(SignUpRequest, "password")),
                         fieldWithPath("name").type(JsonFieldType.STRING).description("이름")
@@ -97,19 +97,18 @@ class UserControllerTest extends BaseTest {
                 )))
 
         where:
-        email             | name      | password
-        "invalid Email"   | "name"    | "password"
-        "valid@dms.hs.kr" | ""        | "password22"
-        "valid@dms.hs.kr" | "afsadsf" | "jknk"
+        accountId | name      | password
+        "valid"   | "adsf"    | "srt"
+        ""        | "afsadsf" | "jknkasdfasdfasdf"
     }
 
     def "User Already Exist"() {
         given:
         def request = new SignUpRequest()
-        TestUtils.setVariable(SignUpRequest.class, "email", email, request)
-        TestUtils.setVariable(SignUpRequest.class, "password", password, request)
-        TestUtils.setVariable(SignUpRequest.class, "name", name, request)
-        userService.saveUser(_) >> { throw EmailAlreadyExistsException.EXCEPTION }
+        TestUtils.setVariable("accountId", accountId, request)
+        TestUtils.setVariable("password", password, request)
+        TestUtils.setVariable("name", name, request)
+        userService.saveUser(_) >> { throw AccountIdAlreadyExistsException.EXCEPTION }
 
         when:
         def response = mockMvc.perform(post("/user")
@@ -123,8 +122,8 @@ class UserControllerTest extends BaseTest {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일")
-                                .attributes(getConstraintAttribute(SignUpRequest, "email")),
+                        fieldWithPath("account_id").type(JsonFieldType.STRING).description("사용자 이메일")
+                                .attributes(getConstraintAttribute(SignUpRequest, "accountId")),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
                                 .attributes(getConstraintAttribute(SignUpRequest, "password")),
                         fieldWithPath("name").type(JsonFieldType.STRING).description("이름")
@@ -137,8 +136,8 @@ class UserControllerTest extends BaseTest {
                 )))
 
         where:
-        email             | name   | password
-        "email@dsm.hs.kr" | "name" | "password"
-        "email@hsad.sda"  | "1"    | "password22"
+        accountId   | name   | password
+        "accountId" | "name" | "password"
+        "accountId" | "1"    | "password22"
     }
 }

@@ -1,8 +1,10 @@
 package com.example.forsubmit.global.security
 
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -12,7 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val objectMapper: ObjectMapper
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
@@ -22,12 +25,14 @@ class SecurityConfig(
 
             .authorizeRequests()
             .antMatchers("/auth").permitAll()
+            .antMatchers(HttpMethod.GET, "/oauth/{type}/authentication-uri").permitAll()
+            .antMatchers(HttpMethod.POST, "/oauth/{type}").permitAll()
             .antMatchers("/user").permitAll()
             .antMatchers("/docs/**").permitAll()
             .anyRequest().denyAll()
             .and()
 
-            .apply(FilterConfig(jwtTokenProvider))
+            .apply(FilterConfig(jwtTokenProvider, objectMapper))
     }
 
     @Bean

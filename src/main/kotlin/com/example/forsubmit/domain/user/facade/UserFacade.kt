@@ -1,9 +1,10 @@
 package com.example.forsubmit.domain.user.facade
 
-import com.example.forsubmit.domain.user.entity.User
+import com.example.forsubmit.domain.user.entity.BaseUser
 
-interface UserFacade {
-    fun findUserById(id: Long): User
-    fun findUserByEmail(email: String): User
-    fun findCurrentUser(): User
+sealed interface UserFacade {
+    fun findUserById(id: Long): BaseUser
+    fun findUserByAccountId(accountId: String): BaseUser
+    fun findCurrentUser(): BaseUser
+    fun saveUser(user: BaseUser): BaseUser
 }

@@ -7,6 +7,7 @@ import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundExceptio
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
 import com.example.forsubmit.domain.auth.payload.response.AccessTokenResponse
 import com.example.forsubmit.domain.auth.payload.response.TokenResponse
+import com.example.forsubmit.domain.user.entity.User
 import com.example.forsubmit.domain.user.facade.UserFacade
 import com.example.forsubmit.global.payload.BaseResponse
 import com.example.forsubmit.global.security.jwt.JwtTokenProvider
@@ -36,16 +37,16 @@ class AuthService(
     }
 
     fun signIn(request: AuthRequest): BaseResponse<TokenResponse> {
-        val user = userFacade.findUserByEmail(request.email)
+        val user = userFacade.findUserByAccountId(request.accountId) as User
 
         if (!passwordEncoder.matches(request.password, user.password)) {
             throw PasswordNotMatchException.EXCEPTION
         }
 
-        val tokenResponse = jwtTokenProvider.getToken(user.email)
+        val tokenResponse = jwtTokenProvider.getToken(user.accountId)
 
         val refreshToken = RefreshToken(
-            email = user.email,
+            accountId = user.accountId,
             token = tokenResponse.refreshToken,
             ttl = refreshExp
         )
@@ -68,7 +69,7 @@ class AuthService(
             status = 200,
             message = TOKEN_REFRESH_MESSAGE,
             koreanMessage = TOKEN_REFRESH_MESSAGE_KOR,
-            content = jwtTokenProvider.getAccessToken(token.email)
+            content = jwtTokenProvider.getAccessToken(token.accountId)
         )
     }
 

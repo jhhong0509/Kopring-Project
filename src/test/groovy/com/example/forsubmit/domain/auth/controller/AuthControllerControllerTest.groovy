@@ -1,6 +1,6 @@
 package com.example.forsubmit.domain.auth.controller
 
-import com.example.forsubmit.BaseTest
+import com.example.forsubmit.BaseControllerTest
 import com.example.forsubmit.TestUtils
 import com.example.forsubmit.domain.auth.exceptions.RefreshTokenNotFoundException
 import com.example.forsubmit.domain.auth.payload.request.AuthRequest
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ActiveProfiles("test")
 @EnableConfigurationProperties(JwtProperties)
 @TestPropertySource("classpath:application.yml")
-class AuthControllerTest extends BaseTest {
+class AuthControllerControllerTest extends BaseControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper
@@ -49,8 +49,8 @@ class AuthControllerTest extends BaseTest {
     def "Sign In Success"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable(AuthRequest.class, "email", email, request)
-        TestUtils.setVariable(AuthRequest.class, "password", requestPassword, request)
+        TestUtils.setVariable("accountId", accountId, request)
+        TestUtils.setVariable("password", requestPassword, request)
         def requestString = objectMapper.writeValueAsString(request)
 
         authService.signIn(_) >> { new BaseResponse(201, "Sign In Success", "로그인에 성공했습니다", new TokenResponse("test", "test")) }
@@ -66,7 +66,7 @@ class AuthControllerTest extends BaseTest {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                        fieldWithPath("account_id").type(JsonFieldType.STRING).description("계정명"),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                 ),
                 responseFields(
@@ -90,16 +90,16 @@ class AuthControllerTest extends BaseTest {
         tokens.refreshToken != null
 
         where:
-        email             | requestPassword | password
-        "email@dsm.hs.kr" | "password2"     | "password2"
-        "email@dsm.hs.kr" | "password"      | "password"
+        accountId | requestPassword | password
+        "test1"   | "password2"     | "password2"
+        "test2"   | "password"      | "password"
     }
 
     def "Sign In Fail"() {
         given:
         def request = new AuthRequest()
-        TestUtils.setVariable(AuthRequest.class, "email", email, request)
-        TestUtils.setVariable(AuthRequest.class, "password", password, request)
+        TestUtils.setVariable("accountId", accountId, request)
+        TestUtils.setVariable("password", password, request)
         def requestString = objectMapper.writeValueAsString(request)
 
         authService.signIn(_) >> { throw UserNotFoundException.EXCEPTION }
@@ -115,7 +115,7 @@ class AuthControllerTest extends BaseTest {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
-                        fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                        fieldWithPath("account_id").type(JsonFieldType.STRING).description("이메일"),
                         fieldWithPath("password").type(JsonFieldType.STRING).description("잘못된 비밀번호")
                 )))
 
@@ -128,9 +128,9 @@ class AuthControllerTest extends BaseTest {
         baseResponse.status == 404
 
         where:
-        email             | password
-        "email@dsm.hs.kr" | "password2"
-        "email@dsm.hs.kr" | "password"
+        accountId             | password
+        "accountId@dsm.hs.kr" | "password2"
+        "accountId@dsm.hs.kr" | "password"
     }
 
     def "Token Refresh Success"() {
@@ -166,7 +166,7 @@ class AuthControllerTest extends BaseTest {
         tokens.accessToken != null
 
         where:
-        refreshToken | userEmail
+        refreshToken | accountId
         "asdf"       | "sadfasdf"
         "asdfasdf"   | "sadfasdf"
     }

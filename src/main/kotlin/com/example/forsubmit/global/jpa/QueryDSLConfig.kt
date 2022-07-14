@@ -1,4 +1,4 @@
-package com.example.forsubmit.global.querydsl
+package com.example.forsubmit.global.jpa
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.context.annotation.Bean
