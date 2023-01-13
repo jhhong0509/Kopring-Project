@@ -27,27 +27,25 @@ jobs:
           java-version: 11
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
-        working-directory: ./v1
         with:
-          path: ~/.sonar/cache
+          path: ~/v1/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache Gradle packages
         uses: actions/cache@v1
-        working-directory: ./v1
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build and analyze
+        working-directory: ./v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_SECRET }}
         run: ./gradlew build sonarqube --info
-        working-directory: ./v1
       - name: Deploy docs to ghpages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./build/docs/asciidoc
+          publish_dir: ./v1/build/docs/asciidoc
